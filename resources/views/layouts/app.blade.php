@@ -62,37 +62,43 @@
 </main>
 
 <footer id="contacto" class="bg-ricardo-teal text-white">
-    <div class="mx-auto grid max-w-7xl gap-10 px-6 py-8 sm:px-8 md:grid-cols-3 md:py-10">
-        <section class="text-center md:text-left" aria-labelledby="footer-contacto">
-            <h2 id="footer-contacto" class="font-system text-sm font-bold uppercase text-ricardo-yellow">
-                Contáctanos</h2>
+    <div class="mx-auto grid max-w-7xl gap-10 px-6 py-10 sm:px-8 md:grid-cols-3 md:py-12">
+
+        <section class="w-full md:max-w-[260px] mx-auto text-center md:text-left" aria-labelledby="footer-contacto">
+            <h2 id="footer-contacto" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">
+                Contáctanos
+            </h2>
             <img src="{{ asset('images/logo_original_blanco.png') }}" alt="I.E.I. Ricardo Palma"
-                 class="mx-auto mt-5 h-24 w-auto md:mx-0">
-            <div class="mt-5 flex justify-center gap-3 md:justify-start" aria-label="Redes sociales">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-full border border-white text-white"
-                          aria-hidden="true">
-                        <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path
-                                d="M14 8h3V4h-3c-3.3 0-5 2-5 5v2H6v4h3v5h4v-5h3l1-4h-4V9c0-.7.3-1 1-1Z"/></svg>
-                    </span>
-                <span class="flex h-8 w-8 items-center justify-center rounded-full border border-white text-white"
-                      aria-hidden="true">
-                        <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path
-                                d="M12 3a9 9 0 0 0-7.7 13.7L3 21l4.4-1.2A9 9 0 1 0 12 3Zm0 2a7 7 0 0 1 5.9 10.8l-.3.5.7 2.3-2.4-.7-.5.3A7 7 0 0 1 5 12a7 7 0 0 1 7-7Zm-2.2 3.4c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.9 4.4 3.9 2.2.9 2.6.7 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-1.7-.8c-.3-.1-.5-.2-.7.2l-.6.7c-.2.2-.4.3-.7.1a5.7 5.7 0 0 1-2.9-2.5c-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.4.1-.6l-.8-1.9c-.2-.5-.4-.5-.7-.5h-.5Z"/></svg>
-                    </span>
-                <span class="flex h-8 w-8 items-center justify-center rounded-full border border-white text-white"
-                      aria-hidden="true">
-                        <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path
-                                d="M21 8.4s-.2-1.5-.8-2.1c-.8-.8-1.6-.8-2-.9C15.4 5.2 12 5.2 12 5.2s-3.4 0-6.2.2c-.4.1-1.3.1-2 .9C3.2 7 3 8.4 3 8.4S2.8 10.1 2.8 12v1.7c0 1.8.2 3.5.2 3.5s.2 1.5.8 2.1c.8.8 1.8.8 2.3.9 1.7.2 5.9.2 5.9.2s3.4 0 6.2-.2c.4-.1 1.3-.1 2-.9.6-.6.8-2.1.8-2.1s.2-1.7.2-3.5V12c0-1.9-.2-3.6-.2-3.6ZM10.5 15.6V8.9l5.8 3.4-5.8 3.3Z"/></svg>
-                    </span>
+                 class="mx-auto mt-6 h-28 w-auto object-contain sm:h-32 md:mx-0">
+
+            <div class="mt-6 flex justify-center gap-4 md:justify-start" aria-label="Redes sociales">
+                <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
+                   class="group flex h-9 w-9 items-center justify-center rounded-full border border-white/40 transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white/10"
+                   title="Síguenos en Facebook">
+                    <img src="{{ asset('images/facebook.svg') }}" alt="Facebook"
+                         class="h-4 w-4 transition-transform duration-200 brightness-0 invert">
+                </a>
+
+                <a href="https://wa.me/51921896330" target="_blank" rel="noopener noreferrer"
+                   class="group flex h-9 w-9 items-center justify-center rounded-full border border-white/40 transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white/10"
+                   title="Contáctanos por WhatsApp">
+                    <img src="{{ asset('images/whatsapp.svg') }}" alt="WhatsApp"
+                         class="h-4 w-4 transition-transform duration-200 brightness-0 invert">
+                </a>
+
+                <a href="https://www.youtube.com/@ricardopalma4155" target="_blank" rel="noopener noreferrer"
+                   class="group flex h-9 w-9 items-center justify-center rounded-full border border-white/40 transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white/10"
+                   title="Visita nuestro canal de YouTube">
+                    <img src="{{ asset('images/youtube.svg') }}" alt="YouTube"
+                         class="h-4 w-4 transition-transform duration-200 brightness-0 invert">
+                </a>
             </div>
         </section>
 
-        <section class="mx-auto w-65 text-center md:mx-0 md:text-left" aria-labelledby="footer-ubicacion">
-            <h2 id="footer-ubicacion" class="font-system text-sm font-bold uppercase text-ricardo-yellow">Ubicación</h2>
-            <p class="mt-3 font-system text-xs text-white/90 leading-relaxed">Barrio La Esperanza, Chaupimarca -
-                Pasco</p>
+        <section class="w-65 mx-auto text-center md:text-left" aria-labelledby="footer-ubicacion">
+            <h2 id="footer-ubicacion" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">Ubicación</h2>
+            <p class="mt-3 font-system text-xs text-white/90 leading-relaxed">Barrio La Esperanza, Chaupimarca - Pasco</p>
 
-            <!-- El p-2 del contenedor sumará el espaciado interno correcto alrededor del mapa de w-65 -->
             <div class="mt-4 inline-block overflow-hidden rounded-sm bg-white p-1 shadow-sm text-left">
                 <div class="relative h-32 w-65 overflow-hidden bg-[#e7ecef]">
                     <a href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9" target="_blank" rel="noopener noreferrer"
@@ -103,35 +109,30 @@
                             class="h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-90"
                             loading="lazy"
                         >
-                        <div
-                            class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                    <span class="rounded bg-neutral-900/80 px-2 py-1 text-[10px] font-medium text-white shadow-sm">
-                        Ver en Google Maps
-                    </span>
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                            <span class="rounded bg-neutral-900/80 px-2 py-1 text-[10px] font-medium text-white shadow-sm">
+                                Ver en Google Maps
+                            </span>
                         </div>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="text-center md:text-left" aria-labelledby="footer-enlaces">
-            <h2 id="footer-enlaces" class="font-system text-sm font-bold uppercase text-ricardo-yellow">Enlaces</h2>
-            <ul class="mt-4 space-y-2 font-system text-sm text-white/90">
-                <li><a href="{{ route('home') }}" class="transition-colors hover:text-ricardo-yellow">Inicio</a></li>
-                <li><a href="{{ url('/#nosotros') }}" class="transition-colors hover:text-ricardo-yellow">Nosotros</a>
-                </li>
-                <li><a href="{{ url('/#niveles') }}" class="transition-colors hover:text-ricardo-yellow">Niveles</a>
-                </li>
-                <li><a href="{{ url('/#galeria') }}" class="transition-colors hover:text-ricardo-yellow">Galería</a>
-                </li>
-                <li><a href="{{ url('/#objetivo') }}" class="transition-colors hover:text-ricardo-yellow">Objetivo</a>
-                </li>
+        <section class="w-fit md:min-w-[140px] mx-auto text-center md:text-left" aria-labelledby="footer-enlaces">
+            <h2 id="footer-enlaces" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">Enlaces</h2>
+            <ul class="mt-4 space-y-2.5 font-system text-sm text-white/90">
+                <li><a href="{{ route('home') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Inicio</a></li>
+                <li><a href="{{ route('nosotros') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Nosotros</a></li>
+                <li><a href="{{ route('home') }}#niveles" class="transition-colors duration-200 hover:text-ricardo-yellow">Niveles</a></li>
+                <li><a href="{{ route('home') }}#galeria" class="transition-colors duration-200 hover:text-ricardo-yellow">Galería</a></li>
+                <li><a href="{{ route('home') }}#contacto" class="transition-colors duration-200 hover:text-ricardo-yellow">Objetivo</a></li>
             </ul>
         </section>
     </div>
 
-    <div class="bg-ricardo-teal-dark py-4 text-center font-system text-xs text-white/80">
-        <p>&copy; {{ now()->year }} I.E.I. 31756 Ricardo Palma. Todos los derechos reservados.</p>
+    <div class="bg-ricardo-teal-dark py-4 text-center font-system text-xs text-white/70 border-t border-white/5">
+        <p>© {{ now()->year }} I.E.I. 31756 Ricardo Palma. Todos los derechos reservados.</p>
     </div>
 </footer>
 </body>
