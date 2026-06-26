@@ -21,25 +21,38 @@
         class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-2  sm:flex-row sm:gap-0 sm:px-8 md:py-2.5"
         aria-label="Navegación principal">
 
-        <!-- Logo Institucional Reducido (h-12 en móvil, h-14 en escritorio) -->
         <a href="{{ route('home') }}" class="shrink-0" aria-label="Ir al inicio">
             <img src="{{ asset('images/logo_color.png') }}" alt="I.E.I. Ricardo Palma"
                  class="h-12 w-auto transition-all sm:h-14">
         </a>
 
-        <!-- Enlaces de navegación con distribución compacta -->
         <div
             class="flex flex-wrap justify-center gap-x-5 gap-y-1 text-center font-mate text-xs uppercase tracking-wider text-neutral-700 sm:gap-x-6 md:gap-x-8 sm:text-sm lg:text-base">
+
             <a href="{{ route('home') }}"
-               class="border-b-2 border-ricardo-red pb-0.5 transition-colors hover:text-ricardo-teal">Inicio</a>
-            <a href="{{ url('/#nosotros') }}"
-               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">Nosotros</a>
-            <a href="{{ url('/#niveles') }}"
-               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">Docentes</a>
-            <a href="{{ url('/#galeria') }}"
-               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">Noticias</a>
-            <a href="{{ url('/#contacto') }}"
-               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">Contacto</a>
+               class="border-b-2 {{ Route::is('home') ? 'border-ricardo-red' : 'border-transparent' }} pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+                Inicio
+            </a>
+
+            <a href="{{ route('nosotros') }}"
+               class="border-b-2 {{ Route::is('nosotros') ? 'border-ricardo-red' : 'border-transparent' }} pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+                Nosotros
+            </a>
+
+            <a href="{{ route('home') }}#niveles"
+               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+                Docentes
+            </a>
+
+            <a href="{{ route('home') }}#galeria"
+               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+                Noticias
+            </a>
+
+            <a href="{{ route('home') }}#contacto"
+               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+                Contacto
+            </a>
         </div>
     </nav>
 </header>
