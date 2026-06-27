@@ -39,8 +39,8 @@
                 Nosotros
             </a>
 
-            <a href="{{ route('home') }}#niveles"
-               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+            <a href="{{ route('docentes') }}"
+               class="border-b-2 {{Route::is('docentes') ? 'border-ricardo-red' : 'border-transparent' }} pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
                 Docentes
             </a>
 
