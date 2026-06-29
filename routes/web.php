@@ -13,3 +13,6 @@ Route::get('/nosotros',function(){
 Route::get('/docentes',function(){
     return view('docentes');
 })->name('docentes');
+Route::get('/noticias', function(){
+    return view('noticiasd');
+})->name('noticias');
