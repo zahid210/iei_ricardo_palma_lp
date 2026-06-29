@@ -3,140 +3,148 @@
 @section('title', 'Docentes | I.E.I. 31756 Ricardo Palma')
 
 @section('content')
-    <!-- Encabezado de la Sección (Heredado del look de Nosotros) -->
-    <section class="bg-white pt-6 pb-10 sm:pt-10 sm:pb-12">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
-            <article class="relative flex flex-col items-center justify-center bg-ricardo-paper px-8 py-14 text-center sm:min-h-64 lg:min-h-[20rem]">
-                <!-- Detalle decorativo superior derecho exacto -->
-                <div class="absolute right-0 top-0 flex h-32 w-8 [clip-path:polygon(0_0,_100%_0,_100%_100%,_0_84%)] sm:h-40 sm:w-10">
-                    <span class="h-full w-1/2 bg-ricardo-teal"></span>
-                    <span class="h-full w-1/2 bg-ricardo-red"></span>
-                </div>
+    <!-- SECCIÓN 1: Fotografía Principal y Leyenda -->
+    <section class="bg-white pt-8 pb-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-                <h1 class="font-mate text-3xl leading-tight text-neutral-800 sm:text-4xl lg:text-5xl">
-                    Nuestra Plana Docente
-                </h1>
-                <p class="mx-auto mt-5 max-w-3xl text-sm leading-relaxed text-neutral-700 sm:text-base">
-                    Profesionales altamente calificados comprometidos con la formación integral, la innovación pedagógica y el desarrollo continuo de nuestros estudiantes en cada nivel académico.
+            <!-- Fotografía de la Plana Docente -->
+            <div class="w-full">
+                <img
+                    src="{{ asset('images/plana_docente.jpg') }}"
+                    alt="Plana Docente de la Institución Educativa Ricardo Palma"
+                    class="w-full h-auto object-cover"
+                    fetchpriority="high"
+                >
+            </div>
+
+            <!-- Leyenda Inferior con Líneas Laterales -->
+            <div class="mt-6 flex items-center justify-center gap-4 text-center w-full max-w-5xl mx-auto">
+                <!-- Línea izquierda: Teal puro -->
+                <div class="hidden md:block h-[1px] w-full max-w-[150px] bg-ricardo-teal"></div>
+
+                <p class="font-serif text-[13px] sm:text-sm text-neutral-800 font-medium px-2">
+                    Profesionales comprometidos con la formación integral, el aprendizaje de calidad y el desarrollo de nuestros estudiantes.
                 </p>
-            </article>
+
+                <!-- Línea derecha: Rojo puro -->
+                <div class="hidden md:block h-[1px] w-full max-w-[150px] bg-ricardo-red"></div>
+            </div>
+
         </div>
     </section>
 
-    <!-- Presentación e Imagen -->
-    <section class="bg-white pb-12 sm:pb-16">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
-            <x-section-title>Vocación y Experiencia</x-section-title>
+    <!-- SECCIÓN 2: Introducción Institucional (Fondo Gris Claro con Borde Rojo) -->
+    <section class="bg-[#F5F5F5] py-14">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <!-- Bloque de texto con la característica línea roja a la izquierda -->
+            <div class="border-l-[3px] border-ricardo-red pl-6 space-y-6 text-sm sm:text-[15px] lg:text-base text-neutral-800 leading-relaxed font-serif text-justify">
+                <p>
+                    En la Institución Educativa Integrada N.° 31756 “Ricardo Palma”, contamos con un equipo de docentes comprometidos con la educación, la formación en valores y el desarrollo integral de nuestros estudiantes. Su labor diaria fortalece los aprendizajes, promueve la convivencia escolar y contribuye al crecimiento académico, personal y social de toda nuestra comunidad educativa.
+                </p>
+                <p>
+                    Nuestros docentes desempeñan un rol fundamental en la orientación, acompañamiento y formación de los estudiantes, aplicando estrategias pedagógicas que responden a las necesidades actuales de la educación y fomentan una enseñanza activa, inclusiva y significativa.
+                </p>
+            </div>
+        </div>
+    </section>
 
-            <div class="mt-8 grid gap-8 lg:grid-cols-[.55fr_.45fr] lg:items-center">
-                <article class="space-y-4 text-sm leading-relaxed text-neutral-700 sm:text-base">
-                    <p>
-                        En la <strong class="font-semibold text-ricardo-teal">Institución Educativa Integrada N.° 31756 “Ricardo Palma”</strong>, la labor docente trasciende las aulas. Nuestro equipo asume la responsabilidad formativa en los niveles de Inicial, Primaria y Secundaria, consolidando un entorno de aprendizaje activo bajo el modelo de la Jornada Escolar Completa (JEC).
-                    </p>
-                    <p>
-                        Nuestros maestros se capacitan continuamente para diseñar estrategias didácticas inclusivas y personalizadas, asegurando que cada estudiante potencie sus habilidades intelectuales y socioemocional de acuerdo con las exigencias del entorno actual.
-                    </p>
-                    <p>
-                        A través del trabajo colaborativo con los directivos y los padres de familia, la plana docente promueve una convivencia escolar armoniosa, guiando a la comunidad ricandina hacia la mejora continua y la excelencia.
-                    </p>
-                </article>
+    <!-- SECCIÓN 3: Compromiso Pedagógico y Diagrama -->
+    <section class="bg-white py-14 sm:py-16">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-                <figure class="overflow-hidden rounded-sm shadow-2xs border border-neutral-100">
+            <!-- Encabezado Fiel al Mockup (Alineado a la izquierda, barra completa) -->
+            <div class="w-full mb-10">
+                <h2 class="font-serif text-2xl sm:text-3xl text-neutral-800 mb-3" style="font-variant: small-caps;">
+                    Compromiso Pedagógico
+                </h2>
+                <!-- Doble barra de color sólida que cruza todo el ancho -->
+                <div class="w-full flex flex-col">
+                    <div class="h-[3px] w-full bg-ricardo-teal"></div>
+                    <div class="h-[4px] w-full bg-[#c92a2a]"></div> <!-- Tonalidad roja de la barra -->
+                </div>
+            </div>
+
+            <!-- Textos Introductorios Centrados -->
+            <div class="max-w-4xl mx-auto text-sm sm:text-[15px] lg:text-base text-neutral-800 leading-relaxed font-serif space-y-5 mb-14 text-center">
+                <p>
+                    Nuestros docentes asumen con responsabilidad la tarea de educar, orientar y acompañar a los estudiantes en su proceso formativo. Su labor se basa en el respeto, la inclusión, la innovación, la práctica de valores y la mejora continua de los aprendizajes.
+                </p>
+                <p>
+                    Como parte de su compromiso institucional, desarrollan actividades pedagógicas que favorecen:
+                </p>
+            </div>
+
+            <!-- DIAGRAMA CON IMAGEN CENTRAL (Octágono) -->
+
+            <!-- Vista de Escritorio (Estructura de 3 Columnas) -->
+            <div class="hidden lg:grid grid-cols-[1fr_auto_1fr] items-stretch gap-x-2 max-w-5xl mx-auto mb-10">
+
+                <!-- COLUMNA IZQUIERDA -->
+                <div class="flex flex-col justify-between py-12">
+                    <!-- Eje 1 (Línea Roja Clara) -->
+                    <div class="flex items-center justify-end w-full">
+                        <span class="mr-4 font-serif text-[15px] text-neutral-800">Comprensión lectora</span>
+                        <div class="h-[1px] flex-grow max-w-[140px] bg-[#e58a8a]"></div>
+                    </div>
+                    <!-- Eje 2 (Línea Turquesa) -->
+                    <div class="flex items-center justify-end w-full">
+                        <span class="mr-4 font-serif text-[15px] text-neutral-800">Resolución de problemas</span>
+                        <div class="h-[1px] flex-grow max-w-[140px] bg-[#67a79e]"></div>
+                    </div>
+                    <!-- Eje 3 (Línea Roja Oscura) -->
+                    <div class="flex items-center justify-end w-full">
+                        <span class="mr-4 font-serif text-[15px] text-neutral-800">Pensamiento crítico</span>
+                        <div class="h-[1px] flex-grow max-w-[140px] bg-[#b12e2e]"></div>
+                    </div>
+                </div>
+
+                <!-- COLUMNA CENTRAL (Imagen provista por ti) -->
+                <div class="px-6 flex items-center justify-center">
                     <img
-                        src="{{ asset('images/plana_docente.jpg') }}"
-                        alt="Plana Docente Ricardo Palma"
-                        class="aspect-[4/3] w-full object-cover"
-                        loading="lazy"
+                        src="{{ asset('images/octagono_docente.png') }}"
+                        alt="Ejes Pedagógicos"
+                        class="w-[280px] h-auto object-contain"
                     >
-                </figure>
-            </div>
-        </div>
-    </section>
-
-    <!-- Compromiso Pedagógico (Mismo patrón estético que "Valores" en Nosotros) -->
-    <section class="bg-ricardo-paper py-12 sm:py-16 border-t border-b border-neutral-200/50">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
-            <x-section-title>Compromiso Pedagógico</x-section-title>
-            <p class="mx-auto mt-4 max-w-3xl text-center text-sm leading-relaxed text-neutral-700 sm:text-base">
-                Nuestra práctica metodológica se orienta bajo principios de excelencia, promoviendo permanentemente seis ejes fundamentales dentro del proceso de aprendizaje:
-            </p>
-
-            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-                <!-- Tarjeta 1 -->
-                <div class="group border border-neutral-100 bg-white p-6 transition-all hover:border-ricardo-teal hover:shadow-xs">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-mate text-xl text-neutral-800 transition-colors group-hover:text-ricardo-teal-dark">Pensamiento Crítico</h3>
-                        <span class="font-system text-xs font-bold text-neutral-300 transition-colors group-hover:text-ricardo-teal/40">01</span>
-                    </div>
-                    <p class="mt-2 text-sm text-neutral-600">Fomento del análisis autónomo y la reflexión profunda en el estudiante ante su entorno real.</p>
                 </div>
 
-                <!-- Tarjeta 2 -->
-                <div class="group border border-neutral-100 bg-white p-6 transition-all hover:border-ricardo-teal hover:shadow-xs">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-mate text-xl text-neutral-800 transition-colors group-hover:text-ricardo-teal-dark">Comprensión Lectora</h3>
-                        <span class="font-system text-xs font-bold text-neutral-300 transition-colors group-hover:text-ricardo-teal/40">02</span>
+                <!-- COLUMNA DERECHA -->
+                <div class="flex flex-col justify-between py-12">
+                    <!-- Eje 4 (Línea Roja Clara) -->
+                    <div class="flex items-center justify-start w-full">
+                        <div class="h-[1px] flex-grow max-w-[140px] bg-[#e58a8a]"></div>
+                        <span class="ml-4 font-serif text-[15px] text-neutral-800">Convivencia democrática</span>
                     </div>
-                    <p class="mt-2 text-sm text-neutral-600">Potenciación de las habilidades cognitivas para interpretar y procesar diversas fuentes de información.</p>
-                </div>
-
-                <!-- Tarjeta 3 -->
-                <div class="group border border-neutral-100 bg-white p-6 transition-all hover:border-ricardo-teal hover:shadow-xs">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-mate text-xl text-neutral-800 transition-colors group-hover:text-ricardo-teal-dark">Resolución de Problemas</h3>
-                        <span class="font-system text-xs font-bold text-neutral-300 transition-colors group-hover:text-ricardo-teal/40">03</span>
+                    <!-- Eje 5 (Línea Turquesa) -->
+                    <div class="flex items-center justify-start w-full">
+                        <div class="h-[1px] flex-grow max-w-[140px] bg-[#67a79e]"></div>
+                        <span class="ml-4 font-serif text-[15px] text-neutral-800">Formación integral de los estudiantes</span>
                     </div>
-                    <p class="mt-2 text-sm text-neutral-600">Estrategias lógicas y reflexivas para afrontar con efectividad los desafíos del mundo contemporáneo.</p>
-                </div>
-
-                <!-- Tarjeta 4 -->
-                <div class="group border border-neutral-100 bg-white p-6 transition-all hover:border-ricardo-teal hover:shadow-xs">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-mate text-xl text-neutral-800 transition-colors group-hover:text-ricardo-teal-dark">Convivencia Democrática</h3>
-                        <span class="font-system text-xs font-bold text-neutral-300 transition-colors group-hover:text-ricardo-teal/40">04</span>
+                    <!-- Eje 6 (Línea Turquesa Oscura/Grisácea - Basado en la imagen) -->
+                    <div class="flex items-center justify-start w-full">
+                        <div class="h-[1px] flex-grow max-w-[140px] bg-[#5c6e6b]"></div>
+                        <span class="ml-4 font-serif text-[15px] text-neutral-800">Uso responsable de la tecnología</span>
                     </div>
-                    <p class="mt-2 text-sm text-neutral-600">Establecimiento de relaciones sanas basadas en la equidad, el respeto mutuo y la cultura de paz.</p>
-                </div>
-
-                <!-- Tarjeta 5 -->
-                <div class="group border border-neutral-100 bg-white p-6 transition-all hover:border-ricardo-teal hover:shadow-xs">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-mate text-xl text-neutral-800 transition-colors group-hover:text-ricardo-teal-dark">Tecnología Responsable</h3>
-                        <span class="font-system text-xs font-bold text-neutral-300 transition-colors group-hover:text-ricardo-teal/40">05</span>
-                    </div>
-                    <p class="mt-2 text-sm text-neutral-600">Integración ética y balanceada de herramientas digitales orientadas a potenciar el aprendizaje activo.</p>
-                </div>
-
-                <!-- Tarjeta 6 -->
-                <div class="group border border-neutral-100 bg-white p-6 transition-all hover:border-ricardo-teal hover:shadow-xs">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-mate text-xl text-neutral-800 transition-colors group-hover:text-ricardo-teal-dark">Formación Integral</h3>
-                        <span class="font-system text-xs font-bold text-neutral-300 transition-colors group-hover:text-ricardo-teal/40">06</span>
-                    </div>
-                    <p class="mt-2 text-sm text-neutral-600">Equilibrio constante y progresivo entre la madurez socioemocional y la excelencia académica.</p>
                 </div>
 
             </div>
-        </div>
-    </section>
 
-    <!-- Cierre de Sección Estilizado (Idéntico al final de Nosotros e Inicio) -->
-    <section class="bg-white py-20 sm:py-24">
-        <div class="mx-auto max-w-4xl px-6 text-center sm:px-8">
+            <!-- Vista Adaptativa para Móviles y Tablets -->
+            <div class="block lg:hidden max-w-md mx-auto space-y-8">
+                <!-- Imagen centrada arriba en móviles -->
+                <div class="flex justify-center mb-8">
+                    <img src="{{ asset('images/octagono_docente.png') }}" alt="Ejes Pedagógicos" class="w-48 sm:w-56 h-auto">
+                </div>
 
-            <div class="mx-auto flex h-[2px] w-24 justify-center">
-                <span class="h-full w-1/2 bg-ricardo-teal"></span>
-                <span class="h-full w-1/2 bg-ricardo-red"></span>
+                <!-- Lista de compromisos -->
+                <div class="space-y-4 font-serif text-neutral-800 text-center">
+                    <div class="border-b border-[#e58a8a] pb-2">Comprensión lectora</div>
+                    <div class="border-b border-[#67a79e] pb-2">Resolución de problemas</div>
+                    <div class="border-b border-[#b12e2e] pb-2">Pensamiento crítico</div>
+                    <div class="border-b border-[#e58a8a] pb-2">Convivencia democrática</div>
+                    <div class="border-b border-[#67a79e] pb-2">Formación integral de los estudiantes</div>
+                    <div class="border-b border-[#5c6e6b] pb-2">Uso responsable de la tecnología</div>
+                </div>
             </div>
-
-            <h2 class="font-mate text-2xl font-light italic leading-relaxed text-neutral-600 mt-8 sm:text-3xl md:text-4xl">
-                “Ser Ricardino,<br class="sm:hidden"> es ser cada día mejor”
-            </h2>
-
-            <p class="mt-4 font-system text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">
-                I.E.I. Ricardo Palma • Plana Docente
-            </p>
 
         </div>
     </section>
