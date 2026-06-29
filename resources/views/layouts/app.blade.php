@@ -44,8 +44,8 @@
                 Docentes
             </a>
 
-            <a href="{{ route('home') }}#galeria"
-               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+            <a href="{{ route('noticias') }}"
+               class="border-b-2 {{Route::is('noticias') ? 'border-ricardo-red' : 'border-transparent'}} pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
                 Noticias
             </a>
 
