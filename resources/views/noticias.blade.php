@@ -3,130 +3,174 @@
 @section('title', 'Noticias | I.E.I. 31756 Ricardo Palma')
 
 @section('content')
-    <!-- SDK de Facebook (Requerido para renderizar el widget) -->
+    {{-- Facebook SDK (carga diferida y asíncrona) --}}
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v18.0"></script>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v21.0">
+    </script>
 
-    <!-- ENCABEZADO DE LA SECCIÓN -->
-    <section class="bg-white pt-8 pb-6">
+    {{-- ENCABEZADO --}}
+    <section class="bg-white pt-8 pb-6 sm:pt-12 sm:pb-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <!-- Encabezado con tu componente nativo -->
-            <div class="w-full mb-6">
-                <x-section-title>Últimas Noticias</x-section-title>
-            </div>
-
-            <p class="font-serif text-sm sm:text-base text-neutral-600 leading-relaxed max-w-3xl">
-                Sigue de cerca las actividades, comunicados urgentes y el día a día de nuestra comunidad ricardina a través de nuestra plataforma oficial de comunicación en tiempo real.
+            <x-section-title>Últimas Noticias</x-section-title>
+            <p class="mt-4 max-w-2xl font-serif text-sm leading-relaxed text-neutral-600 sm:text-base">
+        Mantente al tanto de las actividades, eventos y comunicados oficiales de
+        la I.E.I. 31756 Ricardo Palma. Toda nuestra actividad institucional se
+        comparte a través de nuestra página de Facebook.
             </p>
         </div>
     </section>
 
-    <!-- CUERPO PRINCIPAL ASIMÉTRICO (Soluciona el vacío en Desktop) -->
-    <section class="bg-[#F5F5F5] py-10 sm:py-14 border-t border-neutral-200">
+    {{-- CUERPO --}}
+    <section class="border-t border-neutral-200 bg-[#F5F5F5] py-10 sm:py-14">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 
-            <!-- Grid distributivo: 1 columna en móvil, 12 columnas en escritorio grande -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
-                <!-- COLUMNA IZQUIERDA: Cartelera Escolar e Información Activa (7 Columnas en Desktop) -->
-                <div class="lg:col-span-7 space-y-6">
-
-                    <!-- Bloque Informativo Institucional -->
-                    <div class="bg-white p-6 rounded-xs border border-neutral-200 shadow-3xs">
-                        <h3 class="font-serif text-lg text-neutral-800 font-bold mb-3 flex items-center gap-2">
-                            <span class="w-[3px] h-5 bg-ricardo-teal inline-block"></span>
-                            Comunicación y Transparencia
-                        </h3>
-                        <p class="font-serif text-sm text-neutral-600 leading-relaxed mb-4">
-                            Nuestra institución mantiene sus canales digitales actualizados para asegurar que los padres de familia, estudiantes y la comunidad de Chaupimarca cuenten con información oportuna sobre los eventos del año lectivo.
-                        </p>
-
-                        <div class="border-t border-neutral-100 pt-4 space-y-3">
-                            <div class="flex items-start gap-3 text-xs">
-                                <span class="px-2 py-0.5 bg-red-100 text-ricardo-red font-bold rounded-xs uppercase font-sans tracking-wider shrink-0">Aviso</span>
-                                <p class="text-neutral-700 font-serif leading-relaxed">
-                                    Los comunicados oficiales firmados por el equipo directivo se respaldan simultáneamente mediante nuestra plataforma de redes sociales.
-                                </p>
+                {{-- COLUMNA PRINCIPAL: Feed de Facebook --}}
+                <div class="lg:col-span-2">
+                    <div class="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm">
+                        {{-- Cabecera del widget --}}
+                        <div class="flex items-center justify-between border-b border-neutral-100 px-5 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#1877F2]">
+                                    <svg class="h-4 w-4 fill-current text-white" viewBox="0 0 24 24">
+                                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-system text-sm font-bold text-neutral-800">
+                                        I.E.I. 31756 Ricardo Palma
+                                    </h3>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                        <span class="font-system text-[11px] text-neutral-400">En vivo</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Caja Auxiliar: Soporte para bloqueadores de anuncios (Mejora la UX) -->
-                    <div class="bg-white p-6 rounded-xs border border-neutral-200 shadow-3xs">
-                        <h3 class="font-serif text-lg text-neutral-800 font-bold mb-3 flex items-center gap-2">
-                            <span class="w-[3px] h-5 bg-ricardo-red inline-block"></span>
-                            ¿No puedes visualizar el panel de noticias?
-                        </h3>
-                        <p class="font-serif text-sm text-neutral-600 leading-relaxed">
-                            Si utilizas extensiones para bloquear publicidad (como AdBlock, uBlock o Brave Shield), es posible que el plugin externo de Facebook no se cargue por políticas de privacidad de tu navegador. Si ese es tu caso, puedes ingresar directamente haciendo clic aquí:
-                        </p>
-
-                        <div class="mt-5">
-                            <a
-                                href="https://www.facebook.com/ieiricardopalma" {{-- Reemplazar por la URL real del colegio --}}
-                            target="_blank"
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-2 bg-[#1877F2] text-white font-sans text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xs hover:bg-[#166FE5] transition-colors shadow-3xs"
-                            >
-                                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                </svg>
-                                Ir a nuestra página de Facebook
+                            <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
+                               class="font-system text-xs font-bold uppercase tracking-wider text-[#1877F2] transition-colors hover:text-[#166FE5]">
+                                Seguir
                             </a>
                         </div>
-                    </div>
 
-                </div>
-
-                <!-- COLUMNA DERECHA: El Feed Oficial de Facebook (5 Columnas en Desktop) -->
-                <div class="lg:col-span-5 w-full flex justify-center lg:justify-end">
-
-                    <!-- Contenedor con ancho delimitado para que Facebook no se rompa visualmente -->
-                    <div class="bg-white p-4 rounded-xs border border-neutral-200 shadow-3xs w-full max-w-[1000px]">
-
-                        <!-- Mini cabecera del feed con animación live -->
-                        <div class="flex items-center justify-between mb-3 pb-2 border-b border-neutral-100">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <span class="font-sans text-[11px] font-bold uppercase tracking-wider text-neutral-400">Publicaciones Recientes</span>
-                            </div>
-                        </div>
-
-                        <!-- Widget Oficial incrustado (Usa el tope máximo de ancho permitido por Meta) -->
-                        <div class="w-full flex justify-center overflow-hidden rounded-xs bg-neutral-50">
-                            <div
-                                class="fb-page"
-                                data-href="https://www.facebook.com/ricardinosemprendeores"
-                                data-tabs="timeline,events"
-                                data-width="1000"
-                                data-height="1000"
-                                data-small-header="false"
-                                data-adapt-container-width="true"
-                                data-hide-cover="false"
-                                data-show-facepile="false"
-                            >
-                                <blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore">
-                                    <a href="https://www.facebook.com/facebook" class="text-xs text-neutral-400 font-serif p-4 block">
-                                        Cargando actualizaciones desde Facebook...
+                        {{-- Widget Page Plugin --}}
+                        <div class="flex justify-center bg-neutral-50 p-4">
+                            <div class="fb-page w-full"
+                                 data-href="https://www.facebook.com/ricardinosemprendeores"
+                                 data-tabs="timeline,events"
+                                 data-width="500"
+                                 data-height="800"
+                                 data-small-header="false"
+                                 data-adapt-container-width="true"
+                                 data-hide-cover="false"
+                                 data-show-facepile="true"
+                                 data-lazy="true">
+                                <blockquote cite="https://www.facebook.com/ricardinosemprendeores" class="fb-xfbml-parse-ignore">
+                                    <a href="https://www.facebook.com/ricardinosemprendeores"
+                                       class="block p-4 text-center font-serif text-xs text-neutral-400">
+                                        Cargando publicaciones desde Facebook…
                                     </a>
                                 </blockquote>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Detalle bicromático institucional inferior -->
-                        <div class="mt-4 flex items-center justify-center">
-                            <div class="h-[2px] w-12 flex">
-                                <span class="h-full w-1/2 bg-ricardo-teal"></span>
-                                <span class="h-full w-1/2 bg-ricardo-red"></span>
+                {{-- SIDEBAR --}}
+                <div class="space-y-6">
+
+                    {{-- Información de la página --}}
+                    <div class="rounded-lg border border-neutral-200 bg-white p-6 text-center shadow-sm">
+                        <img src="{{ asset('images/logo_color.png') }}" alt="Logo I.E.I. Ricardo Palma"
+                             class="mx-auto mb-3 h-14 w-auto">
+                        <h4 class="font-mate text-sm font-bold text-neutral-800">
+                            I.E.I. 31756 Ricardo Palma
+                        </h4>
+                        <p class="mt-0.5 font-serif text-xs text-neutral-500">
+                            Barrio La Esperanza, Chaupimarca
+                        </p>
+
+                        {{-- Stats placeholder --}}
+                        <div class="mt-4 flex justify-center gap-6 border-t border-neutral-100 pt-4">
+                            <div class="text-center">
+                                <p class="font-system text-lg font-bold text-ricardo-teal">1K+</p>
+                                <p class="font-system text-[10px] uppercase tracking-wider text-neutral-400">
+                                    Seguidores
+                                </p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-system text-lg font-bold text-ricardo-teal">500+</p>
+                                <p class="font-system text-[10px] uppercase tracking-wider text-neutral-400">
+                                    Publicaciones
+                                </p>
                             </div>
                         </div>
 
+                        {{-- Botón visitar --}}
+                        <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
+                           class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#1877F2] px-5 py-2.5 font-system text-xs font-bold uppercase tracking-wider text-white shadow-sm transition-colors hover:bg-[#166FE5]">
+                            <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Visitar página
+                        </a>
+                    </div>
+
+                    {{-- Comunicación oficial --}}
+                    <div class="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
+                        <h4 class="font-serif text-sm font-bold text-neutral-800">
+                            <span class="mr-2 inline-block h-4 w-1 rounded-full bg-ricardo-teal align-middle"></span>
+                            Comunicación oficial
+                        </h4>
+                        <p class="mt-2 font-serif text-xs leading-relaxed text-neutral-600">
+                            Todos los comunicados y anuncios importantes de la institución
+                            se publican en nuestra página de Facebook. Síguenos para no
+                            perderte ninguna novedad.
+                        </p>
+                    </div>
+
+                    {{-- Fallback para bloqueador de anuncios --}}
+                    <div class="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100">
+                                <svg class="h-4 w-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-system text-sm font-bold text-neutral-800">
+                                    ¿No ves las noticias?
+                                </h4>
+                                <p class="mt-1 font-serif text-xs leading-relaxed text-neutral-500">
+                                    Si usas un bloqueador de anuncios, el widget de Facebook
+                                    podría no cargar. Accede directamente a nuestra página
+                                    para ver todas las publicaciones.
+                                </p>
+                                <a href="https://www.facebook.com/ricardinosemprendeores"
+                                   target="_blank" rel="noopener noreferrer"
+                                   class="mt-2 inline-block font-system text-xs font-bold text-[#1877F2] transition-colors hover:text-[#166FE5]">
+                                    Ir a Facebook &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Compartir --}}
+                    <div class="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="font-system text-xs font-bold uppercase tracking-wider text-neutral-500">
+                                Compartir
+                            </span>
+                            <div class="fb-share-button"
+                                 data-href="https://www.facebook.com/ricardinosemprendeores"
+                                 data-layout="button"
+                                 data-size="large">
+                            </div>
+                        </div>
                     </div>
 
                 </div>
-
             </div>
-
         </div>
     </section>
 @endsection
