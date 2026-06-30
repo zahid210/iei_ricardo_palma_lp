@@ -15,7 +15,7 @@
 
     <section class="bg-white py-10 sm:py-12 lg:py-14">
         <div class="mx-auto grid max-w-7xl gap-4 px-6 sm:px-8 md:grid-cols-[.82fr_1.18fr]">
-            <article class="relative flex min-h-64 items-center justify-center bg-ricardo-paper px-8 py-10 text-center sm:min-h-80 lg:min-h-[28rem]">
+            <article class="relative flex min-h-64 items-center justify-center bg-neutral-50 px-8 py-10 text-center sm:min-h-80 lg:min-h-[28rem]">
                 <div class="absolute right-0 top-0 flex h-50 w-11 [clip-path:polygon(0_0,_100%_0,_100%_100%,_0_84%)]">
                     <span class="h-full w-1/2 bg-ricardo-teal"></span>
                     <span class="h-full w-1/2 bg-ricardo-red"></span>
