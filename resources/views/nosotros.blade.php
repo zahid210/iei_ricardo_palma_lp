@@ -7,7 +7,7 @@
     <section class="bg-white pt-6 pb-10 sm:pt-10 sm:pb-12">
         <div class="mx-auto max-w-7xl px-6 sm:px-8">
             <article
-                class="relative flex flex-col items-center justify-center bg-ricardo-paper px-8 py-14 text-center sm:min-h-64 lg:min-h-[20rem]">
+                class="relative flex flex-col items-center justify-center bg-neutral-50 px-8 py-14 text-center sm:min-h-64 lg:min-h-[20rem]">
                 <!-- Detalle decorativo superior derecho (heredado del inicio) -->
                 <div
                     class="absolute right-0 top-0 flex h-32 w-8 [clip-path:polygon(0_0,_100%_0,_100%_100%,_0_84%)] sm:h-40 sm:w-10">
@@ -61,7 +61,7 @@
         </div>
     </section>
 
-    <section class="bg-ricardo-paper py-12 sm:py-16">
+    <section class="bg-neutral-50 py-12 sm:py-16">
         <div class="mx-auto grid max-w-7xl gap-8 px-6 sm:px-8 md:grid-cols-2">
 
             <article
