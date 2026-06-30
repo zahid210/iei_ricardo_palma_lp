@@ -3,12 +3,6 @@
 @section('title', 'Noticias | I.E.I. 31756 Ricardo Palma')
 
 @section('content')
-    {{-- Facebook SDK (carga diferida y asíncrona) --}}
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v21.0">
-    </script>
-
     {{-- CUERPO --}}
     <section class="py-10 sm:py-14">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -16,12 +10,10 @@
 
                 {{-- COLUMNA PRINCIPAL: Feed de Facebook (ancho completo) --}}
                 <div class="lg:col-span-2">
-                    {{-- Se agregó shadow-sm para homogeneizar con el resto del sitio --}}
                     <div class="bg-white shadow-sm">
                         {{-- Cabecera del widget --}}
                         <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
                             <div class="flex items-center gap-3">
-                                {{-- Se cambió rounded-full por contenedor recto flat --}}
                                 <div class="flex h-9 w-9 items-center justify-center bg-[#1877F2]">
                                     <svg class="h-4 w-4 fill-current text-white" viewBox="0 0 24 24">
                                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -33,7 +25,7 @@
                                     </h3>
                                 </div>
                             </div>
-                            <a href="https://www.facebook.com/ricardinosempre超ndeores" target="_blank" rel="noopener noreferrer"
+                            <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
                                class="font-system text-xs font-bold uppercase tracking-wider text-[#1877F2] transition-colors hover:text-[#166FE5]">
                                 Seguir
                             </a>
@@ -63,36 +55,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{-- Script: estira el feed al ancho del contenedor vía scale --}}
-                        <script>
-                            (function() {
-                                var wrap = document.getElementById('fb-scale-wrap');
-                                var inner = document.getElementById('fb-scale-inner');
-                                if (!wrap || !inner) return;
-
-                                function estirar() {
-                                    var w = wrap.clientWidth;
-                                    if (w > 500) {
-                                        var s = w / 500;
-                                        inner.style.transform = 'scale(' + s + ')';
-                                        wrap.style.height = Math.ceil(inner.getBoundingClientRect().height) + 'px';
-                                    } else {
-                                        inner.style.transform = 'none';
-                                        wrap.style.height = 'auto';
-                                    }
-                                }
-
-                                var fbCheck = setInterval(function() {
-                                    if (inner.querySelector('iframe')) {
-                                        clearInterval(fbCheck);
-                                        setTimeout(estirar, 500);
-                                    }
-                                }, 200);
-                                setTimeout(function() { clearInterval(fbCheck); }, 15000);
-                                window.addEventListener('resize', estirar);
-                            })();
-                        </script>
                     </div>
                 </div>
 
@@ -100,7 +62,6 @@
                 <div class="space-y-6">
 
                     {{-- Información de la página --}}
-                    {{-- Se agregó shadow-sm --}}
                     <div class="bg-white p-6 text-center shadow-sm">
                         <img src="{{ asset('images/logo_color.png') }}" alt="Logo I.E.I. Ricardo Palma"
                              class="mx-auto mb-3 h-14 w-auto">
@@ -136,7 +97,6 @@
                     </div>
 
                     {{-- Comunicación oficial --}}
-                    {{-- Se agregó shadow-sm --}}
                     <div class="bg-white p-6 shadow-sm">
                         <h4 class="font-serif text-sm font-bold text-neutral-800">
                             <span class="mr-2 inline-block h-4 w-1 bg-ricardo-teal align-middle"></span>
@@ -150,10 +110,8 @@
                     </div>
 
                     {{-- Fallback para bloqueador de anuncios --}}
-                    {{-- Se agregó shadow-sm --}}
                     <div class="bg-white p-5 shadow-sm">
                         <div class="flex items-start gap-3">
-                            {{-- Se cambió rounded-full por contenedor recto flat --}}
                             <div class="flex h-8 w-8 shrink-0 items-center justify-center bg-amber-100">
                                 <svg class="h-4 w-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
@@ -178,7 +136,6 @@
                     </div>
 
                     {{-- Compartir --}}
-                    {{-- Se agregó shadow-sm --}}
                     <div class="bg-white p-5 shadow-sm">
                         <div class="flex items-center justify-between">
                             <span class="font-system text-xs font-bold uppercase tracking-wider text-neutral-500">
@@ -197,3 +154,43 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{-- Elemento raíz requerido para el SDK de Facebook --}}
+    <div id="fb-root"></div>
+
+    {{-- SDK de Facebook (carga diferida y asíncrona) --}}
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v21.0">
+    </script>
+
+    {{-- Script: estira el feed al ancho del contenedor vía scale --}}
+    <script>
+        (function() {
+            var wrap = document.getElementById('fb-scale-wrap');
+            var inner = document.getElementById('fb-scale-inner');
+            if (!wrap || !inner) return;
+
+            function estirar() {
+                var w = wrap.clientWidth;
+                if (w > 500) {
+                    var s = w / 500;
+                    inner.style.transform = 'scale(' + s + ')';
+                    wrap.style.height = Math.ceil(inner.getBoundingClientRect().height) + 'px';
+                } else {
+                    inner.style.transform = 'none';
+                    wrap.style.height = 'auto';
+                }
+            }
+
+            var fbCheck = setInterval(function() {
+                if (inner.querySelector('iframe')) {
+                    clearInterval(fbCheck);
+                    setTimeout(estirar, 500);
+                }
+            }, 200);
+            setTimeout(function() { clearInterval(fbCheck); }, 15000);
+            window.addEventListener('resize', estirar);
+        })();
+    </script>
+@endpush

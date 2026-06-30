@@ -135,5 +135,6 @@
         <p>© {{ now()->year }} I.E.I. 31756 Ricardo Palma. Todos los derechos reservados.</p>
     </div>
 </footer>
+@stack('scripts')
 </body>
 </html>
