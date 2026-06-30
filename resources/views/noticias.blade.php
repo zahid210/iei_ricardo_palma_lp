@@ -14,9 +14,9 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Últimas Noticias</x-section-title>
             <p class="mt-4 max-w-2xl font-serif text-sm leading-relaxed text-neutral-600 sm:text-base">
-        Mantente al tanto de las actividades, eventos y comunicados oficiales de
-        la I.E.I. 31756 Ricardo Palma. Toda nuestra actividad institucional se
-        comparte a través de nuestra página de Facebook.
+                Mantente al tanto de las actividades, eventos y comunicados oficiales de
+                la I.E.I. 31756 Ricardo Palma. Toda nuestra actividad institucional se
+                comparte a través de nuestra página de Facebook.
             </p>
         </div>
     </section>
@@ -26,9 +26,9 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 
-                {{-- COLUMNA PRINCIPAL: Feed de Facebook --}}
+                {{-- COLUMNA PRINCIPAL: Feed de Facebook (ancho completo) --}}
                 <div class="lg:col-span-2">
-                    <div class="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm">
+                    <div class="rounded-lg border border-neutral-200 bg-white shadow-sm">
                         {{-- Cabecera del widget --}}
                         <div class="flex items-center justify-between border-b border-neutral-100 px-5 py-4">
                             <div class="flex items-center gap-3">
@@ -53,26 +53,60 @@
                             </a>
                         </div>
 
-                        {{-- Widget Page Plugin --}}
-                        <div class="flex justify-center bg-neutral-50 p-4">
-                            <div class="fb-page w-full"
-                                 data-href="https://www.facebook.com/ricardinosemprendeores"
-                                 data-tabs="timeline,events"
-                                 data-width="500"
-                                 data-height="800"
-                                 data-small-header="false"
-                                 data-adapt-container-width="true"
-                                 data-hide-cover="false"
-                                 data-show-facepile="true"
-                                 data-lazy="true">
-                                <blockquote cite="https://www.facebook.com/ricardinosemprendeores" class="fb-xfbml-parse-ignore">
-                                    <a href="https://www.facebook.com/ricardinosemprendeores"
-                                       class="block p-4 text-center font-serif text-xs text-neutral-400">
-                                        Cargando publicaciones desde Facebook…
-                                    </a>
-                                </blockquote>
+                        {{-- Widget Page Plugin con hack scale --}}
+                        <div class="bg-neutral-50 p-4 sm:p-6">
+                            <div id="fb-scale-wrap" class="relative w-full">
+                                <div id="fb-scale-inner" style="width:500px; margin:0 auto; transform-origin:top center">
+                                    <div class="fb-page"
+                                         data-href="https://www.facebook.com/ricardinosemprendeores"
+                                         data-tabs="timeline,events"
+                                         data-width="500"
+                                         data-height="800"
+                                         data-small-header="false"
+                                         data-adapt-container-width="true"
+                                         data-hide-cover="false"
+                                         data-show-facepile="true"
+                                         data-lazy="true">
+                                        <blockquote cite="https://www.facebook.com/ricardinosemprendeores" class="fb-xfbml-parse-ignore">
+                                            <a href="https://www.facebook.com/ricardinosemprendeores"
+                                               class="block p-4 text-center font-serif text-xs text-neutral-400">
+                                                Cargando publicaciones desde Facebook…
+                                            </a>
+                                        </blockquote>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        {{-- Script: estira el feed al ancho del contenedor vía scale --}}
+                        <script>
+                            (function() {
+                                var wrap = document.getElementById('fb-scale-wrap');
+                                var inner = document.getElementById('fb-scale-inner');
+                                if (!wrap || !inner) return;
+
+                                function estirar() {
+                                    var w = wrap.clientWidth;
+                                    if (w > 500) {
+                                        var s = w / 500;
+                                        inner.style.transform = 'scale(' + s + ')';
+                                        wrap.style.height = Math.ceil(inner.getBoundingClientRect().height) + 'px';
+                                    } else {
+                                        inner.style.transform = 'none';
+                                        wrap.style.height = 'auto';
+                                    }
+                                }
+
+                                var fbCheck = setInterval(function() {
+                                    if (inner.querySelector('iframe')) {
+                                        clearInterval(fbCheck);
+                                        setTimeout(estirar, 500);
+                                    }
+                                }, 200);
+                                setTimeout(function() { clearInterval(fbCheck); }, 15000);
+                                window.addEventListener('resize', estirar);
+                            })();
+                        </script>
                     </div>
                 </div>
 
@@ -90,7 +124,6 @@
                             Barrio La Esperanza, Chaupimarca
                         </p>
 
-                        {{-- Stats placeholder --}}
                         <div class="mt-4 flex justify-center gap-6 border-t border-neutral-100 pt-4">
                             <div class="text-center">
                                 <p class="font-system text-lg font-bold text-ricardo-teal">1K+</p>
@@ -106,7 +139,6 @@
                             </div>
                         </div>
 
-                        {{-- Botón visitar --}}
                         <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
                            class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#1877F2] px-5 py-2.5 font-system text-xs font-bold uppercase tracking-wider text-white shadow-sm transition-colors hover:bg-[#166FE5]">
                             <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
