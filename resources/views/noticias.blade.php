@@ -9,18 +9,6 @@
         src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v21.0">
     </script>
 
-    {{-- ENCABEZADO --}}
-    <section class="bg-white pt-8 pb-6 sm:pt-12 sm:pb-10">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-section-title>Últimas Noticias</x-section-title>
-            <p class="mt-4 max-w-2xl font-serif text-sm leading-relaxed text-neutral-600 sm:text-base">
-                Mantente al tanto de las actividades, eventos y comunicados oficiales de
-                la I.E.I. 31756 Ricardo Palma. Toda nuestra actividad institucional se
-                comparte a través de nuestra página de Facebook.
-            </p>
-        </div>
-    </section>
-
     {{-- CUERPO --}}
     <section class="border-t border-neutral-200 bg-[#F5F5F5] py-10 sm:py-14">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -41,10 +29,6 @@
                                     <h3 class="font-system text-sm font-bold text-neutral-800">
                                         I.E.I. 31756 Ricardo Palma
                                     </h3>
-                                    <div class="flex items-center gap-1.5">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                        <span class="font-system text-[11px] text-neutral-400">En vivo</span>
-                                    </div>
                                 </div>
                             </div>
                             <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
