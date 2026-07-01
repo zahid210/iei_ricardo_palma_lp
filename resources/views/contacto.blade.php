@@ -78,8 +78,15 @@
                                 <label for="mensaje" class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                     Mensaje o Consulta
                                 </label>
-                                <textarea id="mensaje" name="mensaje" rows="5" required
-                                          class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150 resize-none"></textarea>
+                                {{-- Contenedor relativo para posicionar el contador internamente --}}
+                                <div class="relative mt-1.5">
+                                    <textarea id="mensaje" name="mensaje" rows="5" maxlength="255" required
+                                              class="w-full bg-neutral-50 border border-neutral-200 pl-3 pr-3 pt-2.5 pb-7 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150 resize-none"></textarea>
+                                    {{-- Contador estilizado e inmune a los clics del mouse --}}
+                                    <div id="mensaje-counter" class="absolute bottom-2 right-3 font-system text-[10px] font-medium text-neutral-400 select-none pointer-events-none tracking-wider">
+                                        0/255
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="pt-2">
@@ -105,7 +112,7 @@
                             Barrio La Esperanza, Chaupimarca - Pasco
                         </p>
 
-                        {{-- Contenedor con aspecto controlado para evitar saltos de maquetación --}}
+                        {{-- Tu contenedor de mapa adaptado al layout --}}
                         <div class="mt-4 inline-block w-full overflow-hidden rounded-sm bg-white p-1 shadow-sm text-left border border-neutral-100">
                             <div class="relative w-full overflow-hidden bg-[#e7ecef]">
                                 <a href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9" target="_blank" rel="noopener noreferrer"
@@ -158,3 +165,20 @@
         </div>
     </section>
 @endsection
+
+{{-- Script modular inyectado al final del layout --}}
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const textarea = document.getElementById('mensaje');
+            const counter = document.getElementById('mensaje-counter');
+
+            if (textarea && counter) {
+                textarea.addEventListener('input', function () {
+                    const currentLength = textarea.value.length;
+                    counter.textContent = `${currentLength}/255`;
+                });
+            }
+        });
+    </script>
+@endpush
