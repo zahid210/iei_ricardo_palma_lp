@@ -16,7 +16,8 @@
                             <div class="flex items-center gap-3">
                                 <div class="flex h-9 w-9 items-center justify-center bg-[#1877F2]">
                                     <svg class="h-4 w-4 fill-current text-white" viewBox="0 0 24 24">
-                                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                        <path
+                                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                     </svg>
                                 </div>
                                 <div>
@@ -25,7 +26,8 @@
                                     </h3>
                                 </div>
                             </div>
-                            <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
+                            <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank"
+                               rel="noopener noreferrer"
                                class="font-system text-xs font-bold uppercase tracking-wider text-[#1877F2] transition-colors hover:text-[#166FE5]">
                                 Seguir
                             </a>
@@ -34,7 +36,8 @@
                         {{-- Widget Page Plugin con hack scale --}}
                         <div class="bg-neutral-50 p-4 sm:p-6">
                             <div id="fb-scale-wrap" class="relative w-full">
-                                <div id="fb-scale-inner" style="width:500px; margin:0 auto; transform-origin:top center">
+                                <div id="fb-scale-inner"
+                                     style="width:500px; margin:0 auto; transform-origin:top center">
                                     <div class="fb-page"
                                          data-href="https://www.facebook.com/ricardinosemprendeores"
                                          data-tabs="timeline,events"
@@ -45,7 +48,8 @@
                                          data-hide-cover="false"
                                          data-show-facepile="true"
                                          data-lazy="true">
-                                        <blockquote cite="https://www.facebook.com/ricardinosemprendeores" class="fb-xfbml-parse-ignore">
+                                        <blockquote cite="https://www.facebook.com/ricardinosemprendeores"
+                                                    class="fb-xfbml-parse-ignore">
                                             <a href="https://www.facebook.com/ricardinosemprendeores"
                                                class="block p-4 text-center font-serif text-xs text-neutral-400">
                                                 Cargando publicaciones desde Facebook…
@@ -87,10 +91,12 @@
                             </div>
                         </div>
 
-                        <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank" rel="noopener noreferrer"
+                        <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank"
+                           rel="noopener noreferrer"
                            class="mt-4 inline-flex w-full items-center justify-center gap-2 bg-[#1877F2] px-5 py-2.5 font-system text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#166FE5]">
                             <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                             </svg>
                             Visitar página
                         </a>
@@ -113,7 +119,8 @@
                     <div class="bg-white p-5 shadow-sm">
                         <div class="flex items-start gap-3">
                             <div class="flex h-8 w-8 shrink-0 items-center justify-center bg-amber-100">
-                                <svg class="h-4 w-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg class="h-4 w-4 text-amber-600" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2">
                                     <path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
                             </div>
@@ -166,7 +173,7 @@
 
     {{-- Script: estira el feed al ancho del contenedor vía scale --}}
     <script>
-        (function() {
+        (function () {
             var wrap = document.getElementById('fb-scale-wrap');
             var inner = document.getElementById('fb-scale-inner');
             if (!wrap || !inner) return;
@@ -183,13 +190,15 @@
                 }
             }
 
-            var fbCheck = setInterval(function() {
+            var fbCheck = setInterval(function () {
                 if (inner.querySelector('iframe')) {
                     clearInterval(fbCheck);
                     setTimeout(estirar, 500);
                 }
             }, 200);
-            setTimeout(function() { clearInterval(fbCheck); }, 15000);
+            setTimeout(function () {
+                clearInterval(fbCheck);
+            }, 15000);
             window.addEventListener('resize', estirar);
         })();
     </script>

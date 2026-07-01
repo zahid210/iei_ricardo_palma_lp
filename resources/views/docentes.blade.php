@@ -19,7 +19,8 @@
                 <div class="hidden md:block h-[1px] w-full max-w-[150px] bg-ricardo-teal"></div>
 
                 <p class="font-serif text-[13px] sm:text-sm text-neutral-800 font-medium px-2">
-                    Profesionales comprometidos con la formación integral, el aprendizaje de calidad y el desarrollo de nuestros estudiantes.
+                    Profesionales comprometidos con la formación integral, el aprendizaje de calidad y el desarrollo de
+                    nuestros estudiantes.
                 </p>
 
                 <div class="hidden md:block h-[1px] w-full max-w-[150px] bg-ricardo-red"></div>
@@ -38,12 +39,19 @@
                     <div class="h-1/2 w-full bg-ricardo-red"></div>
                 </div>
 
-                <div class="space-y-6 text-sm sm:text-[15px] lg:text-base text-neutral-800 leading-relaxed font-serif text-justify">
+                <div
+                    class="space-y-6 text-sm sm:text-[15px] lg:text-base text-neutral-800 leading-relaxed font-serif text-justify">
                     <p>
-                        En la Institución Educativa Integrada N.° 31756 “Ricardo Palma”, contamos con un equipo de docentes comprometidos con la educación, la formación en valores y el desarrollo integral de nuestros estudiantes. Su labor diaria fortalece los aprendizajes, promueve la convivencia escolar y contribuye al crecimiento académico, personal y social de toda nuestra comunidad educativa.
+                        En la Institución Educativa Integrada N.° 31756 “Ricardo Palma”, contamos con un equipo de
+                        docentes comprometidos con la educación, la formación en valores y el desarrollo integral de
+                        nuestros estudiantes. Su labor diaria fortalece los aprendizajes, promueve la convivencia
+                        escolar y contribuye al crecimiento académico, personal y social de toda nuestra comunidad
+                        educativa.
                     </p>
                     <p>
-                        Nuestros docentes desempeñan un rol fundamental en la orientación, acompañamiento y formación de los estudiantes, aplicando estrategias pedagógicas que responden a las necesidades actuales de la educación y fomentan una enseñanza activa, inclusiva y significativa.
+                        Nuestros docentes desempeñan un rol fundamental en la orientación, acompañamiento y formación de
+                        los estudiantes, aplicando estrategias pedagógicas que responden a las necesidades actuales de
+                        la educación y fomentan una enseñanza activa, inclusiva y significativa.
                     </p>
                 </div>
 
@@ -59,9 +67,12 @@
                 <x-section-title>Compromiso Pedagógico</x-section-title>
             </div>
 
-            <div class="max-w-4xl mx-auto text-sm sm:text-[15px] lg:text-base text-neutral-800 leading-relaxed font-serif space-y-5 mb-14 text-center">
+            <div
+                class="max-w-4xl mx-auto text-sm sm:text-[15px] lg:text-base text-neutral-800 leading-relaxed font-serif space-y-5 mb-14 text-center">
                 <p>
-                    Nuestros docentes asumen con responsabilidad la tarea de educar, orientar y acompañar a los estudiantes en su proceso formativo. Su labor se basa en el respeto, la inclusión, la innovación, la práctica de valores y la mejora continua de los aprendizajes.
+                    Nuestros docentes asumen con responsabilidad la tarea de educar, orientar y acompañar a los
+                    estudiantes en su proceso formativo. Su labor se basa en el respeto, la inclusión, la innovación, la
+                    práctica de valores y la mejora continua de los aprendizajes.
                 </p>
                 <p>
                     Como parte de su compromiso institucional, desarrollan actividades pedagógicas que favorecen:
@@ -100,11 +111,13 @@
                     </div>
                     <div class="flex items-center justify-start w-full">
                         <div class="h-[1px] flex-grow max-w-[140px] bg-[#67a79e]"></div>
-                        <span class="ml-4 font-serif text-[15px] text-neutral-800">Formación integral de los estudiantes</span>
+                        <span
+                            class="ml-4 font-serif text-[15px] text-neutral-800">Formación integral de los estudiantes</span>
                     </div>
                     <div class="flex items-center justify-start w-full">
                         <div class="h-[1px] flex-grow max-w-[140px] bg-[#5c6e6b]"></div>
-                        <span class="ml-4 font-serif text-[15px] text-neutral-800">Uso responsable de la tecnología</span>
+                        <span
+                            class="ml-4 font-serif text-[15px] text-neutral-800">Uso responsable de la tecnología</span>
                     </div>
                 </div>
 
@@ -112,7 +125,8 @@
 
             <div class="block lg:hidden max-w-md mx-auto space-y-8">
                 <div class="flex justify-center mb-8">
-                    <img src="{{ asset('images/octagono_docente.png') }}" alt="Ejes Pedagógicos" class="w-48 sm:w-56 h-auto">
+                    <img src="{{ asset('images/octagono_docente.png') }}" alt="Ejes Pedagógicos"
+                         class="w-48 sm:w-56 h-auto">
                 </div>
 
                 <div class="space-y-4 font-serif text-neutral-800 text-center">

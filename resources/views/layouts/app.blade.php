@@ -97,8 +97,10 @@
         </section>
 
         <section class="w-65 mx-auto text-center md:text-left" aria-labelledby="footer-ubicacion">
-            <h2 id="footer-ubicacion" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">Ubicación</h2>
-            <p class="mt-3 font-system text-xs text-white/90 leading-relaxed">Barrio La Esperanza, Chaupimarca - Pasco</p>
+            <h2 id="footer-ubicacion"
+                class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">Ubicación</h2>
+            <p class="mt-3 font-system text-xs text-white/90 leading-relaxed">Barrio La Esperanza, Chaupimarca -
+                Pasco</p>
 
             <div class="mt-4 inline-block overflow-hidden rounded-sm bg-white p-1 shadow-sm text-left">
                 <div class="relative h-32 w-65 overflow-hidden bg-[#e7ecef]">
@@ -110,8 +112,10 @@
                             class="h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-90"
                             loading="lazy"
                         >
-                        <div class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                            <span class="rounded bg-neutral-900/80 px-2 py-1 text-[10px] font-medium text-white shadow-sm">
+                        <div
+                            class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                            <span
+                                class="rounded bg-neutral-900/80 px-2 py-1 text-[10px] font-medium text-white shadow-sm">
                                 Ver en Google Maps
                             </span>
                         </div>
@@ -121,13 +125,19 @@
         </section>
 
         <section class="w-fit md:min-w-[140px] mx-auto text-center md:text-left" aria-labelledby="footer-enlaces">
-            <h2 id="footer-enlaces" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">Enlaces</h2>
+            <h2 id="footer-enlaces" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">
+                Enlaces</h2>
             <ul class="mt-4 space-y-2.5 font-system text-sm text-white/90">
-                <li><a href="{{ route('home') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Inicio</a></li>
-                <li><a href="{{ route('nosotros') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Nosotros</a></li>
-                <li><a href="{{ route('docentes') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Docentes</a></li>
-                <li><a href="{{ route('noticias') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Noticias</a></li>
-                <li><a href="{{ route('contacto') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Contacto</a></li>
+                <li><a href="{{ route('home') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Inicio</a>
+                </li>
+                <li><a href="{{ route('nosotros') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Nosotros</a>
+                </li>
+                <li><a href="{{ route('docentes') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Docentes</a>
+                </li>
+                <li><a href="{{ route('noticias') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Noticias</a>
+                </li>
+                <li><a href="{{ route('contacto') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Contacto</a>
+                </li>
                 {{-- Enlace temporal para Galería, cámbialo por el route() cuando crees su vista --}}
                 <li><a href="#" class="transition-colors duration-200 hover:text-ricardo-yellow">Galería</a></li>
             </ul>
