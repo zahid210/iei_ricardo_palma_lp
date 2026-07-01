@@ -3,7 +3,8 @@
     'label',
 ])
 
-<article class="flex justify-center">
+{{-- Ahora acepta clases extras, IDs o atributos como data-reveal --}}
+<article {{ $attributes->merge(['class' => 'flex justify-center']) }}>
     <img
         src="{{ asset($image) }}"
         alt="{{ $label }}"
