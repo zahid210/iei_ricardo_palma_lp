@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Docentes | I.E.I. 31756 Ricardo Palma')
+@section('title', 'Docentes | I.E.I. N° 31756 Ricardo Palma')
 
 @section('content')
     <section class="bg-white pt-8 pb-10">

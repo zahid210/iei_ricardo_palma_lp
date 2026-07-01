@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'I.E.I. 31756 Ricardo Palma')
+@section('title', 'I.E.I. N° 31756 Ricardo Palma')
 
 @section('content')
     <!-- Hero Section Estándar con Look Premium -->

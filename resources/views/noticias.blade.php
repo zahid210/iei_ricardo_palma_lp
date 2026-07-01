@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Noticias | I.E.I. 31756 Ricardo Palma')
+@section('title', 'Noticias | I.E.I. N° 31756 Ricardo Palma')
 
 @section('content')
     {{-- CUERPO --}}

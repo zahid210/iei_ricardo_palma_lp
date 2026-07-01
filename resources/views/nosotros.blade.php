@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Nosotros | I.E.I. 31756 Ricardo Palma')
+@section('title', 'Nosotros | I.E.I. N° 31756 Ricardo Palma')
 
 @section('content')
     <!-- Hero / Encabezado de Nosotros -->

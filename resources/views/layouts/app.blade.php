@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Landing page institucional de la I.E.I. N.° 31756 Ricardo Palma.">
-    <title>@yield('title', config('app.name', 'I.E.I. 31756 Ricardo Palma'))</title>
+    <title>@yield('title', config('app.name', 'I.E.I. N° 31756 Ricardo Palma'))</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo_color.png') }}?v=1">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
