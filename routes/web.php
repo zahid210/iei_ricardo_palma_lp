@@ -6,17 +6,17 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/nosotros',function(){
+Route::get('/nosotros', function () {
     return view('nosotros');
 })->name('nosotros');
 
-Route::get('/docentes',function(){
+Route::get('/docentes', function () {
     return view('docentes');
 })->name('docentes');
 
-Route::get('/noticias', function(){
+Route::get('/noticias', function () {
     return view('noticias');
 })->name('noticias');
-Route::get('/contacto', function (){
+Route::get('/contacto', function () {
     return view('contacto');
 })->name('contacto');
