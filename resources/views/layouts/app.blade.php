@@ -49,7 +49,7 @@
                 Noticias
             </a>
 
-            <a href="{{ route('home') }}#contacto"
+            <a href="{{ route('contacto') }}"
                class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
                 Contacto
             </a>
