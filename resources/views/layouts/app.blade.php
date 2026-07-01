@@ -124,9 +124,11 @@
             <ul class="mt-4 space-y-2.5 font-system text-sm text-white/90">
                 <li><a href="{{ route('home') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Inicio</a></li>
                 <li><a href="{{ route('nosotros') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Nosotros</a></li>
-                <li><a href="{{ route('home') }}#niveles" class="transition-colors duration-200 hover:text-ricardo-yellow">Niveles</a></li>
-                <li><a href="{{ route('home') }}#galeria" class="transition-colors duration-200 hover:text-ricardo-yellow">Galería</a></li>
-                <li><a href="{{ route('home') }}#contacto" class="transition-colors duration-200 hover:text-ricardo-yellow">Objetivo</a></li>
+                <li><a href="{{ route('docentes') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Docentes</a></li>
+                <li><a href="{{ route('noticias') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Noticias</a></li>
+                <li><a href="{{ route('contacto') }}" class="transition-colors duration-200 hover:text-ricardo-yellow">Contacto</a></li>
+                {{-- Enlace temporal para Galería, cámbialo por el route() cuando crees su vista --}}
+                <li><a href="#" class="transition-colors duration-200 hover:text-ricardo-yellow">Galería</a></li>
             </ul>
         </section>
     </div>
