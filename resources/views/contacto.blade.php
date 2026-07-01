@@ -54,14 +54,23 @@
                                     <label for="nivel" class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                         Nivel
                                     </label>
-                                    <select id="nivel" name="nivel" required
-                                            class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150">
-                                        <option value="" disabled selected>Selecciona una opción</option>
-                                        <option value="3-anos">Inicial</option>
-                                        <option value="4-anos">Primaria</option>
-                                        <option value="5-anos">Secundaria</option>
-                                        <option value="todos">Consultas Generales</option>
-                                    </select>
+                                    {{-- SOLUCIÓN AL SELECT (image_0b0470.png) --}}
+                                    <div class="relative mt-1.5">
+                                        <select id="nivel" name="nivel" required
+                                                class="w-full appearance-none bg-neutral-50 border border-neutral-200 pl-3 pr-10 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150 cursor-pointer">
+                                            <option value="" disabled selected>Selecciona una opción</option>
+                                            <option value="Inicial">Inicial</option>
+                                            <option value="Primaria">Primaria</option>
+                                            <option value="Secundaria">Secundaria</option>
+                                            <option value="todos">Consultas Generales</option>
+                                        </select>
+                                        {{-- Flecha estilizada con separación controlada (pr-3) --}}
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-500">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -96,7 +105,7 @@
                             Barrio La Esperanza, Chaupimarca - Pasco
                         </p>
 
-                        {{-- Tu contenedor de mapa adaptado al layout --}}
+                        {{-- Contenedor con aspecto controlado para evitar saltos de maquetación --}}
                         <div class="mt-4 inline-block w-full overflow-hidden rounded-sm bg-white p-1 shadow-sm text-left border border-neutral-100">
                             <div class="relative w-full overflow-hidden bg-[#e7ecef]">
                                 <a href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9" target="_blank" rel="noopener noreferrer"
