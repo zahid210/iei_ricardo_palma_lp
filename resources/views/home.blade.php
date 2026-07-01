@@ -139,7 +139,7 @@
             <div class="mt-9 grid gap-10 lg:grid-cols-[.48fr_.52fr] lg:items-center">
                 <div class="grid grid-cols-2 gap-x-8 gap-y-8 sm:gap-y-10">
 
-                    <x-stat-item value="10+" label="Docentes Totales">
+                    <x-stat-item count="10" label="Docentes Totales">
                         <x-slot:icon>
                             <svg width="50" height="60" viewBox="0 0 50 60" fill="none"
                                  xmlns="http://www.w3.org/2000/svg" class="h-full w-full object-contain">
@@ -150,7 +150,7 @@
                         </x-slot:icon>
                     </x-stat-item>
 
-                    <x-stat-item value="200+" label="Padres Satisfechos">
+                    <x-stat-item count="200+" label="Padres Satisfechos">
                         <x-slot:icon>
                             <div class="flex h-full w-full items-center justify-center">
                                 <img
@@ -163,7 +163,7 @@
                     </x-stat-item>
 
                     <div class="col-span-2">
-                        <x-stat-item value="150+" label="Estudiantes Totales">
+                        <x-stat-item count="150+" label="Estudiantes Totales">
                             <x-slot:icon>
                                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none"
                                      xmlns="http://www.w3.org/2000/svg" class="h-full w-full object-contain">
