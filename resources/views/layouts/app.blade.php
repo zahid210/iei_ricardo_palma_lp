@@ -50,7 +50,7 @@
             </a>
 
             <a href="{{ route('contacto') }}"
-               class="border-b-2 border-transparent pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
+               class="border-b-2 {{Route::is('contacto') ? 'border-ricardo-red' : 'border-transparent'}} pb-0.5 transition-colors hover:border-ricardo-red hover:text-ricardo-teal">
                 Contacto
             </a>
         </div>
