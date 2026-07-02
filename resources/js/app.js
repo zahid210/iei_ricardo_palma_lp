@@ -6,12 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ejecutar lógica global
     initHeaderScroll();
 
-    // ---- CARGA BAJO DEMANDA (Lazy Loading) ----
+    // ---- CARGA BAJO DEMANDA (Lazy Loading / Escalabilidad) ----
 
-    // ¿Existe el slider del Hero en esta página?
+    // ¿Existe el slider del Hero?
     if (document.querySelector('[data-hero-slider]')) {
         import('./modules/hero-slider.js').then(module => {
             module.initHeroSlider();
+        });
+    }
+
+    // ¿Existen sliders horizontales en las figuras?
+    if (document.querySelector('[data-figure-slider]')) {
+        import('./modules/figure-slider.js').then(module => {
+            module.initFigureSliders();
         });
     }
 

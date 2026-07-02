@@ -53,12 +53,19 @@
                 </h1>
             </article>
 
-            <figure class="min-h-64 overflow-hidden sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
-                    data-reveal>
+            <figure class="relative w-full min-h-64 overflow-hidden sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
+                    data-reveal data-figure-slider>
                 <img
                     src="{{ asset('images/alumna_destacada.png') }}"
                     alt="Estudiante ricardina desarrollando sus actividades escolares"
-                    class="h-full w-full object-cover"
+                    class="absolute inset-0 h-full w-full object-cover translate-x-0 opacity-100 z-10"
+                    data-figure-slide
+                >
+                <img
+                    src="{{ asset('images/fachada_colegio.jpg') }}"
+                    alt="Estudiantes en el patio principal"
+                    class="absolute inset-0 h-full w-full object-cover translate-x-full opacity-0 z-0"
+                    data-figure-slide
                     loading="lazy"
                 >
             </figure>
@@ -71,11 +78,19 @@
             <x-section-title>Bienvenidos a la I.E.I N.° 31756 Ricardo Palma</x-section-title>
 
             <div class="mt-5 grid gap-7 lg:grid-cols-[.42fr_.58fr] lg:items-start">
-                <figure class="overflow-hidden opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
+                <figure class="relative overflow-hidden aspect-[1080/757] w-full opacity-0 translate-y-8 transition-all duration-700 ease-out"
+                        data-reveal data-figure-slider>
                     <img
                         src="{{ asset('images/docente_clase.jpg') }}"
                         alt="Docente acompañando a estudiantes en clase"
-                        class="aspect-[1080/757] w-full object-cover"
+                        class="absolute inset-0 h-full w-full object-cover translate-x-0 opacity-100 z-10"
+                        data-figure-slide
+                    >
+                    <img
+                        src="{{ asset('images/galeria_2.jpg') }}"
+                        alt="Talleres educativos adicionales"
+                        class="absolute inset-0 h-full w-full object-cover translate-x-full opacity-0 z-0"
+                        data-figure-slide
                         loading="lazy"
                     >
                 </figure>
