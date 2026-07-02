@@ -1,6 +1,3 @@
-/**
- * Ajusta el contenedor de Facebook al ancho disponible dinámicamente
- */
 export function initFacebookScaler() {
     const wrap = document.getElementById('fb-scale-wrap');
     const inner = document.getElementById('fb-scale-inner');

@@ -11,6 +11,7 @@ export function initScrollReveal() {
 
             const element = entry.target;
 
+            // 1. Si es un contenedor con efecto cascada (ej: grillas)
             if (element.hasAttribute('data-stagger')) {
                 const children = element.children;
                 Array.from(children).forEach((child, index) => {
@@ -18,6 +19,10 @@ export function initScrollReveal() {
                         child.classList.add('opacity-100', 'translate-y-0');
                     }, index * 100);
                 });
+                // 2. Si es la barra bicolor específica del componente título
+            } else if (element.hasAttribute('data-bar')) {
+                element.classList.add('opacity-100', 'scale-x-100');
+                // 3. Animación estándar para textos o imágenes individuales
             } else {
                 element.classList.add('opacity-100', 'translate-y-0');
             }

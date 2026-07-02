@@ -16,7 +16,8 @@
     <section class="bg-white py-10 sm:py-12 lg:py-14">
         <div class="mx-auto grid max-w-7xl gap-4 px-6 sm:px-8 md:grid-cols-[.82fr_1.18fr]">
             <article
-                class="relative flex min-h-64 items-center justify-center bg-neutral-50 px-8 py-10 text-center sm:min-h-80 lg:min-h-[28rem]">
+                class="relative flex min-h-64 items-center justify-center bg-neutral-50 px-8 py-10 text-center sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
+                data-reveal>
                 <div class="absolute right-0 top-0 flex h-50 w-11 [clip-path:polygon(0_0,_100%_0,_100%_100%,_0_84%)]">
                     <span class="h-full w-1/2 bg-ricardo-teal"></span>
                     <span class="h-full w-1/2 bg-ricardo-red"></span>
@@ -28,7 +29,8 @@
                 </h1>
             </article>
 
-            <figure class="min-h-64 overflow-hidden sm:min-h-80 lg:min-h-[28rem]">
+            <figure class="min-h-64 overflow-hidden sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
+                    data-reveal>
                 <img
                     src="{{ asset('images/alumna_destacada.png') }}"
                     alt="Estudiante ricardina desarrollando sus actividades escolares"
@@ -39,12 +41,13 @@
         </div>
     </section>
 
+    <!-- Sección Nosotros -->
     <section id="nosotros" class="bg-white pb-10 sm:pb-14">
         <div class="mx-auto max-w-7xl px-6 sm:px-8">
             <x-section-title>Bienvenidos a la I.E.I N.° 31756 Ricardo Palma</x-section-title>
 
             <div class="mt-5 grid gap-7 lg:grid-cols-[.42fr_.58fr] lg:items-start">
-                <figure class="overflow-hidden">
+                <figure class="overflow-hidden opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <img
                         src="{{ asset('images/docente_clase.jpg') }}"
                         alt="Docente acompañando a estudiantes en clase"
@@ -53,11 +56,11 @@
                     >
                 </figure>
 
-                <article class="space-y-5 text-sm leading-relaxed text-neutral-700 sm:text-base lg:pt-1">
+                <article class="space-y-5 text-sm leading-relaxed text-neutral-700 sm:text-base lg:pt-1 opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <p>
                         La <strong class="font-semibold text-ricardo-teal">Institución Educativa Integrada N.° 31756
                             “Ricardo Palma”</strong>,
-                        ubicada en Cerro de Pasco, se ha consolidado como una institución comprometida con la formación
+                        ubicada en Cerro de Pasco, se ha consolidado como una institution comprometida con la formación
                         integral de sus estudiantes
                         en los niveles de Inicial, Primaria y Secundaria.
                     </p>
@@ -68,7 +71,7 @@
                         mejora continua.
                     </p>
                     <p>
-                        Hoy, la institución continúa formando estudiantes competentes, autónomos y comprometidos con su
+                        Hoy, la institution continúa formando estudiantes competentes, autónomos y comprometidos con su
                         comunidad, integrando
                         nuevas estrategias pedagógicas y el uso de las tecnologías.
                     </p>
@@ -77,51 +80,49 @@
         </div>
     </section>
 
+    <!-- Sección Niveles (Efecto Cascada / Stagger Activado) -->
     <section id="niveles" class="bg-white py-8 sm:py-10">
         <div class="mx-auto max-w-7xl px-6 sm:px-8">
             <x-section-title>Nuestros Niveles</x-section-title>
 
-            <div class="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-6 lg:mt-16 lg:gap-16">
-                <x-level-badge image="images/nivel_inicial.png" label="Nivel Inicial"/>
-                <x-level-badge image="images/nivel_primaria.png" label="Nivel Primaria"/>
-                <x-level-badge image="images/nivel_secundaria.png" label="Nivel Secundaria"/>
+            <div class="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-6 lg:mt-16 lg:gap-16" data-reveal data-stagger>
+                <x-level-badge image="images/nivel_inicial.png" label="Nivel Inicial" class="opacity-0 translate-y-8 transition-all duration-700 ease-out" />
+                <x-level-badge image="images/nivel_primaria.png" label="Nivel Primaria" class="opacity-0 translate-y-8 transition-all duration-700 ease-out" />
+                <x-level-badge image="images/nivel_secundaria.png" label="Nivel Secundaria" class="opacity-0 translate-y-8 transition-all duration-700 ease-out" />
             </div>
         </div>
     </section>
 
+    <!-- Sección Galería (Optimizada con efecto Cascada) -->
     <section id="galeria" class="bg-white py-10 sm:py-14">
         <div class="mx-auto max-w-7xl px-6 sm:px-8">
             <x-section-title>Galería</x-section-title>
 
-            <!-- Cambiado gap-0 por gap-4 (o gap-6 si quieres más separación) -->
-            <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:gap-6">
-                <article class="overflow-hidden rounded-sm shadow-xs">
+            <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:gap-6" data-reveal data-stagger>
+                <article class="overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <img src="{{ asset('images/galeria_1.jpg') }}"
                          alt="Reconocimiento académico de estudiante ricardino" class="aspect-[3/2] w-full object-cover"
                          loading="lazy">
                 </article>
 
-                <article class="overflow-hidden rounded-sm shadow-xs">
+                <article class="overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <img src="{{ asset('images/galeria_2.jpg') }}" alt="Equipo femenino campeón de futsal"
                          class="aspect-[3/2] w-full object-cover" loading="lazy">
                 </article>
 
-                <article class="overflow-hidden rounded-sm shadow-xs">
+                <article class="overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <img src="{{ asset('images/galeria_3.jpg') }}" alt="Equipo masculino campeón de futsal"
                          class="aspect-[3/2] w-full object-cover" loading="lazy">
                 </article>
 
-                <!-- Contenedor con overflow-hidden independiente para eliminar el desvanecimiento de los bordes -->
-                <article class="group relative overflow-hidden rounded-sm shadow-xs">
+                <article class="group relative overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <img
                         src="{{ asset('images/galeria_4.jpg') }}"
                         alt="Más actividades institucionales"
                         class="aspect-[3/2] w-full scale-100 object-cover blur-xs transition duration-300 group-hover:scale-105 group-hover:blur-none"
                         loading="lazy"
                     >
-                    <!-- Capa oscura de contraste limpia -->
-                    <div
-                        class="absolute inset-0 flex items-center justify-center bg-black/40 transition duration-300 group-hover:bg-black/20">
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 transition duration-300 group-hover:bg-black/20">
                         <a href="{{ url('/#galeria') }}"
                            class="border border-white px-8 py-3 font-mate text-xl uppercase tracking-wide text-white transition-colors hover:bg-white hover:text-neutral-900 sm:text-2xl">
                             Ver Más
@@ -132,6 +133,7 @@
         </div>
     </section>
 
+    <!-- Sección Nuestro Objetivo y Contadores Animados -->
     <section id="objetivo" class="bg-white pb-16 sm:pb-20">
         <div class="mx-auto max-w-7xl px-6 sm:px-8">
             <x-section-title>Nuestro Objetivo</x-section-title>
@@ -150,7 +152,7 @@
                         </x-slot:icon>
                     </x-stat-item>
 
-                    <x-stat-item count="200+" label="Padres Satisfechos">
+                    <x-stat-item count="200" label="Padres Satisfechos">
                         <x-slot:icon>
                             <div class="flex h-full w-full items-center justify-center">
                                 <img
@@ -163,7 +165,7 @@
                     </x-stat-item>
 
                     <div class="col-span-2">
-                        <x-stat-item count="150+" label="Estudiantes Totales">
+                        <x-stat-item count="150" label="Estudiantes Totales">
                             <x-slot:icon>
                                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none"
                                      xmlns="http://www.w3.org/2000/svg" class="h-full w-full object-contain">
@@ -183,7 +185,7 @@
 
                 </div>
 
-                <article class="text-lg leading-relaxed text-neutral-800 sm:text-xl lg:text-2xl">
+                <article class="text-lg leading-relaxed text-neutral-800 sm:text-xl lg:text-2xl opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <p>
                         Formar estudiantes íntegros, críticos, creativos e innovadores mediante una educación de
                         calidad, inclusiva y basada
