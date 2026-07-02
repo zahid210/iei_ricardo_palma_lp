@@ -1,13 +1,19 @@
 // resources/js/app.js
 
-// Importación estática: Se carga siempre porque el header está en app.blade.php
 import { initHeaderScroll } from './modules/header.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Ejecutar lógica global
     initHeaderScroll();
 
-    // ---- CARGA BAJO DEMANDA (Lazy Loading / Escalabilidad) ----
+    // ---- CARGA BAJO DEMANDA (Lazy Loading) ----
+
+    // ¿Existe el slider del Hero en esta página?
+    if (document.querySelector('[data-hero-slider]')) {
+        import('./modules/hero-slider.js').then(module => {
+            module.initHeroSlider();
+        });
+    }
 
     // ¿Hay elementos de animación en esta página?
     if (document.querySelector('[data-reveal]') || document.querySelector('[data-target-count]')) {

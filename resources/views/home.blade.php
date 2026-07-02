@@ -4,12 +4,36 @@
 
 @section('content')
     <!-- Hero Section Estándar con Look Premium -->
-    <section class="relative w-full overflow-hidden bg-ricardo-teal" aria-label="Fachada institucional">
+    <!-- Hero Section Estándar con Look Premium (Slider Automático) -->
+    <section class="relative w-full overflow-hidden bg-ricardo-teal h-[30rem] sm:h-[36rem] md:h-[40rem] lg:h-[44rem]" aria-label="Fachada institucional" data-hero-slider>
+
+        <div class="absolute inset-0 z-20 bg-black/10 pointer-events-none"></div>
+
+        <!-- Slide 1 (Activo Inicial) -->
         <img
             src="{{ asset('images/fachada_colegio.jpg') }}"
             alt="Fachada de la I.E.I. Ricardo Palma"
-            class="h-[30rem] w-full object-cover object-[center_32%] sm:h-[36rem] md:h-[40rem] lg:h-[44rem]"
+            class="absolute inset-0 h-full w-full object-cover object-[center_32%] opacity-100 scale-105 z-10 transition-all duration-[6000ms] ease-out"
+            data-hero-slide
             fetchpriority="high"
+        >
+
+        <!-- Slide 2 (Inactivo Inicial) -->
+        <img
+            src="{{ asset('images/hero_2.jpg') }}"
+            alt="Docentes de la Institución"
+            class="absolute inset-0 h-full w-full object-cover object-center opacity-0 scale-100 z-0 transition-none"
+            data-hero-slide
+            loading="lazy"
+        >
+
+        <!-- Slide 3 (Inactivo Inicial) -->
+        <img
+            src="{{ asset('images/plana_docente.jpg') }}"
+            alt="Estudiantes Ricardinos"
+            class="absolute inset-0 h-full w-full object-cover object-center opacity-0 scale-100 z-0 transition-none"
+            data-hero-slide
+            loading="lazy"
         >
     </section>
 
