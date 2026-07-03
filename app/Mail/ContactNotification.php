@@ -2,20 +2,14 @@
 
 namespace App\Mail;
 
-use App\Models\Contact; // <- Importamos tu modelo Contact
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Contact;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
 class ContactNotification extends Mailable
 {
-    use Queueable, SerializesModels;
-
-    // Declaramos la propiedad pública para que esté disponible en la plantilla Blade
     public $contact;
 
     /**

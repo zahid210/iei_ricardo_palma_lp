@@ -39,7 +39,7 @@
                 <article class="space-y-4 text-sm leading-relaxed text-neutral-700 sm:text-base opacity-0 translate-y-8 transition-all duration-700 ease-out"
                          data-reveal>
                     <p>
-                        Somos una institution comprometida en proporcionar una educación de calidad que se alinea con
+                        Somos una institución comprometida en proporcionar una educación de calidad que se alinea con
                         las demandas del mundo actual. Nuestro enfoque se centra en el desarrollo integral de los
                         alumnos, fomentando tanto sus habilidades académicas como sus capacidades sociales y
                         emocionales.

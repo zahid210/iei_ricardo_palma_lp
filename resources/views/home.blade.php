@@ -111,7 +111,7 @@
                         mejora continua.
                     </p>
                     <p>
-                        Hoy, la institution continúa formando estudiantes competentes, autónomos y comprometidos con su
+                        Hoy, la institución continúa formando estudiantes competentes, autónomos y comprometidos con su
                         comunidad, integrando
                         nuevas estrategias pedagógicas y el uso de las tecnologías.
                     </p>

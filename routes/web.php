@@ -12,5 +12,4 @@ Route::get('/contacto', [PageController::class, 'contacto'])->name('contacto');
 Route::get('/galeria', [PageController::class, 'galeria'])->name('galeria');
 
 Route::post('/contacto', [ContactController::class, 'store'])
-    ->middleware('throttle:3,60')
     ->name('contacto.store');
