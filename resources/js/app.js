@@ -30,10 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.warn('animations:', err));
     }
 
-    // ¿Estamos en la página de contacto o hay un formulario con ese ID?
-    if (document.getElementById('mensaje')) {
+    // ¿Estamos en la página de contacto o existe una notificación (toast)?
+    if (document.getElementById('mensaje') || document.getElementById('toast-success')) {
         import('./modules/forms.js').then(module => {
-            module.initTextareaCounter();
+            // Inicializar contador si el formulario está en pantalla
+            if (document.getElementById('mensaje')) {
+                module.initTextareaCounter();
+            }
+            // Inicializar auto-cierre si el toast se renderizó
+            if (document.getElementById('toast-success')) {
+                module.initToastDismissal();
+            }
         }).catch(err => console.warn('forms:', err));
     }
 

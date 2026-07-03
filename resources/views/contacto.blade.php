@@ -21,12 +21,6 @@
                             Completa tus datos y te responderemos a la brevedad posible.
                         </p>
 
-                        @if (session('success'))
-                            <div class="mt-4 p-4 mb-4 text-sm text-green-800 rounded-sm bg-green-50 border border-green-200" role="alert">
-                                <span class="font-bold">¡Excelente!</span> {{ session('success') }}
-                            </div>
-                        @endif
-
                         <form action="{{route('contacto.store')}}" method="POST" class="mt-6 space-y-5 font-system text-sm" novalidate>
                             @csrf
 
@@ -184,4 +178,21 @@
             </div>
         </div>
     </section>
+
+    {{-- Notificación Flotante (Toast) --}}
+    @if (session('success'))
+        <div id="toast-success" class="fixed bottom-6 right-6 z-50 flex items-center w-full max-w-xs p-4 space-x-3 text-neutral-600 bg-white border border-neutral-100 rounded-sm shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 opacity-100 translate-y-0" role="alert">
+            {{-- Icono SVG Check --}}
+            <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-50 rounded-full">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+            </div>
+
+            {{-- Mensaje --}}
+            <div class="ms-3 text-sm font-system font-medium">
+                {{ session('success') }}
+            </div>
+        </div>
+    @endif
 @endsection

@@ -23,7 +23,7 @@ class ContactController extends Controller
 
         Contact::create($validated);
 
-        return back()->with('success', '¡Gracias por escribirnos! Tu mensaje ha sido recibido exitosamente.');
+        return back()->with('success', '¡Gracias por escribirnos! Tu consulta ha sido recibido exitosamente.');
 
     }
 
