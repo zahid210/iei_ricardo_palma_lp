@@ -11,7 +11,8 @@
             <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 items-start">
 
                 {{-- COLUMNA IZQUIERDA: Formulario Institucional --}}
-                <div class="lg:col-span-7">
+                {{-- He añadido las clases de animación y data-reveal aquí --}}
+                <div class="lg:col-span-7 opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <div class="bg-white p-6 shadow-sm border border-neutral-100/60 rounded-xs">
                         <h2 class="font-mate text-lg font-bold text-neutral-800 uppercase tracking-wide">
                             <span class="mr-2 inline-block h-4 w-[3px] bg-ricardo-red align-middle rounded-full"></span>
@@ -103,7 +104,8 @@
                 </div>
 
                 {{-- COLUMNA DERECHA: Mapa Estático y Canales de Atención --}}
-                <div class="lg:col-span-5 space-y-6">
+                {{-- He añadido las clases de animación y data-reveal aquí --}}
+                <div class="lg:col-span-5 space-y-6 opacity-0 translate-y-8 transition-all duration-700 delay-200 ease-out" data-reveal>
 
                     {{-- Bloque de Ubicación --}}
                     <div class="bg-white p-6 shadow-sm border border-neutral-100/60 text-left rounded-xs">
@@ -175,6 +177,9 @@
     {{-- Script optimizado para el contador del textarea --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Asegúrate de inicializar las animaciones aquí si es necesario
+            // if (typeof initScrollReveal === 'function') initScrollReveal();
+
             const textarea = document.getElementById('mensaje');
             const counter = document.getElementById('mensaje-counter');
 
