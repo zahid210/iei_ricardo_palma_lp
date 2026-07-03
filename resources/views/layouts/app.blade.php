@@ -107,17 +107,17 @@
                     <a href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9" target="_blank" rel="noopener noreferrer"
                        class="block h-full w-full group">
                         <img
-                            src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=260x128&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key=AIzaSyCUxQyRkTBGfV1WYm95ZmM-tzQ0nCAO2Es"
+                            src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=260x128&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key={{ config('services.google.maps_key') }}"
                             alt="Mapa de ubicación exacta de la I.E.I. Ricardo Palma"
                             class="h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-90"
                             loading="lazy"
                         >
                         <div
                             class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                            <span
-                                class="rounded bg-neutral-900/80 px-2 py-1 text-[10px] font-medium text-white shadow-sm">
-                                Ver en Google Maps
-                            </span>
+                    <span
+                        class="rounded bg-neutral-900/80 px-2 py-1 text-[10px] font-medium text-white shadow-sm">
+                        Ver en Google Maps
+                    </span>
                         </div>
                     </a>
                 </div>

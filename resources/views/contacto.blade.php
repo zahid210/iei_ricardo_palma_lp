@@ -122,7 +122,7 @@
                                    rel="noopener noreferrer"
                                    class="block h-full w-full group">
                                     <img
-                                        src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=450x224&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key={{ config('services.google.maps_key', 'TU_KEY_DE_RESPALDO') }}"
+                                        src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=450x224&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key={{ config('services.google.maps_key', '') }}"
                                         alt="Mapa de ubicación exacta de la I.E.I. Ricardo Palma"
                                         class="h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-90"
                                         loading="lazy"
