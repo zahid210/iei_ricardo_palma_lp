@@ -3,7 +3,6 @@
 @section('title', 'I.E.I. N° 31756 Ricardo Palma')
 
 @section('content')
-    <!-- Hero Section Estándar con Look Premium -->
     <!-- Hero Section Estándar con Look Premium (Slider Automático) -->
     <section class="relative w-full overflow-hidden bg-ricardo-teal h-[30rem] sm:h-[36rem] md:h-[40rem] lg:h-[44rem]" aria-label="Fachada institucional" data-hero-slider>
 
@@ -42,7 +41,9 @@
             <article
                 class="relative flex min-h-64 items-center justify-center bg-neutral-50 px-8 py-10 text-center sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
                 data-reveal>
-                <div class="absolute right-0 top-0 flex h-50 w-11 [clip-path:polygon(0_0,_100%_0,_100%_100%,_0_84%)]">
+                <!-- MEJORA 3: Listones geométricos con entrada retrasada y fluida -->
+                <div class="absolute right-0 top-0 flex h-50 w-11 [clip-path:polygon(0_0,_100%_0,_100%_100%,_0_84%)] opacity-0 -translate-y-6 transition-all duration-700 delay-300 ease-out"
+                     data-reveal>
                     <span class="h-full w-1/2 bg-ricardo-teal"></span>
                     <span class="h-full w-1/2 bg-ricardo-red"></span>
                 </div>
@@ -132,33 +133,39 @@
         </div>
     </section>
 
-    <!-- Sección Galería (Optimizada con efecto Cascada) -->
+    <!-- Sección Galería (Optimizada con efecto Cascada y Micro-zooms) -->
     <section id="galeria" class="bg-white py-10 sm:py-14">
         <div class="mx-auto max-w-7xl px-6 sm:px-8">
             <x-section-title>Galería</x-section-title>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:gap-6" data-reveal data-stagger>
-                <article class="overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                <!-- MEJORA 1: Zoom suave al pasar el cursor en tarjetas 1, 2 y 3 -->
+                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <img src="{{ asset('images/galeria_1.jpg') }}"
-                         alt="Reconocimiento académico de estudiante ricardino" class="aspect-[3/2] w-full object-cover"
+                         alt="Reconocimiento académico de estudiante ricardino"
+                         class="aspect-[3/2] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
                          loading="lazy">
                 </article>
 
-                <article class="overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
-                    <img src="{{ asset('images/galeria_2.jpg') }}" alt="Equipo femenino campeón de futsal"
-                         class="aspect-[3/2] w-full object-cover" loading="lazy">
+                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                    <img src="{{ asset('images/galeria_2.jpg') }}"
+                         alt="Equipo femenino campeón de futsal"
+                         class="aspect-[3/2] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
+                         loading="lazy">
                 </article>
 
-                <article class="overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
-                    <img src="{{ asset('images/galeria_3.jpg') }}" alt="Equipo masculino campeón de futsal"
-                         class="aspect-[3/2] w-full object-cover" loading="lazy">
+                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                    <img src="{{ asset('images/galeria_3.jpg') }}"
+                         alt="Equipo masculino campeón de futsal"
+                         class="aspect-[3/2] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
+                         loading="lazy">
                 </article>
 
                 <article class="group relative overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <img
                         src="{{ asset('images/galeria_4.jpg') }}"
                         alt="Más actividades institucionales"
-                        class="aspect-[3/2] w-full scale-100 object-cover blur-xs transition duration-300 group-hover:scale-105 group-hover:blur-none"
+                        class="aspect-[3/2] w-full scale-100 object-cover blur-xs transition duration-500 group-hover:scale-105 group-hover:blur-none"
                         loading="lazy"
                     >
                     <div class="absolute inset-0 flex items-center justify-center bg-black/40 transition duration-300 group-hover:bg-black/20">
@@ -180,10 +187,12 @@
             <div class="mt-9 grid gap-10 lg:grid-cols-[.48fr_.52fr] lg:items-center">
                 <div class="grid grid-cols-2 gap-x-8 gap-y-8 sm:gap-y-10">
 
-                    <x-stat-item count="10" label="Docentes Totales">
+                    <!-- MEJORA 2: Los componentes ahora llevan la clase 'group' para reaccionar de forma interna -->
+                    <x-stat-item count="10" label="Docentes Totales" class="group">
                         <x-slot:icon>
                             <svg width="50" height="60" viewBox="0 0 50 60" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg" class="h-full w-full object-contain">
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 class="h-full w-full object-contain transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110">
                                 <path
                                     d="M35.4167 52.5V47.5C35.4167 44.8478 34.5387 42.3043 32.9759 40.4289C31.4131 38.5536 29.2935 37.5 27.0833 37.5H10.4167C8.20653 37.5 6.08692 38.5536 4.52411 40.4289C2.96131 42.3043 2.08334 44.8478 2.08334 47.5V52.5M47.9167 52.5V47.5C47.9153 45.2843 47.3007 43.1319 46.1695 41.3808C45.0383 39.6296 43.4544 38.3789 41.6667 37.825M33.3333 7.825C35.1259 8.37575 36.7147 9.62675 37.8492 11.3808C38.9838 13.1348 39.5997 15.2921 39.5997 17.5125C39.5997 19.7329 38.9838 21.8902 37.8492 23.6442C36.7147 25.3982 35.1259 26.6492 33.3333 27.2M27.0833 17.5C27.0833 23.0228 23.3524 27.5 18.75 27.5C14.1476 27.5 10.4167 23.0228 10.4167 17.5C10.4167 11.9772 14.1476 7.5 18.75 7.5C23.3524 7.5 27.0833 11.9772 27.0833 17.5Z"
                                     stroke="#129582" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -191,23 +200,24 @@
                         </x-slot:icon>
                     </x-stat-item>
 
-                    <x-stat-item count="200" label="Padres Satisfechos">
+                    <x-stat-item count="200" label="Padres Satisfechos" class="group">
                         <x-slot:icon>
                             <div class="flex h-full w-full items-center justify-center">
                                 <img
                                     src="{{ asset('images/padre.png') }}"
                                     alt="Icono Padres"
-                                    class="h-[3.25rem] w-auto max-w-none object-contain sm:h-[3.5rem]"
+                                    class="h-[3.25rem] w-auto max-w-none object-contain sm:h-[3.5rem] transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110"
                                 >
                             </div>
                         </x-slot:icon>
                     </x-stat-item>
 
                     <div class="col-span-2">
-                        <x-stat-item count="150" label="Estudiantes Totales">
+                        <x-stat-item count="150" label="Estudiantes Totales" class="group">
                             <x-slot:icon>
                                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg" class="h-full w-full object-contain">
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     class="h-full w-full object-contain transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110">
                                     <path
                                         d="M59.993 59.9988C59.9953 59.9988 59.9977 60 60 60C58.1265 51.6423 50.9887 45.2551 42.2134 44.4595C42.134 48.1025 36.6957 51.0426 29.9994 51.0426C23.302 51.0426 17.8649 48.1025 17.7854 44.4595C9.01244 45.2563 1.87234 51.6434 0 60C0.00350406 60 0.00700903 59.9988 0.0105131 59.9988H59.993Z"
                                         fill="#129582"/>
