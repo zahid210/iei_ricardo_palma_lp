@@ -4,9 +4,17 @@
 
 @section('content')
     <!-- Hero Section Estándar con Look Premium (Slider Automático) -->
-    <section class="relative w-full overflow-hidden bg-ricardo-teal h-[30rem] sm:h-[36rem] md:h-[40rem] lg:h-[44rem]" aria-label="Fachada institucional" data-hero-slider>
+    <section role="region" aria-roledescription="carousel" aria-label="Galería institucional" aria-live="polite" class="relative w-full overflow-hidden bg-ricardo-teal h-[30rem] sm:h-[36rem] md:h-[40rem] lg:h-[44rem]" data-hero-slider>
 
         <div class="absolute inset-0 z-20 bg-black/10 pointer-events-none"></div>
+
+        <button type="button" aria-label="Pausar carrusel" data-hero-pause
+                class="absolute bottom-4 right-4 z-30 flex h-8 w-8 items-center justify-center bg-white/20 text-white/80 backdrop-blur-sm transition-all duration-200 hover:bg-white/30 hover:text-white rounded-full cursor-pointer">
+            <svg class="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24" data-hero-pause-icon>
+                <rect x="6" y="4" width="4" height="16" rx="1"/>
+                <rect x="14" y="4" width="4" height="16" rx="1"/>
+            </svg>
+        </button>
 
         <!-- Slide 1 (Activo Inicial) -->
         <img
@@ -37,7 +45,7 @@
     </section>
 
     <section class="bg-white py-10 sm:py-12 lg:py-14">
-        <div class="mx-auto grid max-w-7xl gap-4 px-6 sm:px-8 md:grid-cols-[.82fr_1.18fr]">
+        <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 lg:px-8 md:grid-cols-[.82fr_1.18fr]">
             <article
                 class="relative flex min-h-64 items-center justify-center bg-neutral-50 px-8 py-10 text-center sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
                 data-reveal>
@@ -54,7 +62,7 @@
                 </h1>
             </article>
 
-            <figure class="relative w-full min-h-64 overflow-hidden sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
+            <figure role="region" aria-roledescription="carousel" aria-label="Estudiante destacada" class="relative w-full min-h-64 overflow-hidden sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
                     data-reveal data-figure-slider>
                 <img
                     src="{{ asset('images/alumna_destacada.png') }}"
@@ -75,11 +83,11 @@
 
     <!-- Sección Nosotros -->
     <section id="nosotros" class="bg-white pb-10 sm:pb-14">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Bienvenidos a la I.E.I N.° 31756 Ricardo Palma</x-section-title>
 
             <div class="mt-5 grid gap-7 lg:grid-cols-[.42fr_.58fr] lg:items-start">
-                <figure class="relative overflow-hidden aspect-[1080/757] w-full opacity-0 translate-y-8 transition-all duration-700 ease-out"
+                <figure role="region" aria-roledescription="carousel" aria-label="Docente en clase" class="relative overflow-hidden aspect-[1080/757] w-full opacity-0 translate-y-8 transition-all duration-700 ease-out"
                         data-reveal data-figure-slider>
                     <img
                         src="{{ asset('images/docente_clase.jpg') }}"
@@ -122,7 +130,7 @@
 
     <!-- Sección Niveles (Efecto Cascada / Stagger Activado) -->
     <section id="niveles" class="bg-white py-8 sm:py-10">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Nuestros Niveles</x-section-title>
 
             <div class="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-6 lg:mt-16 lg:gap-16" data-reveal data-stagger>
@@ -135,7 +143,7 @@
 
     <!-- Sección Galería (Optimizada con efecto Cascada y Micro-zooms) -->
     <section id="galeria" class="bg-white py-10 sm:py-14">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Galería</x-section-title>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:gap-6" data-reveal data-stagger>
@@ -181,7 +189,7 @@
 
     <!-- Sección Nuestro Objetivo y Contadores Animados -->
     <section id="objetivo" class="bg-white pb-16 sm:pb-20">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Nuestro Objetivo</x-section-title>
 
             <div class="mt-9 grid gap-10 lg:grid-cols-[.48fr_.52fr] lg:items-center">

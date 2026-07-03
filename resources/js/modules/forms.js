@@ -1,4 +1,4 @@
-export function initTextareaCounter(textareaId = 'mensaje', counterId = 'mensaje-counter') {
+export function initTextareaCounter(textareaId = 'mensaje', counterId = 'mensaje-counter', threshold = 200) {
     const textarea = document.getElementById(textareaId);
     const counter = document.getElementById(counterId);
 
@@ -8,7 +8,7 @@ export function initTextareaCounter(textareaId = 'mensaje', counterId = 'mensaje
             const currentLength = textarea.value.length;
             counter.textContent = `${currentLength}/${maxLength}`;
 
-            if (currentLength >= 200) {
+            if (currentLength >= threshold) {
                 counter.classList.remove('text-neutral-400');
                 counter.classList.add('text-amber-600');
             } else {

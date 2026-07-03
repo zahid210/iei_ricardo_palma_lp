@@ -3,6 +3,14 @@ export function initFacebookScaler() {
     const inner = document.getElementById('fb-scale-inner');
     if (!wrap || !inner) return;
 
+    let wrapObserver;
+    let iframeObserver;
+
+    function limpiarObservers() {
+        if (wrapObserver) wrapObserver.disconnect();
+        if (iframeObserver) iframeObserver.disconnect();
+    }
+
     function estirar() {
         const w = wrap.clientWidth;
         if (w === 0) return;
@@ -12,17 +20,22 @@ export function initFacebookScaler() {
         wrap.style.height = Math.ceil(alturaReal) + 'px';
     }
 
-    const resizeObserver = new ResizeObserver(() => { estirar(); });
-    resizeObserver.observe(inner);
+    wrapObserver = new ResizeObserver(() => { estirar(); });
+    wrapObserver.observe(inner);
     window.addEventListener('resize', estirar);
 
     const fbCheck = setInterval(() => {
         const iframe = inner.querySelector('iframe');
         if (iframe) {
             clearInterval(fbCheck);
+            clearTimeout(failsafeTimeout);
             estirar();
-            resizeObserver.observe(iframe);
+            iframeObserver = new ResizeObserver(() => { estirar(); });
+            iframeObserver.observe(iframe);
         }
     }, 200);
-    setTimeout(() => clearInterval(fbCheck), 10000);
+    const failsafeTimeout = setTimeout(() => {
+        clearInterval(fbCheck);
+        limpiarObservers();
+    }, 10000);
 }

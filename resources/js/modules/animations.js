@@ -5,8 +5,16 @@
  * Animaciones fluidas de aparición (Fade-In Up) con opción de cascada (stagger)
  */
 export function initScrollReveal() {
-    const revealElements = document.querySelectorAll('[data-reveal]');
-    if (revealElements.length === 0) return;
+    const allReveal = document.querySelectorAll('[data-reveal]');
+    if (allReveal.length === 0) return;
+
+    const staggerContainers = document.querySelectorAll('[data-reveal][data-stagger]');
+    const filtered = Array.from(allReveal).filter(el => {
+        if (el.hasAttribute('data-stagger')) return true;
+        return !el.closest('[data-reveal][data-stagger]');
+    });
+
+    if (filtered.length === 0) return;
 
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -14,16 +22,13 @@ export function initScrollReveal() {
 
             const element = entry.target;
 
-            // 1. Si es un contenedor con efecto cascada (ej: grillas, listas)
             if (element.hasAttribute('data-stagger')) {
                 const children = element.children;
                 Array.from(children).forEach((child, index) => {
                     setTimeout(() => {
-                        // Limpieza preventiva de desplazamientos iniciales
                         child.classList.remove('translate-y-4', 'translate-y-6', 'translate-y-8', 'translate-y-12');
                         child.classList.add('opacity-100', 'translate-y-0');
 
-                        // Si el elemento hijo tiene barras decorativas internas, las activamos en su turno
                         const innerBars = child.querySelectorAll('[data-bar], [data-bar-v]');
                         innerBars.forEach(bar => {
                             if (bar.hasAttribute('data-bar')) bar.classList.add('opacity-100', 'scale-x-100');
@@ -31,15 +36,11 @@ export function initScrollReveal() {
                         });
                     }, index * 100);
                 });
-                // 2. Si es una barra horizontal individual
             } else if (element.hasAttribute('data-bar')) {
                 element.classList.add('opacity-100', 'scale-x-100');
-                // 3. Si es una barra vertical individual
             } else if (element.hasAttribute('data-bar-v')) {
                 element.classList.add('opacity-100', 'scale-y-100');
-                // 4. Animación estándar para textos o imágenes individuales
             } else {
-                // Removemos la clase de empuje original para que no compita con el translate-y-0
                 element.classList.remove('translate-y-4', 'translate-y-6', 'translate-y-8', 'translate-y-12');
                 element.classList.add('opacity-100', 'translate-y-0');
             }
@@ -48,7 +49,7 @@ export function initScrollReveal() {
         });
     }, { threshold: 0.15 });
 
-    revealElements.forEach(el => observer.observe(el));
+    filtered.forEach(el => observer.observe(el));
 }
 
 /**

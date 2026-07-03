@@ -5,7 +5,7 @@
 @section('content')
     <!-- Hero / Encabezado de Nosotros -->
     <section class="bg-white pt-6 pb-10 sm:pt-10 sm:pb-12">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <article
                 class="relative flex flex-col items-center justify-center bg-neutral-50 px-8 py-14 text-center sm:min-h-64 lg:min-h-[20rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
                 data-reveal>
@@ -32,7 +32,7 @@
 
     <!-- ¿Quiénes Somos? -->
     <section class="bg-white pb-12 sm:pb-16">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>¿Quiénes Somos?</x-section-title>
 
             <div class="mt-8 grid gap-8 lg:grid-cols-[.5fr_.5fr] lg:items-center">
@@ -68,7 +68,7 @@
 
     <!-- Misión y Visión (Entrada en Cascada) -->
     <section class="bg-neutral-50 py-12 sm:py-16">
-        <div class="mx-auto grid max-w-7xl gap-8 px-6 sm:px-8 md:grid-cols-2" data-reveal data-stagger>
+        <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:px-8 md:grid-cols-2" data-reveal data-stagger>
 
             <!-- Tarjeta Misión -->
             <article class="group relative bg-white p-8 shadow-xs flex flex-col justify-between overflow-hidden opacity-0 translate-y-8 transition-all duration-700 ease-out hover:shadow-md transition-shadow duration-300">
@@ -149,7 +149,7 @@
 
     <!-- Valores Institucionales (Micro-elevación Interactiva + Stagger) -->
     <section class="bg-white py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Valor Institucional</x-section-title>
             <p class="mx-auto mt-4 max-w-3xl text-center text-sm leading-relaxed text-neutral-700 sm:text-base opacity-0 translate-y-4 transition-all duration-500 ease-out" data-reveal>
                 En nuestra institución promovemos la práctica permanente de valores que fortalecen la convivencia
@@ -211,7 +211,7 @@
 
     <!-- Equipo Directivo (Onda de Carga Dinámica / Stagger) -->
     <section class="bg-neutral-50 py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Equipo Directivo</x-section-title>
 
             <div class="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-12" data-reveal data-stagger>
@@ -310,7 +310,7 @@
 
     <!-- Compromiso y Reflejos -->
     <section class="bg-white py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid gap-10 md:grid-cols-2 lg:gap-16" data-reveal data-stagger>
 
                 <article class="opacity-0 translate-y-8 transition-all duration-700 ease-out">

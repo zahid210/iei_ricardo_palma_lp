@@ -1,41 +1,80 @@
-// resources/js/modules/hero-slider.js
+let timerId;
+let slides;
+let currentIndex = 0;
+const slideDuration = 5000;
+
+function setActiveSlide(index) {
+    slides.forEach((slide, i) => {
+        if (i === index) {
+            slide.style.transition = 'none';
+            slide.classList.remove('opacity-100', 'scale-105');
+            slide.classList.add('scale-100', 'z-10');
+
+            void slide.offsetWidth;
+
+            slide.style.transition = 'opacity 6000ms ease-out, transform 6000ms ease-out';
+            slide.classList.remove('opacity-0', 'scale-100');
+            slide.classList.add('opacity-100', 'scale-105');
+        } else {
+            slide.style.transition = 'opacity 1500ms ease-in-out';
+            slide.classList.remove('opacity-100', 'z-10');
+            slide.classList.add('opacity-0', 'z-0');
+        }
+    });
+}
+
+function startAutoPlay() {
+    stopAutoPlay();
+    timerId = setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        setActiveSlide(currentIndex);
+    }, slideDuration);
+}
+
+function stopAutoPlay() {
+    clearInterval(timerId);
+    timerId = null;
+}
+
+function togglePause(slider) {
+    const isPaused = slider.getAttribute('data-paused') === 'true';
+    const btn = slider.querySelector('[data-hero-pause]');
+    const icon = btn?.querySelector('[data-hero-pause-icon]');
+
+    if (isPaused) {
+        startAutoPlay();
+        if (icon) {
+            icon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+        }
+        btn?.setAttribute('aria-label', 'Pausar carrusel');
+        slider.removeAttribute('data-paused');
+    } else {
+        stopAutoPlay();
+        if (icon) {
+            icon.innerHTML = '<polygon points="5,4 19,12 5,20" fill="currentColor"/>';
+        }
+        btn?.setAttribute('aria-label', 'Reanudar carrusel');
+        slider.setAttribute('data-paused', 'true');
+    }
+}
 
 export function initHeroSlider() {
     const slider = document.querySelector('[data-hero-slider]');
     if (!slider) return;
 
-    const slides = slider.querySelectorAll('[data-hero-slide]');
+    slides = slider.querySelectorAll('[data-hero-slide]');
     if (slides.length <= 1) return;
 
-    let currentIndex = 0;
-    const slideDuration = 3000; // 6 segundos por imagen
+    currentIndex = 0;
+    setActiveSlide(0);
+    startAutoPlay();
 
-    const setActiveSlide = (index) => {
-        slides.forEach((slide, i) => {
-            if (i === index) {
-                // 1. Resetear silenciosamente la escala (instantáneo, sin transición)
-                slide.classList.remove('transition-all', 'duration-[6000ms]', 'transition-opacity', 'duration-[1500ms]', 'scale-105');
-                slide.classList.add('transition-none', 'scale-100', 'z-10');
+    const pauseBtn = slider.querySelector('[data-hero-pause]');
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => togglePause(slider));
+    }
+}
 
-                // 2. Forzar un "reflow" para que el navegador aplique el scale-100 inmediatamente
-                void slide.offsetWidth;
-
-                // 3. Aplicar las clases de animación (Fade In + Zoom In)
-                slide.classList.remove('transition-none', 'opacity-0', 'scale-100');
-                slide.classList.add('transition-all', 'duration-[6000ms]', 'ease-out', 'opacity-100', 'scale-105');
-            } else {
-                // 4. Salida: Fade out rápido (1.5s), pero MANTENIENDO la escala para evitar el rebote
-                slide.classList.remove('transition-all', 'duration-[6000ms]', 'opacity-100', 'z-10');
-                slide.classList.add('transition-opacity', 'duration-[1500ms]', 'ease-in-out', 'opacity-0', 'z-0');
-                // NOTA: No quitamos 'scale-105' aquí, la imagen se desvanecerá estando ampliada.
-            }
-        });
-    };
-
-    setActiveSlide(currentIndex);
-
-    setInterval(() => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        setActiveSlide(currentIndex);
-    }, slideDuration);
+export function destroyHeroSlider() {
+    stopAutoPlay();
 }

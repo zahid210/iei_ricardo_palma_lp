@@ -11,9 +11,9 @@
 
     <strong
         class="block font-literata text-4xl font-normal leading-none text-ricardo-red sm:text-5xl"
-        @if($count) data-target-count="{{ $count }}" @endif
+        @if($count !== null) data-target-count="{{ $count }}" @endif
     >
-        {{ $count ? '0+' : $value }}
+        {{ $count !== null ? '0+' : $value }}
     </strong>
 
     <p class="mt-1 font-mate text-sm uppercase leading-tight text-neutral-700 sm:text-base">

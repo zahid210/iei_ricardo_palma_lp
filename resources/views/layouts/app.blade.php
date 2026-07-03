@@ -39,8 +39,8 @@
 </main>
 
 {{-- Footer --}}
-<footer id="contacto" class="bg-ricardo-teal text-white mt-10" data-reveal data-stagger>
-    <div class="mx-auto grid max-w-7xl gap-10 px-6 py-10 sm:px-8 md:grid-cols-3 md:py-12 translate-y-4 opacity-0 transition-all duration-700">
+<footer id="contacto" class="bg-ricardo-teal text-white mt-10">
+    <div class="mx-auto grid max-w-7xl gap-10 px-6 py-10 sm:px-8 md:grid-cols-3 md:py-12 translate-y-4 opacity-0 transition-all duration-700" data-reveal>
 
         {{-- Columna 1: Contacto --}}
         <section class="w-full md:max-w-[260px] mx-auto text-center md:text-left" aria-labelledby="footer-contacto">

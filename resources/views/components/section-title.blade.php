@@ -10,7 +10,7 @@
 
     {{-- La Barra Bicolor: Efecto de crecimiento/desplazamiento hacia la derecha --}}
     {{-- origin-left asegura que se expanda de izquierda a derecha --}}
-    <div class="mt-5 h-3 w-full max-w-none opacity-0 scale-x-0 origin-left transition-all duration-1000 ease-out" data-reveal data-bar>
+    <div class="mt-5 w-full max-w-none opacity-0 scale-x-0 origin-left transition-all duration-1000 ease-out" data-reveal data-bar>
         <div class="h-1.5 bg-ricardo-teal"></div>
         <div class="h-1.5 bg-ricardo-red"></div>
     </div>

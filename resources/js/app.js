@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('[data-hero-slider]')) {
         import('./modules/hero-slider.js').then(module => {
             module.initHeroSlider();
-        });
+        }).catch(err => console.warn('hero-slider:', err));
     }
 
     // ¿Existen sliders horizontales en las figuras?
     if (document.querySelector('[data-figure-slider]')) {
         import('./modules/figure-slider.js').then(module => {
             module.initFigureSliders();
-        });
+        }).catch(err => console.warn('figure-slider:', err));
     }
 
     // ¿Hay elementos de animación en esta página?
@@ -27,20 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
         import('./modules/animations.js').then(module => {
             module.initScrollReveal();
             module.initStatCounters();
-        });
+        }).catch(err => console.warn('animations:', err));
     }
 
     // ¿Estamos en la página de contacto o hay un formulario con ese ID?
     if (document.getElementById('mensaje')) {
         import('./modules/forms.js').then(module => {
             module.initTextareaCounter();
-        });
+        }).catch(err => console.warn('forms:', err));
     }
 
     // ¿Estamos en la sección de noticias con el widget de Facebook?
     if (document.getElementById('fb-scale-wrap')) {
         import('./modules/social.js').then(module => {
             module.initFacebookScaler();
-        });
+        }).catch(err => console.warn('social:', err));
     }
 });
