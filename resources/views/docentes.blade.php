@@ -54,7 +54,7 @@
                     </p>
                     <p>
                         Nuestros docentes desempeñan un rol fundamental en la orientación, acompañamiento y formación de
-                        los estudiantes, applying estrategias pedagógicas que responden a las necesidades actuales de
+                        los estudiantes, aplicando estrategias pedagógicas que responden a las necesidades actuales de
                         la educación y fomentan una enseñanza activa, inclusiva y significativa.
                     </p>
                 </div>

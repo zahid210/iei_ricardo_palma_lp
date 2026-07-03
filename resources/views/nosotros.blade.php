@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Nosotros | I.E.I. N° 31756 Ricardo Palma')
 
@@ -95,7 +95,7 @@
                         </p>
                         <p>
                             Asumimos la responsabilidad de dar una formación integral a cada uno de nuestros alumnos en
-                            las distintas etapas de su desarrollo, desde el respeto a sus creencias, putting el máximo
+                            las distintas etapas de su desarrollo, desde el respeto a sus creencias, poniendo el máximo
                             empeño en el cultivo de valores humanos y en la creación de hábitos de estudio, trabajo y
                             convivencia para una excelente formación académica y personal, acorde a las demandas de
                             nuestra sociedad actual.

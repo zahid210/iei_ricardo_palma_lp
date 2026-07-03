@@ -8,19 +8,11 @@
 
         <div class="absolute inset-0 z-20 bg-black/10 pointer-events-none"></div>
 
-        <button type="button" aria-label="Pausar carrusel" data-hero-pause
-                class="absolute bottom-4 right-4 z-30 flex h-8 w-8 items-center justify-center bg-white/20 text-white/80 backdrop-blur-sm transition-all duration-200 hover:bg-white/30 hover:text-white rounded-full cursor-pointer">
-            <svg class="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24" data-hero-pause-icon>
-                <rect x="6" y="4" width="4" height="16" rx="1"/>
-                <rect x="14" y="4" width="4" height="16" rx="1"/>
-            </svg>
-        </button>
-
         <!-- Slide 1 (Activo Inicial) -->
         <img
             src="{{ asset('images/fachada_colegio.jpg') }}"
             alt="Fachada de la I.E.I. Ricardo Palma"
-            class="absolute inset-0 h-full w-full object-cover object-[center_32%] opacity-100 scale-100 z-10"
+            class="absolute inset-0 h-full w-full object-cover object-[center_32%] opacity-100 scale-105 z-10 transition-all duration-[6000ms] ease-out"
             data-hero-slide
             fetchpriority="high"
         >
@@ -108,7 +100,7 @@
                     <p>
                         La <strong class="font-semibold text-ricardo-teal">Institución Educativa Integrada N.° 31756
                             “Ricardo Palma”</strong>,
-                        ubicada en Cerro de Pasco, se ha consolidado como una institution comprometida con la formación
+                        ubicada en Cerro de Pasco, se ha consolidado como una institución comprometida con la formación
                         integral de sus estudiantes
                         en los niveles de Inicial, Primaria y Secundaria.
                     </p>

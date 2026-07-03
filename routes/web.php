@@ -1,30 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/nosotros', [PageController::class, 'nosotros'])->name('nosotros');
+Route::get('/docentes', [PageController::class, 'docentes'])->name('docentes');
+Route::get('/noticias', [PageController::class, 'noticias'])->name('noticias');
+Route::get('/contacto', [PageController::class, 'contacto'])->name('contacto');
+Route::get('/galeria', [PageController::class, 'galeria'])->name('galeria');
 
-Route::get('/nosotros', function () {
-    return view('nosotros');
-})->name('nosotros');
-
-Route::get('/docentes', function () {
-    return view('docentes');
-})->name('docentes');
-
-Route::get('/noticias', function () {
-    return view('noticias');
-})->name('noticias');
-
-Route::get('/contacto', function () {
-    return view('contacto');
-})->name('contacto');
-
-Route::get('/galeria', function (){
-    return view('galeria');
-})->name('galeria');
-
-Route::post('/contacto', [ContactController::class, 'store'])->name('contacto.store');
+Route::post('/contacto', [ContactController::class, 'store'])
+    ->middleware('throttle:3,60')
+    ->name('contacto.store');
