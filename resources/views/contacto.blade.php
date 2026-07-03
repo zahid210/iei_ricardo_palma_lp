@@ -156,7 +156,7 @@
                                 <p class="mt-1 font-literata text-sm text-neutral-700">+51 921 896 330</p>
                             </div>
 
-                            <div class="pt-2">
+                            <div clas>s="pt-2">
                                 <a href="https://wa.me/51921896330" target="_blank" rel="noopener noreferrer"
                                    class="inline-flex w-full items-center justify-center gap-2 bg-[#25D366] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#20ba56] shadow-xs rounded-sm">
                                     <img src="{{ asset('images/whatsapp.svg') }}" alt=""
