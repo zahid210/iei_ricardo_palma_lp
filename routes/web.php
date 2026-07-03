@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return view('home');
@@ -25,3 +26,5 @@ Route::get('/contacto', function () {
 Route::get('/galeria', function (){
     return view('galeria');
 })->name('galeria');
+
+Route::post('/contacto', [ContactController::class, 'store'])->name('contacto.store');
