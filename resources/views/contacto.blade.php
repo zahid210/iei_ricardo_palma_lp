@@ -11,7 +11,6 @@
             <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 items-start">
 
                 {{-- COLUMNA IZQUIERDA: Formulario Institucional --}}
-                {{-- He añadido las clases de animación y data-reveal aquí --}}
                 <div class="lg:col-span-7 opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <div class="bg-white p-6 shadow-sm border border-neutral-100/60 rounded-xs">
                         <h2 class="font-mate text-lg font-bold text-neutral-800 uppercase tracking-wide">
@@ -22,52 +21,63 @@
                             Completa tus datos y te responderemos a la brevedad posible.
                         </p>
 
-                        <form action="" method="POST" class="mt-6 space-y-5 font-system text-sm" novalidate onsubmit="return false">
+                        @if (session('success'))
+                            <div class="mt-4 p-4 mb-4 text-sm text-green-800 rounded-sm bg-green-50 border border-green-200" role="alert">
+                                <span class="font-bold">¡Excelente!</span> {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form action="{{route('contacto.store')}}" method="POST" class="mt-6 space-y-5 font-system text-sm" novalidate>
                             @csrf
 
                             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                                 <div>
-                                    <label for="nombre"
-                                           class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
+                                    <label for="nombre" class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                         Nombre del Padre o Apoderado
                                     </label>
-                                    <input type="text" id="nombre" name="nombre" required
-                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
+                                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required
+                                           class="mt-1.5 w-full bg-neutral-50 border @error('nombre') border-red-500 @else border-neutral-200 @enderror px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
+                                    @error('nombre')
+                                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div>
-                                    <label for="telefono"
-                                           class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
+                                    <label for="telefono" class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                         Teléfono de Contacto
                                     </label>
-                                    <input type="tel" id="telefono" name="telefono" required
-                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
+                                    <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}" required
+                                           class="mt-1.5 w-full bg-neutral-50 border @error('telefono') border-red-500 @else border-neutral-200 @enderror px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
+                                    @error('telefono')
+                                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                                 <div>
-                                    <label for="correo"
-                                           class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
+                                    <label for="correo" class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                         Correo Electrónico
                                     </label>
-                                    <input type="email" id="correo" name="correo" required
-                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
+                                    <input type="email" id="correo" name="correo" value="{{ old('correo') }}" required
+                                           class="mt-1.5 w-full bg-neutral-50 border @error('correo') border-red-500 @else border-neutral-200 @enderror px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
+                                    @error('correo')
+                                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div>
-                                    <label for="nivel"
-                                           class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
+                                    <label for="nivel" class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                         Nivel Académico
                                     </label>
                                     <div class="relative mt-1.5">
                                         <select id="nivel" name="nivel" required
-                                                class="w-full appearance-none bg-neutral-50 border border-neutral-200 pl-3 pr-10 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 cursor-pointer rounded-sm">
-                                            <option value="" disabled selected>Selecciona una opción</option>
-                                            <option value="Inicial">Inicial</option>
-                                            <option value="Primaria">Primaria</option>
-                                            <option value="Secundaria">Secundaria</option>
-                                            <option value="todos">Consultas Generales</option>
+                                                class="w-full appearance-none bg-neutral-50 border @error('nivel') border-red-500 @else border-neutral-200 @enderror pl-3 pr-10 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 cursor-pointer rounded-sm">
+                                            <option value="" disabled {{ old('nivel') ? '' : 'selected' }}>Selecciona una opción</option>
+                                            <option value="Inicial" {{ old('nivel') == 'Inicial' ? 'selected' : '' }}>Inicial</option>
+                                            <option value="Primaria" {{ old('nivel') == 'Primaria' ? 'selected' : '' }}>Primaria</option>
+                                            <option value="Secundaria" {{ old('nivel') == 'Secundaria' ? 'selected' : '' }}>Secundaria</option>
+                                            <option value="todos" {{ old('nivel') == 'todos' ? 'selected' : '' }}>Consultas Generales</option>
                                         </select>
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-500">
                                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -75,22 +85,26 @@
                                             </svg>
                                         </div>
                                     </div>
+                                    @error('nivel')
+                                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div>
-                                <label for="mensaje"
-                                       class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
+                                <label for="mensaje" class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                     Mensaje o Consulta
                                 </label>
                                 <div class="relative mt-1.5">
                                     <textarea id="mensaje" name="mensaje" rows="5" maxlength="255" required
-                                              class="w-full bg-neutral-50 border border-neutral-200 pl-3 pr-3 pt-2.5 pb-8 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 resize-none rounded-sm"></textarea>
-                                    <div id="mensaje-counter"
-                                         class="absolute bottom-2 right-3 font-system text-[10px] font-bold text-neutral-400 select-none pointer-events-none tracking-wider transition-colors duration-150">
+                                              class="w-full bg-neutral-50 border @error('mensaje') border-red-500 @else border-neutral-200 @enderror pl-3 pr-3 pt-2.5 pb-8 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 resize-none rounded-sm">{{ old('mensaje') }}</textarea>
+                                    <div id="mensaje-counter" class="absolute bottom-2 right-3 font-system text-[10px] font-bold text-neutral-400 select-none pointer-events-none tracking-wider transition-colors duration-150">
                                         0/255
                                     </div>
                                 </div>
+                                @error('mensaje')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div class="pt-2">
@@ -104,7 +118,6 @@
                 </div>
 
                 {{-- COLUMNA DERECHA: Mapa Estático y Canales de Atención --}}
-                {{-- He añadido las clases de animación y data-reveal aquí --}}
                 <div class="lg:col-span-5 space-y-6 opacity-0 translate-y-8 transition-all duration-700 delay-200 ease-out" data-reveal>
 
                     {{-- Bloque de Ubicación --}}
@@ -156,7 +169,7 @@
                                 <p class="mt-1 font-literata text-sm text-neutral-700">+51 921 896 330</p>
                             </div>
 
-                            <div clas>s="pt-2">
+                            <div class="pt-2">
                                 <a href="https://wa.me/51921896330" target="_blank" rel="noopener noreferrer"
                                    class="inline-flex w-full items-center justify-center gap-2 bg-[#25D366] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#20ba56] shadow-xs rounded-sm">
                                     <img src="{{ asset('images/whatsapp.svg') }}" alt=""
