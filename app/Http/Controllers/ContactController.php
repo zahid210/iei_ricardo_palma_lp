@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactNotification;
 
 class ContactController extends Controller
 {
@@ -21,7 +23,9 @@ class ContactController extends Controller
             'mensaje' => 'El texto es demasiado largo',
         ]);
 
-        Contact::create($validated);
+        $contact = Contact::create($validated);
+
+        Mail::to('iericard@iericardopalmapasco.edu.pe')->send(new ContactNotification($contact));
 
         return back()->with('success', '¡Gracias por escribirnos! Tu consulta ha sido recibido exitosamente.');
 
