@@ -77,10 +77,9 @@
         <section class="w-fit md:min-w-[140px] mx-auto text-center md:text-left" aria-labelledby="footer-enlaces">
             <h2 id="footer-enlaces" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">Enlaces</h2>
             <ul class="mt-4 space-y-2.5 font-system text-sm text-white/90">
-                @foreach(['home' => 'Inicio', 'nosotros' => 'Nosotros', 'docentes' => 'Docentes', 'noticias' => 'Noticias', 'contacto' => 'Contacto'] as $route => $label)
+                @foreach(['home' => 'Inicio', 'nosotros' => 'Nosotros', 'docentes' => 'Docentes', 'galeria' => 'Galeria','noticias' => 'Noticias', 'contacto' => 'Contacto'] as $route => $label)
                     <li><a href="{{ route($route) }}" class="transition-colors duration-200 hover:text-ricardo-yellow">{{ $label }}</a></li>
                 @endforeach
-                <li><a href="#" class="transition-colors duration-200 hover:text-ricardo-yellow">Galería</a></li>
             </ul>
         </section>
     </div>
