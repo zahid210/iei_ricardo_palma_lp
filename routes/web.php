@@ -17,6 +17,11 @@ Route::get('/docentes', function () {
 Route::get('/noticias', function () {
     return view('noticias');
 })->name('noticias');
+
 Route::get('/contacto', function () {
     return view('contacto');
 })->name('contacto');
+
+Route::get('/galeria', function (){
+    return view('galeria');
+})->name('galeria');

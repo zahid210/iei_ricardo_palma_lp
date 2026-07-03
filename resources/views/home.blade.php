@@ -169,7 +169,7 @@
                         loading="lazy"
                     >
                     <div class="absolute inset-0 flex items-center justify-center bg-black/40 transition duration-300 group-hover:bg-black/20">
-                        <a href="{{ url('/#galeria') }}"
+                        <a href="{{route('galeria')}}"
                            class="border border-white px-8 py-3 font-mate text-xl uppercase tracking-wide text-white transition-colors hover:bg-white hover:text-neutral-900 sm:text-2xl">
                             Ver Más
                         </a>
