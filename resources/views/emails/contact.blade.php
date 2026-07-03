@@ -11,7 +11,7 @@
     </div>
 
     <div style="padding: 20px;">
-        <p style="margin-top: 0; font-size: 13px;">Se ha registrado un nuevo mensaje a través del formulario de contacto:</p>
+        <p style="margin-top: 0; font-size: 13px;">Se ha registrado una nueva consulta a través del formulario de contacto:</p>
 
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
             <tr>

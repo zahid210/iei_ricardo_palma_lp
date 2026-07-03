@@ -33,7 +33,7 @@ class ContactNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nueva Consulta Web - I.E.I. Ricardo Palma',
+            subject: 'Consulta Web - I.E.I. Ricardo Palma',
         );
     }
 
