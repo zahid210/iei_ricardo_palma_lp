@@ -22,7 +22,7 @@
                             Completa tus datos y te responderemos a la brevedad posible.
                         </p>
 
-                        <form action="#" method="POST" class="mt-6 space-y-5 font-system text-sm">
+                        <form action="" method="POST" class="mt-6 space-y-5 font-system text-sm" novalidate onsubmit="return false">
                             @csrf
 
                             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">

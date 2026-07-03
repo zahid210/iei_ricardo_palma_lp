@@ -34,7 +34,7 @@
 </header>
 
 {{-- Contenido principal con animación de entrada --}}
-<main class="animate-in fade-in duration-700 ease-out">
+<main>
     @yield('content')
 </main>
 
@@ -66,7 +66,7 @@
             <div class="mt-4 inline-block overflow-hidden rounded-sm bg-white p-1 shadow-sm text-left">
                 <div class="relative h-32 w-65 overflow-hidden bg-[#e7ecef]">
                     <a href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9" target="_blank" rel="noopener noreferrer" class="block h-full w-full group">
-                        <img src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=260x128&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key={{ config('services.google.maps_key') }}"
+                        <img src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=260x128&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key={{ config('services.google.maps_key', '') }}"
                              alt="Ubicación" class="h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-90" loading="lazy">
                     </a>
                 </div>

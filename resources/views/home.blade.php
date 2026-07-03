@@ -20,7 +20,7 @@
         <img
             src="{{ asset('images/fachada_colegio.jpg') }}"
             alt="Fachada de la I.E.I. Ricardo Palma"
-            class="absolute inset-0 h-full w-full object-cover object-[center_32%] opacity-100 scale-105 z-10 transition-all duration-[6000ms] ease-out"
+            class="absolute inset-0 h-full w-full object-cover object-[center_32%] opacity-100 scale-100 z-10"
             data-hero-slide
             fetchpriority="high"
         >
