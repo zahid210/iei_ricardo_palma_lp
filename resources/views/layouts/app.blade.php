@@ -90,19 +90,6 @@
     </div>
 </footer>
 
-{{-- Script de inicialización global --}}
-<script type="module">
-    import { initScrollReveal } from '{{ asset('js/animations.js') }}';
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Inicializa las animaciones en toda la página
-        initScrollReveal();
-
-        // Si tienes contadores u otros scripts globales, inícialos aquí
-        if (typeof initStatCounters === 'function') initStatCounters();
-    });
-</script>
-
 @stack('scripts')
 </body>
 </html>
