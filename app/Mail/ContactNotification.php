@@ -3,27 +3,24 @@
 namespace App\Mail;
 
 use App\Models\Contact;
+use Illuminate\Bus\Queueable; // <- Volvemos a importar esto
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels; // <- Y esto
 
 class ContactNotification extends Mailable
 {
+    use Queueable, SerializesModels; // <- Los declaramos aquí adentro
+
     public $contact;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(Contact $contact)
     {
-        // Inyectamos el contacto guardado en la base de datos
         $this->contact = $contact;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -31,21 +28,13 @@ class ContactNotification extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            view: 'emails.contact', // <- Apunta a resources/views/emails/contact.blade.php
+            view: 'emails.contact',
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, Attachment>
-     */
     public function attachments(): array
     {
         return [];
