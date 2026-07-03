@@ -5,7 +5,7 @@
 @section('content')
 
     {{-- Cuerpo Principal --}}
-    <section class="py-10 sm:py-16 bg-neutral-50/40">
+    <section class="py-10 sm:py-16 bg-neutral-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 items-start">
@@ -172,32 +172,3 @@
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    {{-- Script optimizado para el contador del textarea --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Asegúrate de inicializar las animaciones aquí si es necesario
-            // if (typeof initScrollReveal === 'function') initScrollReveal();
-
-            const textarea = document.getElementById('mensaje');
-            const counter = document.getElementById('mensaje-counter');
-
-            if (textarea && counter) {
-                textarea.addEventListener('input', function () {
-                    const currentLength = textarea.value.length;
-                    counter.textContent = `${currentLength}/255`;
-
-                    // Alerta visual sutil si le quedan menos de 55 caracteres
-                    if (currentLength >= 200) {
-                        counter.classList.remove('text-neutral-400');
-                        counter.classList.add('text-amber-600');
-                    } else {
-                        counter.classList.remove('text-amber-600');
-                        counter.classList.add('text-neutral-400');
-                    }
-                });
-            }
-        });
-    </script>
-@endpush

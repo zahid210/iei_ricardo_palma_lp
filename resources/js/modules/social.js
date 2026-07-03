@@ -5,22 +5,24 @@ export function initFacebookScaler() {
 
     function estirar() {
         const w = wrap.clientWidth;
-        if (w > 500) {
-            const s = w / 500;
-            inner.style.transform = `scale(${s})`;
-            wrap.style.height = Math.ceil(inner.getBoundingClientRect().height) + 'px';
-        } else {
-            inner.style.transform = 'none';
-            wrap.style.height = 'auto';
-        }
+        if (w === 0) return;
+        const s = w / 500;
+        inner.style.transform = `scale(${s})`;
+        const alturaReal = inner.offsetHeight * s;
+        wrap.style.height = Math.ceil(alturaReal) + 'px';
     }
 
+    const resizeObserver = new ResizeObserver(() => { estirar(); });
+    resizeObserver.observe(inner);
+    window.addEventListener('resize', estirar);
+
     const fbCheck = setInterval(() => {
-        if (inner.querySelector('iframe')) {
+        const iframe = inner.querySelector('iframe');
+        if (iframe) {
             clearInterval(fbCheck);
-            setTimeout(estirar, 500);
+            estirar();
+            resizeObserver.observe(iframe);
         }
     }, 200);
-    setTimeout(() => clearInterval(fbCheck), 15000);
-    window.addEventListener('resize', estirar);
+    setTimeout(() => clearInterval(fbCheck), 10000);
 }

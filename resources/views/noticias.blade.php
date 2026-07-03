@@ -7,14 +7,14 @@
     <div id="fb-root"></div>
 
     {{-- CUERPO DE NOTICIAS --}}
-    <section class="py-10 sm:py-14 bg-neutral-50/50">
+    <section class="py-10 sm:py-14 bg-neutral-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 items-start">
 
                 {{-- COLUMNA PRINCIPAL: Feed de Facebook (Estructura limpia original - Cero animaciones/capas GPU) --}}
                 <div class="lg:col-span-2">
-                    <div class="bg-white shadow-sm">
+                    <div class="bg-white shadow-sm border border-neutral-100/60 rounded-xs">
 
                         {{-- Cabecera del widget --}}
                         <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
@@ -138,7 +138,7 @@
                                 <a href="https://www.facebook.com/ricardinosemprendeores"
                                    target="_blank" rel="noopener noreferrer"
                                    class="mt-2 inline-block font-system text-xs font-bold text-[#1877F2] transition-colors hover:text-[#166FE5]">
-                                    Ir a Facebook de la I.E. &rarr;
+                                    Ir a Facebook &rarr;
                                 </a>
                             </div>
                         </div>
@@ -165,49 +165,7 @@
 @endsection
 
 @push('scripts')
-    {{-- SDK de Facebook (carga diferida y asíncrona) --}}
     <script async defer crossorigin="anonymous"
             src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v21.0">
-    </script>
-
-    {{-- Script Inteligente: Redimensión continua y universal --}}
-    <script>
-        (function () {
-            var wrap = document.getElementById('fb-scale-wrap');
-            var inner = document.getElementById('fb-scale-inner');
-            if (!wrap || !inner) return;
-
-            function estirar() {
-                var w = wrap.clientWidth;
-                if (w === 0) return; // Previene fallos si el contenedor no está visible al inicio
-
-                // Escalado universal continuo basado en la base fija de 500px del iframe
-                var s = w / 500;
-                inner.style.transform = 'scale(' + s + ')';
-
-                // Modifica dinámicamente la altura del padre para empujar el footer perfectamente
-                var alturaReal = inner.offsetHeight * s;
-                wrap.style.height = Math.ceil(alturaReal) + 'px';
-            }
-
-            // Observa cambios en el DOM e imágenes cargadas dentro del iframe
-            var resizeObserver = new ResizeObserver(function() {
-                estirar();
-            });
-
-            resizeObserver.observe(inner);
-            window.addEventListener('resize', estirar);
-
-            var fbCheck = setInterval(function () {
-                var iframe = inner.querySelector('iframe');
-                if (iframe) {
-                    clearInterval(fbCheck);
-                    estirar();
-                    resizeObserver.observe(iframe);
-                }
-            }, 200);
-
-            setTimeout(function () { clearInterval(fbCheck); }, 10000);
-        })();
     </script>
 @endpush
