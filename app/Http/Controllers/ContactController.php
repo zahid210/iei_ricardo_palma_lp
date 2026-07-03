@@ -20,7 +20,7 @@ class ContactController extends Controller
         ],[
             'required' => 'Este campo es obligatorio',
             'email' => 'Ingresa un correo válido',
-            'mensaje' => 'El texto es demasiado largo',
+            'mensaje.max' => 'El texto es demasiado largo',
         ]);
 
         $contact = Contact::create($validated);

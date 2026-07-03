@@ -47,7 +47,7 @@
                     <p>
                         A lo largo del tiempo, nuestra institución ha fortalecido su labor pedagógica mediante la
                         participación activa de docentes, directivos, estudiantes y padres de familia, contribuyendo al
-                        subdesarrollo educativo de la comunidad y reafirmando su compromiso con una formación integral,
+                        desarrollo educativo de la comunidad y reafirmando su compromiso con una formación integral,
                         inclusiva y orientada a la mejora continua.
                     </p>
                 </article>
