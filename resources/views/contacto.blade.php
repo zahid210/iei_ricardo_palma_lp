@@ -5,15 +5,16 @@
 @section('content')
 
     {{-- Cuerpo Principal --}}
-    <section class="py-10 sm:py-16 bg-white">
+    <section class="py-10 sm:py-16 bg-neutral-50/40">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 gap-10 lg:grid-cols-12">
+
+            <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 items-start">
 
                 {{-- COLUMNA IZQUIERDA: Formulario Institucional --}}
                 <div class="lg:col-span-7">
-                    <div class="bg-white p-6 shadow-sm border border-neutral-100/60">
+                    <div class="bg-white p-6 shadow-sm border border-neutral-100/60 rounded-xs">
                         <h2 class="font-mate text-lg font-bold text-neutral-800 uppercase tracking-wide">
-                            <span class="mr-2 inline-block h-4 w-1 bg-ricardo-red align-middle"></span>
+                            <span class="mr-2 inline-block h-4 w-[3px] bg-ricardo-red align-middle rounded-full"></span>
                             Envíanos un mensaje
                         </h2>
                         <p class="mt-1 font-literata text-xs text-neutral-500">
@@ -30,7 +31,7 @@
                                         Nombre del Padre o Apoderado
                                     </label>
                                     <input type="text" id="nombre" name="nombre" required
-                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150">
+                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
                                 </div>
 
                                 <div>
@@ -39,7 +40,7 @@
                                         Teléfono de Contacto
                                     </label>
                                     <input type="tel" id="telefono" name="telefono" required
-                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150">
+                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
                                 </div>
                             </div>
 
@@ -50,31 +51,26 @@
                                         Correo Electrónico
                                     </label>
                                     <input type="email" id="correo" name="correo" required
-                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150">
+                                           class="mt-1.5 w-full bg-neutral-50 border border-neutral-200 px-3 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 rounded-sm">
                                 </div>
 
                                 <div>
                                     <label for="nivel"
                                            class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
-                                        Nivel
+                                        Nivel Académico
                                     </label>
-                                    {{-- SOLUCIÓN AL SELECT (image_0b0470.png) --}}
                                     <div class="relative mt-1.5">
                                         <select id="nivel" name="nivel" required
-                                                class="w-full appearance-none bg-neutral-50 border border-neutral-200 pl-3 pr-10 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150 cursor-pointer">
+                                                class="w-full appearance-none bg-neutral-50 border border-neutral-200 pl-3 pr-10 py-2.5 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 cursor-pointer rounded-sm">
                                             <option value="" disabled selected>Selecciona una opción</option>
                                             <option value="Inicial">Inicial</option>
                                             <option value="Primaria">Primaria</option>
                                             <option value="Secundaria">Secundaria</option>
                                             <option value="todos">Consultas Generales</option>
                                         </select>
-                                        {{-- Flecha estilizada con separación controlada (pr-3) --}}
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-500">
-                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                 stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M19 9l-7 7-7-7"/>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-500">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                                             </svg>
                                         </div>
                                     </div>
@@ -86,13 +82,11 @@
                                        class="block font-bold text-neutral-700 uppercase tracking-wider text-[11px]">
                                     Mensaje o Consulta
                                 </label>
-                                {{-- Contenedor relativo para posicionar el contador internamente --}}
                                 <div class="relative mt-1.5">
                                     <textarea id="mensaje" name="mensaje" rows="5" maxlength="255" required
-                                              class="w-full bg-neutral-50 border border-neutral-200 pl-3 pr-3 pt-2.5 pb-7 text-neutral-800 focus:border-ricardo-teal focus:bg-white focus:outline-none transition-colors duration-150 resize-none"></textarea>
-                                    {{-- Contador estilizado e inmune a los clics del mouse --}}
+                                              class="w-full bg-neutral-50 border border-neutral-200 pl-3 pr-3 pt-2.5 pb-8 text-neutral-800 focus:border-ricardo-teal focus:ring-1 focus:ring-ricardo-teal focus:bg-white focus:outline-none transition-all duration-150 resize-none rounded-sm"></textarea>
                                     <div id="mensaje-counter"
-                                         class="absolute bottom-2 right-3 font-system text-[10px] font-medium text-neutral-400 select-none pointer-events-none tracking-wider">
+                                         class="absolute bottom-2 right-3 font-system text-[10px] font-bold text-neutral-400 select-none pointer-events-none tracking-wider transition-colors duration-150">
                                         0/255
                                     </div>
                                 </div>
@@ -100,7 +94,7 @@
 
                             <div class="pt-2">
                                 <button type="submit"
-                                        class="inline-flex items-center justify-center bg-ricardo-teal px-6 py-3 font-system text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-ricardo-teal-dark cursor-pointer">
+                                        class="inline-flex items-center justify-center bg-ricardo-teal px-6 py-3 font-system text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-ricardo-teal-dark shadow-xs cursor-pointer rounded-sm">
                                     Enviar consulta
                                 </button>
                             </div>
@@ -111,33 +105,30 @@
                 {{-- COLUMNA DERECHA: Mapa Estático y Canales de Atención --}}
                 <div class="lg:col-span-5 space-y-6">
 
-                    {{-- Bloque de Ubicación con tu Mapa --}}
-                    <div class="bg-white p-6 shadow-sm border border-neutral-100/60 text-left">
+                    {{-- Bloque de Ubicación --}}
+                    <div class="bg-white p-6 shadow-sm border border-neutral-100/60 text-left rounded-xs">
                         <h2 class="font-mate text-lg font-bold text-neutral-800 uppercase tracking-wide">
-                            <span class="mr-2 inline-block h-4 w-1 bg-ricardo-teal align-middle"></span>
+                            <span class="mr-2 inline-block h-4 w-[3px] bg-ricardo-teal align-middle rounded-full"></span>
                             Nuestra Ubicación
                         </h2>
                         <p class="mt-2 font-system text-xs text-neutral-600 leading-relaxed">
                             Barrio La Esperanza, Chaupimarca - Pasco
                         </p>
 
-                        {{-- Tu contenedor de mapa adaptado al layout --}}
-                        <div
-                            class="mt-4 inline-block w-full overflow-hidden rounded-sm bg-white p-1 shadow-sm text-left border border-neutral-100">
-                            <div class="relative w-full overflow-hidden bg-[#e7ecef]">
+                        {{-- Contenedor de mapa protegido --}}
+                        <div class="mt-4 inline-block w-full overflow-hidden rounded-sm bg-white p-1 shadow-xs text-left border border-neutral-100">
+                            <div class="relative w-full overflow-hidden bg-[#e7ecef] aspect-[450/224]">
                                 <a href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9" target="_blank"
                                    rel="noopener noreferrer"
                                    class="block h-full w-full group">
                                     <img
-                                        src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=450x224&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key=AIzaSyCUxQyRkTBGfV1WYm95ZmM-tzQ0nCAO2Es"
+                                        src="https://maps.googleapis.com/maps/api/staticmap?center=-10.6852,-76.2592&zoom=16&size=450x224&scale=2&maptype=roadmap&markers=color:red%7C-10.6852,-76.2592&key={{ config('services.google.maps_key', 'TU_KEY_DE_RESPALDO') }}"
                                         alt="Mapa de ubicación exacta de la I.E.I. Ricardo Palma"
                                         class="h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-90"
                                         loading="lazy"
                                     >
-                                    <div
-                                        class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                                        <span
-                                            class="rounded bg-neutral-900/80 px-3 py-1.5 font-system text-[10px] font-medium text-white shadow-sm uppercase tracking-wider">
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                                        <span class="rounded bg-neutral-900/80 px-3 py-1.5 font-system text-[10px] font-bold text-white shadow-sm uppercase tracking-wider">
                                             Ver en Google Maps
                                         </span>
                                     </div>
@@ -147,28 +138,25 @@
                     </div>
 
                     {{-- Canales Directos y Horarios --}}
-                    <div class="bg-white p-6 shadow-sm border border-neutral-100/60 font-system">
-                        <h2 class="font-mate text-base font-bold text-neutral-800 uppercase tracking-wide border-b border-neutral-50 pb-3">
+                    <div class="bg-white p-6 shadow-sm border border-neutral-100/60 font-system rounded-xs">
+                        <h2 class="font-mate text-xs font-bold text-neutral-800 uppercase tracking-wider border-b border-neutral-100 pb-3">
                             Información de Atención
                         </h2>
 
                         <div class="mt-4 space-y-4 text-xs">
                             <div>
-                                <p class="font-bold uppercase tracking-wider text-neutral-400 text-[10px]">Horario
-                                    Escolar</p>
-                                <p class="mt-1 font-literata text-sm text-neutral-700">Lunes a Viernes de 8:00 a.m. a
-                                    1:00 p.m.</p>
+                                <p class="font-bold uppercase tracking-wider text-neutral-400 text-[9px]">Horario Escolar</p>
+                                <p class="mt-1 font-literata text-sm text-neutral-700">Lunes a Viernes de 8:00 a.m. a 1:00 p.m.</p>
                             </div>
 
                             <div>
-                                <p class="font-bold uppercase tracking-wider text-neutral-400 text-[10px]">Atención
-                                    Telefónica</p>
+                                <p class="font-bold uppercase tracking-wider text-neutral-400 text-[9px]">Atención Telefónica</p>
                                 <p class="mt-1 font-literata text-sm text-neutral-700">+51 921 896 330</p>
                             </div>
 
                             <div class="pt-2">
                                 <a href="https://wa.me/51921896330" target="_blank" rel="noopener noreferrer"
-                                   class="inline-flex w-full items-center justify-center gap-2 bg-[#25D366] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#20ba56]">
+                                   class="inline-flex w-full items-center justify-center gap-2 bg-[#25D366] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#20ba56] shadow-xs rounded-sm">
                                     <img src="{{ asset('images/whatsapp.svg') }}" alt=""
                                          class="h-4 w-4 brightness-0 invert">
                                     Atención inmediata por WhatsApp
@@ -183,8 +171,8 @@
     </section>
 @endsection
 
-{{-- Script modular inyectado al final del layout --}}
 @push('scripts')
+    {{-- Script optimizado para el contador del textarea --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const textarea = document.getElementById('mensaje');
@@ -194,6 +182,15 @@
                 textarea.addEventListener('input', function () {
                     const currentLength = textarea.value.length;
                     counter.textContent = `${currentLength}/255`;
+
+                    // Alerta visual sutil si le quedan menos de 55 caracteres
+                    if (currentLength >= 200) {
+                        counter.classList.remove('text-neutral-400');
+                        counter.classList.add('text-amber-600');
+                    } else {
+                        counter.classList.remove('text-amber-600');
+                        counter.classList.add('text-neutral-400');
+                    }
                 });
             }
         });

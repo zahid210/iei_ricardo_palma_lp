@@ -10,11 +10,6 @@
     <section class="py-10 sm:py-14 bg-neutral-50/50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-            <!-- Título de la Sección Unificado -->
-            <div class="w-full mb-10">
-                <x-section-title>Noticias Institucionales</x-section-title>
-            </div>
-
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 items-start">
 
                 {{-- COLUMNA PRINCIPAL: Feed de Facebook (Estructura limpia original - Cero animaciones/capas GPU) --}}
