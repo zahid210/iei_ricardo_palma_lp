@@ -8,7 +8,7 @@
 
         <div class="absolute inset-0 z-20 bg-black/10 pointer-events-none"></div>
 
-        <!-- Slide 1 (Activo Inicial) -->
+        <!-- Slide 1 -->
         <img
             src="{{ asset('images/fachada_colegio.jpg') }}"
             alt="Fachada de la I.E.I. Ricardo Palma"
@@ -17,7 +17,7 @@
             fetchpriority="high"
         >
 
-        <!-- Slide 2 (Inactivo Inicial) -->
+        <!-- Slide 2 -->
         <img
             src="{{ asset('images/hero_2.jpg') }}"
             alt="Docentes de la Institución"
@@ -26,7 +26,7 @@
             loading="lazy"
         >
 
-        <!-- Slide 3 (Inactivo Inicial) -->
+        <!-- Slide 3 -->
         <img
             src="{{ asset('images/plana_docente.jpg') }}"
             alt="Estudiantes Ricardinos"
@@ -63,8 +63,14 @@
                     data-figure-slide
                 >
                 <img
-                    src="{{ asset('images/fachada_colegio.jpg') }}"
-                    alt="Estudiantes en el patio principal"
+                    src="{{ asset('images/ricardino_campeon.jpg') }}"
+                    alt="Estudiantes campeones"
+                    class="absolute inset-0 h-full w-full object-cover translate-x-full opacity-0 z-0"
+                    data-figure-slide
+                    loading="lazy"
+                ><img
+                    src="{{ asset('images/ricardino_libros.jpg') }}"
+                    alt="Estudiantes viendo libros"
                     class="absolute inset-0 h-full w-full object-cover translate-x-full opacity-0 z-0"
                     data-figure-slide
                     loading="lazy"
@@ -82,14 +88,20 @@
                 <figure role="region" aria-roledescription="carousel" aria-label="Docente en clase" class="relative overflow-hidden aspect-[1080/757] w-full opacity-0 translate-y-8 transition-all duration-700 ease-out"
                         data-reveal data-figure-slider>
                     <img
-                        src="{{ asset('images/docente_clase.jpg') }}"
+                        src="{{ asset('images/ricardino_escolta.jpg ') }}"
                         alt="Docente acompañando a estudiantes en clase"
                         class="absolute inset-0 h-full w-full object-cover translate-x-0 opacity-100 z-10"
                         data-figure-slide
                     >
                     <img
-                        src="{{ asset('images/galeria_2.jpg') }}"
-                        alt="Talleres educativos adicionales"
+                        src="{{ asset('images/ricardinos_premiacion.jpg') }}"
+                        alt="Estudiantes premiados"
+                        class="absolute inset-0 h-full w-full object-cover translate-x-full opacity-0 z-0"
+                        data-figure-slide
+                        loading="lazy"
+                    ><img
+                        src="{{ asset('images/ricardinos_formados.jpg') }}"
+                        alt="Estudiantes en formacion"
                         class="absolute inset-0 h-full w-full object-cover translate-x-full opacity-0 z-0"
                         data-figure-slide
                         loading="lazy"

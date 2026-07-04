@@ -34,22 +34,22 @@
                 </article>
 
                 <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/galeria_4.jpg') }}"
-                         alt="Actividades institucionales"
+                    <img src="{{ asset('images/galeria_4_2.jpg') }}"
+                         alt="Campeon karate"
                          class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
                          loading="lazy">
                 </article>
 
                 <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/docente_clase.jpg') }}"
-                         alt="Docente acompañando a estudiantes en clase"
+                    <img src="{{ asset('images/galeria_5.jpg') }}"
+                         alt="Campeon primer puesto"
                          class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
                          loading="lazy">
                 </article>
 
                 <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/fachada_colegio.jpg') }}"
-                         alt="Fachada de la I.E.I. Ricardo Palma"
+                    <img src="{{ asset('images/galeria_6.jpg') }}"
+                         alt="Campeona primer puesta"
                          class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
                          loading="lazy">
                 </article>
