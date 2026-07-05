@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'I.E.I. N° 31756 Ricardo Palma')
-
+@section('meta_description', 'Bienvenidos a la página de la Institución Educativa Integrada N° 31756 Ricardo Palma en Cerro de Pasco. Conoce nuestro compromiso con la educación.')
 @section('content')
     <!-- Hero Section Estándar con Look Premium (Slider Automático) -->
     <section role="region" aria-roledescription="carousel" aria-label="Galería institucional" aria-live="polite" class="relative w-full overflow-hidden bg-ricardo-teal h-[30rem] sm:h-[36rem] md:h-[40rem] lg:h-[44rem]" data-hero-slider>

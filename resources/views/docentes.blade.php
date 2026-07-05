@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Docentes | I.E.I. N° 31756 Ricardo Palma')
+@section('meta_description', 'Conoce al equipo de profesores y profesionales comprometidos con la educación, el desarrollo integral y los valores de los estudiantes ricardinos.')
 
 @section('content')
     <section class="bg-white pt-6 pb-10 sm:pt-8 sm:pb-12">

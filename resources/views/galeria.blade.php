@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Galería | I.E.I. N° 31756 Ricardo Palma')
+@section('meta_description', 'Explora los logros más destacados de nuestra institución.')
 
 @section('content')
     <section class="bg-white pb-12 sm:pb-16">

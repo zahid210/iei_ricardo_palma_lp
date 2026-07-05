@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
 @section('title', 'Nosotros | I.E.I. N° 31756 Ricardo Palma')
-
+@section('meta_description', 'Conoce la visión, misión e historia de la I.E.I. Ricardo Palma de Chaupimarca. Formando estudiantes con valores en la región Pasco.')
 @section('content')
     <!-- Hero / Encabezado de Nosotros -->
     <section class="bg-white pt-6 pb-10 sm:pt-10 sm:pb-12">

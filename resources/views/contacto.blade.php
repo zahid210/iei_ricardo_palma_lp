@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Contacto | I.E.I. N° 31756 Ricardo Palma')
+@section('meta_description', '¿Tienes alguna consulta? Comunícate con nosotros. Encuentra nuestros números de teléfono, correo institucional, redes sociales y mapa de ubicación en Chaupimarca.')
 
 @section('content')
 

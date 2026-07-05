@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Noticias | I.E.I. N° 31756 Ricardo Palma')
-
+@section('meta_description', 'Entérate de las últimas novedades, eventos institucionales, comunicados de admisión y actividades escolares de nuestra comunidad ricardina en Pasco.')
 @section('content')
     {{-- Elemento raíz requerido para el SDK de Facebook --}}
     <div id="fb-root"></div>
