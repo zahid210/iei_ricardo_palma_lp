@@ -3,9 +3,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Landing page institucional de la I.E.I. N.° 31756 Ricardo Palma.">
-    <title>@yield('title', config('app.name', 'I.E.I. N° 31756 Ricardo Palma'))</title>
+
+    <meta name="description" content="@yield('meta_description', 'Portal oficial de la I.E.I. N.° 31756 Ricardo Palma en Chaupimarca, Pasco. Conoce nuestra historia, plana docente, noticias y actividades.')">
+
+    <title>@yield('title', 'I.E.I. N° 31756 Ricardo Palma - Cerro de Pasco')</title>
+
     <link rel="icon" type="image/png" href="{{ asset('images/logo_color.png') }}?v=1">
+
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@yield('title', 'I.E.I. N° 31756 Ricardo Palma')">
+    <meta property="og:description" content="@yield('meta_description', 'Portal oficial de la I.E.I. N.° 31756 Ricardo Palma en Chaupimarca, Pasco.')">
+    <meta property="og:image" content="{{ asset('images/logo_color.png') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="I.E.I. 31756 Ricardo Palma">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
