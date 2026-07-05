@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Galeria;
 
 class PageController extends Controller
 {
@@ -31,6 +32,7 @@ class PageController extends Controller
 
     public function galeria()
     {
-        return view('galeria');
+        $imagenes = Galeria::latest()->paginate(4);
+        return view('galeria', compact('imagenes'));
     }
 }

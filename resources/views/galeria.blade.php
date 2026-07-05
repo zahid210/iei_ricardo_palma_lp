@@ -12,48 +12,36 @@
                 Momentos destacados de nuestra comunidad educativa.
             </p>
 
-            <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6" data-reveal data-stagger>
-                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/galeria_1.jpg') }}"
-                         alt="Reconocimiento académico de estudiante ricardino"
-                         class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
-                         loading="lazy">
-                </article>
+            <div class="mt-10 relative">
 
-                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/galeria_2.jpg') }}"
-                         alt="Equipo femenino campeón de futsal"
-                         class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
-                         loading="lazy">
-                </article>
+                {{-- GRID DINÁMICO CON TU DISEÑO BENTO BOX --}}
+                <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6" data-reveal data-stagger>
+                    @foreach($imagenes as $item)
+                        <article class="break-inside-avoid group relative overflow-hidden rounded-xl shadow-lg opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                            {{-- La imagen se ajusta al ancho del contenedor y mantiene su altura original --}}
+                            <img src="{{ asset('storage/' . $item->imagen_path) }}"
+                                 alt="{{ $item->titulo }}"
+                                 class="w-full h-auto block transition-transform duration-700 ease-in-out group-hover:scale-105"
+                                 loading="lazy">
 
-                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/galeria_3.jpg') }}"
-                         alt="Equipo masculino campeón de futsal"
-                         class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
-                         loading="lazy">
-                </article>
+                            {{-- Overlay sutil para elegancia --}}
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
+                        </article>
+                    @endforeach
+                </div>
 
-                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/galeria_4_2.jpg') }}"
-                         alt="Campeon karate"
-                         class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
-                         loading="lazy">
-                </article>
+                {{-- DOTS DINÁMICOS (PAGINACIÓN) --}}
+                @if($imagenes->hasPages())
+                    <div class="mt-12 flex items-center justify-center gap-3">
+                        @foreach(range(1, $imagenes->lastPage()) as $i)
+                            <a href="{{ $imagenes->url($i) }}"
+                               class="h-3 w-3 rounded-full transition-colors {{ $imagenes->currentPage() === $i ? 'bg-ricardo-teal' : 'border border-ricardo-teal bg-transparent hover:bg-ricardo-teal/30' }}"
+                               aria-label="Página {{ $i }}">
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
 
-                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/galeria_5.jpg') }}"
-                         alt="Campeon primer puesto"
-                         class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
-                         loading="lazy">
-                </article>
-
-                <article class="group overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-500 ease-out">
-                    <img src="{{ asset('images/galeria_6.jpg') }}"
-                         alt="Campeona primer puesta"
-                         class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
-                         loading="lazy">
-                </article>
             </div>
         </div>
     </section>
