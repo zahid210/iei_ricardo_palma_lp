@@ -3,16 +3,16 @@
 namespace App\Mail;
 
 use App\Models\Contact;
-use Illuminate\Bus\Queueable; // <- Volvemos a importar esto
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels; // <- Y esto
+use Illuminate\Queue\SerializesModels;
 
 class ContactNotification extends Mailable
 {
-    use Queueable, SerializesModels; // <- Los declaramos aquí adentro
+    use Queueable, SerializesModels;
 
     public $contact;
 
