@@ -1,0 +1,53 @@
+name: Desplegar a cPanel
+# ---------------------------------------------------------------------------
+#  Al hacer push a "main" sube automaticamente los cambios a cPanel por FTPS.
+#  Tambien se puede lanzar a mano desde la pestana "Actions" (workflow_dispatch),
+#  que hace una sincronizacion COMPLETA (util para la primera vez).
+#
+#  Requiere 3 Secrets en el repo (Settings > Secrets and variables > Actions):
+#     FTP_HOST   (ej: ftp.iericardopalmapasco.edu.pe)
+#     FTP_USER   (ej: deploy@iericardopalmapasco.edu.pe)
+#     FTP_PASS   (contrasena de esa cuenta FTP)
+# ---------------------------------------------------------------------------
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Evita dos despliegues a la vez
+concurrency:
+  group: deploy-cpanel
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy por FTPS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      # historial completo: permite calcular el diff
+
+      - name: Instalar lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp
+
+      - name: Calcular modo de despliegue
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "MODE=full" >> "$GITHUB_ENV"
+          elif [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
+            echo "MODE=full" >> "$GITHUB_ENV"
+          else
+            echo "MODE=diff" >> "$GITHUB_ENV"
+          fi
+          echo "BEFORE=${{ github.event.before }}" >> "$GITHUB_ENV"
+          echo "SHA=${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Desplegar por FTPS
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: bash deploy/deploy.sh
