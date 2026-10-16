@@ -1,5 +1,19 @@
 <?php
 
+// ---------------------------------------------------------------------------
+//  ATENCION: este index.php es el de DESARROLLO LOCAL (php artisan serve).
+//
+//  La version que se publica en el servidor NO es esta: la app vive en
+//  /ricardo_palma_core y el document root en /public_html, asi que en
+//  produccion se usa una copia con rutas distintas que esta en:
+//
+//        deploy/public_html/index.php
+//
+//  Si necesitas cambiar el arranque en PRODUCCION, edita ese archivo
+//  (este esta excluido del despliegue). El .htaccess, en cambio, SI se
+//  despliega desde public/.htaccess.
+// ---------------------------------------------------------------------------
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 

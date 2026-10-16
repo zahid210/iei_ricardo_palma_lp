@@ -14,8 +14,11 @@
 #
 #  Reglas de seguridad (NUNCA se tocan):
 #    .env*, vendor/, node_modules/, storage/, bootstrap/cache/,
-#    public/build/, .git*, y los archivos personalizados del servidor
-#    (public_html/index.php y public_html/.htaccess se toman de deploy/).
+#    public/build/, .git*, tests/, y public/index.php (el index.php de
+#    produccion se toma de deploy/public_html/index.php porque en el hosting
+#    la app vive en /ricardo_palma_core).
+#
+#  public/.htaccess SI se despliega (a /public_html/.htaccess).
 # ---------------------------------------------------------------------------
 set -euo pipefail
 
@@ -34,11 +37,12 @@ SHA="${SHA:-$(git rev-parse HEAD 2>/dev/null || echo '')}"
 remote_path() {
   case "$1" in
     .github/*|deploy/*)                  return 1 ;;
-    public/index.php|public/.htaccess)   return 1 ;;   # los aporta deploy/public_html
+    public/index.php)                    return 1 ;;   # lo aporta deploy/public_html/index.php
     public/build/*)                      return 1 ;;   # compilado en el servidor
     .env|.env.*|vendor/*|node_modules/*) return 1 ;;
     storage/*|bootstrap/cache/*)         return 1 ;;   # datos/estado del servidor
-    .phpunit.result.cache)               return 1 ;;
+    tests/*)                             return 1 ;;   # no se suben los tests al servidor
+    .phpunit.result.cache|phpunit.xml)   return 1 ;;
     public/*) printf '%s/%s\n' "$PUB_DIR" "${1#public/}" ;;
     *)        printf '%s/%s\n' "$APP_DIR" "$1" ;;
   esac
@@ -100,8 +104,9 @@ else
 fi
 
 # ---------- archivos personalizados del servidor (siempre al dia) ----------
+# El unico archivo que no puede venir tal cual del repo es public/index.php
+# (en produccion la app vive en /ricardo_palma_core, no en el directorio padre).
 queue_put "deploy/public_html/index.php" "$PUB_DIR/index.php"; PUTS=$((PUTS+1))
-queue_put "deploy/public_html/.htaccess" "$PUB_DIR/.htaccess"; PUTS=$((PUTS+1))
 
 echo ">> Archivos a subir: $PUTS | a borrar: $DELS"
 echo "quit" >> "$LFTP_SCRIPT"

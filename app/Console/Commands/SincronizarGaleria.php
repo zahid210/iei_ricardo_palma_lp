@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Galeria;
 
 class SincronizarGaleria extends Command
@@ -31,6 +32,9 @@ class SincronizarGaleria extends Command
                 $this->info("Agregado: " . $filename);
             }
         }
+
+        // Invalida la caché de la galería para que las nuevas fotos se vean de inmediato.
+        Cache::forget('galeria:todas');
 
         $this->info('¡Sincronización completada!');
     }
