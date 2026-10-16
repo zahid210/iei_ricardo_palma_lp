@@ -50,7 +50,8 @@ remote_path() {
 
 # ---------- construir el script de lftp ----------
 LFTP_SCRIPT="$(mktemp)"
-trap 'rm -f "$LFTP_SCRIPT"' EXIT
+VERSION_FILE="$(mktemp)"
+trap 'rm -f "$LFTP_SCRIPT" "$VERSION_FILE"' EXIT
 
 {
   echo "set ftp:ssl-force true"
@@ -107,6 +108,15 @@ fi
 # El unico archivo que no puede venir tal cual del repo es public/index.php
 # (en produccion la app vive en /ricardo_palma_core, no en el directorio padre).
 queue_put "deploy/public_html/index.php" "$PUB_DIR/index.php"; PUTS=$((PUTS+1))
+
+# Marcador de version (SHA del commit): se sube SIEMPRE, en cada despliegue.
+# El middleware CacheResponse lo lee para invalidar la cache de respuestas HTML
+# automaticamente. NO se usa public_path('index.php'): en este hosting el public/
+# de la app (/ricardo_palma_core/public) NO es el document root (/public_html),
+# asi que ese archivo no existe y su filemtime era siempre 0 (cache que nunca se
+# invalidaba).
+printf '%s' "${SHA:-sin-sha}" > "$VERSION_FILE"
+queue_put "$VERSION_FILE" "$APP_DIR/deploy-version.txt"; PUTS=$((PUTS+1))
 
 echo ">> Archivos a subir: $PUTS | a borrar: $DELS"
 echo "quit" >> "$LFTP_SCRIPT"

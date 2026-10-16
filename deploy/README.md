@@ -95,10 +95,16 @@ Listo: en ~1 minuto los cambios están en el sitio.
   invalida sola en cada despliegue** y al navegador se le pide que revalide
   siempre (`max-age=0`). Resultado: los cambios se ven **al instante** y el sitio
   sigue rápido (el servidor evita BD + Blade).
-- **Galería**: los datos se cachean 12 h y se refrescan al sincronizar
-  (`SincronizarGaleria`).
+  - **Cómo funciona la invalidación:** `deploy/deploy.sh` escribe el **SHA del
+    commit** en `deploy-version.txt` (raíz de la app) y lo sube **siempre**. El
+    middleware lee ese archivo y lo mete en la clave de caché, así que cada push
+    invalida la caché anterior. **No** se usa `public_path('index.php')`: en este
+    hosting partido ese archivo **no existe** (ver más abajo), así que su
+    `filemtime` era siempre `0` y la caché **nunca** se invalidaba.
 - `CACHE_STORE=database` (el `.env`). La tabla `cache` ya existe; no hay que
   hacer nada. Alternativa opcional: `file` (algo más rápido).
+- **Galería**: los datos se cachean 12 h y se refrescan al sincronizar
+  (`SincronizarGaleria`).
 - ⚠️ **Nunca cachees objetos Eloquent** (modelos o Collections). Laravel 13 ya no
   deserializa clases desde la caché por defecto
   (`config/cache.php`: `'serializable_classes' => false`, por seguridad). Un objeto
@@ -116,3 +122,30 @@ Listo: en ~1 minuto los cambios están en el sitio.
 No se suben. Se generan/compilan **en el servidor** y ya están ahí. Si algún día
 cambian dependencias (`composer.json`) o el front-end (`package.json`, Vite),
 hay que actualizarlos en el servidor por separado (no hay shell/SSH).
+
+### ⚠️ El `public/` de la app NO es el document root (ojo con Vite)
+
+En producción `public_path()` resuelve a `/ricardo_palma_core/public`, pero el
+document root real es `/public_html`. Son **dos carpetas distintas**:
+
+| Carpeta | Para qué sirve |
+|---|---|
+| `/public_html/` | document root: sirve `index.php`, `.htaccess`, `build/assets/`, `images/`, `storage/` |
+| `/ricardo_palma_core/public/` | **solo** `build/manifest.json` (+ `assets/`), que es lo que lee Vite |
+
+Consecuencias prácticas:
+
+- `@vite` lee el manifest de `public_path('build/manifest.json')` =
+  `/ricardo_palma_core/public/build/manifest.json`, pero el navegador pide los
+  assets a `/public_html/build/assets/*`. **Al reconstruir el front-end hay que
+  subir la carpeta `build/` a LOS DOS sitios**, o el manifest y los assets
+  quedarán desincronizados.
+- Cualquier código que use `public_path()` (crear archivos, `storage:link`…)
+  apunta a `/ricardo_palma_core/public`, **no** al sitio público. No lo uses para
+  servir/generar archivos del docroot.
+- Por eso la invalidación de caché **no** usa `public_path('index.php')` (ahí no
+  existe) sino el marcador `deploy-version.txt`.
+
+Mejora opcional (a valorar, no hecha para no arriesgar un sitio que hoy funciona):
+llamar a `$app->usePublicPath('/home/iericard/public_html')` en
+`bootstrap/app.php` unificaría todo (un solo `build/`, `public_path()` = docroot).
