@@ -219,88 +219,88 @@
                 <!-- Director -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/walter_porras.png') }}" alt="Dr. Walter Porras Ramirez"
+                        <img src="{{ asset('images/equipo/walter_porras.png') }}" alt="Walter Porras Ramirez"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Dr. Walter Porras Ramirez</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Walter Porras Ramirez</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-red">Director</p>
                 </article>
 
                 <!-- Sub Director -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/nicolas_espinoza.png') }}" alt="Dr. Nicolas Espinoza Suarez"
+                        <img src="{{ asset('images/equipo/nicolas_espinoza.png') }}" alt="Nicolas Espinoza Suarez"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Dr. Nicolas Espinoza Suarez</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Nicolas Espinoza Suarez</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Sub Director</p>
                 </article>
 
                 <!-- Coordinador Pedagógico -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/adrian_tamara.png') }}" alt="Dr. Adrián Támara Trinidad"
+                        <img src="{{ asset('images/equipo/adrian_tamara.png') }}" alt="Adrián Támara Trinidad"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Dr. Adrián Támara Trinidad</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Adrián Támara Trinidad</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinador Pedagógico</p>
                 </article>
 
                 <!-- Coordinadora de Ciencias -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/rayda_rivas.png') }}" alt="Dra. Rayda Rivas Solorzano"
+                        <img src="{{ asset('images/equipo/rayda_rivas.png') }}" alt="Rayda Rivas Solorzano"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Dra. Rayda Rivas Solorzano</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Rayda Rivas Solorzano</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinadora de Ciencias</p>
                 </article>
 
                 <!-- Coordinadora de TOE -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/carmen_romero.png') }}" alt="Dra. Carmen Romero Garcia"
+                        <img src="{{ asset('images/equipo/carmen_romero.png') }}" alt="Carmen Romero Garcia"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Dra. Carmen Romero Garcia</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Carmen Romero Garcia</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinadora de TOE</p>
                 </article>
 
                 <!-- Coordinadora Nivel Inicial -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/luz_pardave.png') }}" alt="Mg. Luz Pardave Yachas"
+                        <img src="{{ asset('images/equipo/luz_pardave.png') }}" alt="Luz Pardave Yachas"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Mg. Luz Pardave Yachas</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Luz Pardave Yachas</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinadora Nivel Inicial</p>
                 </article>
 
                 <!-- Psicóloga -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/catering_campos.png') }}" alt="Lic. Catering Campos Fernandez"
+                        <img src="{{ asset('images/equipo/catering_campos.png') }}" alt="Catering Campos Fernandez"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Lic. Catering Campos Fernandez</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Catering Campos Fernandez</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Psicóloga</p>
                 </article>
 
                 <!-- CIST -->
                 <article class="group text-center opacity-0 translate-y-8 transition-all duration-500 ease-out">
                     <div class="mx-auto aspect-[3/4] w-full overflow-hidden rounded-sm bg-neutral-200 shadow-xs">
-                        <img src="{{ asset('images/equipo/jean_rajo.png') }}" alt="Tec. Jean Rajo Guzman"
+                        <img src="{{ asset('images/equipo/jean_rajo.png') }}" alt="Jean Rajo Guzman"
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Tec. Jean Rajo Guzman</h3>
+                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Jean Rajo Guzman</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">CIST</p>
                 </article>
 
