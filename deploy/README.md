@@ -99,6 +99,14 @@ Listo: en ~1 minuto los cambios están en el sitio.
   (`SincronizarGaleria`).
 - `CACHE_STORE=database` (el `.env`). La tabla `cache` ya existe; no hay que
   hacer nada. Alternativa opcional: `file` (algo más rápido).
+- ⚠️ **Nunca cachees objetos Eloquent** (modelos o Collections). Laravel 13 ya no
+  deserializa clases desde la caché por defecto
+  (`config/cache.php`: `'serializable_classes' => false`, por seguridad). Un objeto
+  cacheado vuelve como `__PHP_Incomplete_Class` y **rompe la página con error 500**.
+  **Cachea siempre arrays o escalares** (p. ej. `->toArray()`) y reconstruye los
+  modelos con `Galeria::hydrate($array)` si los necesitas. Ojo: el driver de caché
+  de los tests (`array`) **no serializa**, así que este fallo no se ve en tests a
+  menos que fuerces el driver `database`/`file` (ver `tests/Feature/GaleriaCacheTest.php`).
 - En este hosting **no hay shell**, así que no se puede ejecutar
   `php artisan optimize` / `config:cache`; tampoco hace falta (Laravel funciona
   sin cachear config/rutas, y así los cambios aplican al instante).
