@@ -5,15 +5,21 @@ name: Desplegar a cPanel
 #  que hace una sincronizacion COMPLETA (util para la primera vez).
 #
 #  Requiere 3 Secrets en el repo (Settings > Secrets and variables > Actions):
-#     FTP_HOST   (ej: ftp.iericardopalmapasco.edu.pe)
-#     FTP_USER   (ej: deploy@iericardopalmapasco.edu.pe)
+#     FTP_HOST   (ej: ftp.tu-dominio.com)
+#     FTP_USER   (ej: deploy@tu-dominio.com)
 #     FTP_PASS   (contrasena de esa cuenta FTP)
+#  Los valores reales NO se guardan aqui: solo viven en los Secrets del repo
+#  y en cPanel.
 # ---------------------------------------------------------------------------
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
+# Privilegio mínimo: el despliegue solo necesita leer el código.
+permissions:
+  contents: read
 
 # Evita dos despliegues a la vez
 concurrency:

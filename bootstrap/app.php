@@ -1,9 +1,17 @@
 <?php
 
+use App\Support\EntradaSegura;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+
+// ---------------------------------------------------------------------------
+//  Seguridad: descarta cabeceras de entrada peligrosas ANTES de construir la
+//  Request (mitigación del ReDoS CVE-2026-108082 de symfony/http-foundation;
+//  ver App\Support\EntradaSegura para el detalle).
+// ---------------------------------------------------------------------------
+EntradaSegura::sanear();
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(

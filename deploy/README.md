@@ -61,9 +61,12 @@ crear 3 secretos:
 
 | Secret     | Valor                                                        |
 |------------|--------------------------------------------------------------|
-| `FTP_HOST` | `ftp.iericardopalmapasco.edu.pe`                             |
-| `FTP_USER` | `deploy@iericardopalmapasco.edu.pe` (cuenta FTP de despliegue) |
+| `FTP_HOST` | `ftp.tu-dominio.com`                                         |
+| `FTP_USER` | `deploy@tu-dominio.com` (cuenta FTP de despliegue)           |
 | `FTP_PASS` | la contraseña de esa cuenta FTP                              |
+
+> Los valores reales **no** se guardan en el repo (es público): solo viven en los
+> Secrets de GitHub y en cPanel.
 
 > Usa la cuenta FTP **dedicada** de despliegue (no la principal de cPanel), así
 > se puede revocar sin afectar tu acceso.
@@ -147,5 +150,48 @@ Consecuencias prácticas:
   existe) sino el marcador `deploy-version.txt`.
 
 Mejora opcional (a valorar, no hecha para no arriesgar un sitio que hoy funciona):
-llamar a `$app->usePublicPath('/home/iericard/public_html')` en
+llamar a `$app->usePublicPath('/home/USUARIO_CPANEL/public_html')` en
 `bootstrap/app.php` unificaría todo (un solo `build/`, `public_path()` = docroot).
+
+## Seguridad
+
+Refuerzos aplicados (se despliegan solos, no requieren nada manual):
+
+- **`public/.htaccess`** (se despliega) bloquea:
+  - la ejecución de cualquier `.php` que no sea el front controller `index.php`;
+  - los archivos ocultos (`.env`, `.git`, `.htaccess`…) **salvo** `/.well-known/`
+    (lo necesita el certificado SSL/ACME);
+  - extensiones que nunca deben descargarse (`.sql`, `.log`, `.bak`, `.ini`,
+    `.yml`, `.sh`, `.lock`, `.md`, `.map`, …).
+- Cabeceras de seguridad: HSTS, `X-Content-Type-Options`, `X-Frame-Options`,
+  `Referrer-Policy`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`,
+  `Cross-Origin-Resource-Policy`, `X-Permitted-Cross-Domain-Policies` y una
+  **Content-Security-Policy** con lista blanca (assets propios de Vite,
+  `maps.googleapis.com` para el mapa estático y `connect.facebook.net` /
+  `facebook.com` para el plugin de Facebook de `/noticias`).
+- **`public/robots.txt`** ya no anuncia rutas internas (`/admin`, `/login`…): no
+  existen y solo eran una pista para atacantes.
+- El repo está **genericizado**: no contiene hosts, usuarios ni rutas reales
+  (esos valores viven en los Secrets de GitHub y en cPanel).
+
+### Mitigación ReDoS — CVE-2026-108082
+
+`symfony/http-foundation < 8.1.7` sufre backtracking catastrófico en
+`HeaderUtils::split()`, alcanzable **por cualquier visitante anónimo** con una
+cabecera `Cache-Control` maliciosa: PHP la parsea en cada petición al construir la
+`HeaderBag` desde `$_SERVER`. Como el hosting no tiene shell (no se puede tocar
+`vendor/`), `bootstrap/app.php` **descarta la cabecera `Cache-Control` de entrada**
+antes de crear la `Request`. El refresco manual de caché pasó a la cabecera
+`X-Cache-Refresh: 1`.
+
+El arreglo definitivo es actualizar la dependencia y subir el `vendor/`:
+
+```
+composer update guzzlehttp/guzzle guzzlehttp/psr7 guzzlehttp/promises \
+    league/commonmark league/flysystem symfony/http-foundation --with-all-dependencies
+```
+
+Luego hay que **subir por FTPS el `vendor/` resultante a `/ricardo_palma_core/`**
+(el despliegue normal NO toca `vendor/`). Haz copia de seguridad previa y verifica
+el sitio después. En cuanto `vendor/` esté al día, el bloque de mitigación de
+`bootstrap/app.php` puede retirarse.

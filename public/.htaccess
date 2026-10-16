@@ -1,53 +1,96 @@
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+# =============================================================================
+#  .htaccess — I.E.I. Ricardo Palma
+#  Endurecido por seguridad. El hosting usa LiteSpeed (cPanel), que admite
+#  estas directivas de Apache: mod_rewrite, mod_headers y mod_expires.
+#
+#  IMPORTANTE: este archivo es la ÚNICA fuente de verdad y SÍ se despliega
+#  (deploy/deploy.sh lo sube desde public/.htaccess).
+# =============================================================================
 
+<IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+</IfModule>
+
+<IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Fuerza HTTPS (en el hosting el certificado es valido; en local se sirve
-    # con "php artisan serve", que no lee .htaccess, asi que no molesta).
+    # --- 1) HTTPS obligatorio -------------------------------------------------
+    # En el hosting el certificado es válido; en local se sirve con
+    # "php artisan serve", que no lee .htaccess, así que no molesta.
     RewriteCond %{HTTPS} off
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-    # Handle Authorization Header
+    # --- 2) Blindaje: nada que no deba servirse -------------------------------
+    # 2a) Ejecución de PHP SOLO por el front controller (index.php). Cualquier
+    #     otro .php (subido por error, en /storage o /build, etc.) da 403.
+    RewriteCond %{REQUEST_URI} !^/index\.php
+    RewriteRule \.(php|phtml|phar|php[0-9])$ - [F,L,NC]
+
+    # 2b) Archivos ocultos (.env, .git, .htaccess, .user.ini, .vite...), EXCEPTO
+    #     /.well-known/ (lo necesita el certificado SSL / ACME).
+    RewriteRule (^|/)\.(?!well-known(/|$)) - [F,L]
+
+    # 2c) Extensiones que nunca deben descargarse: volcados de BD, configs,
+    #     copias, scripts, mapas de código y metadatos del sistema.
+    RewriteRule \.(sql|sqlite|sqlite3|db|bak|old|orig|save|swp|swo|log|ini|conf|yml|yaml|sh|bash|inc|cgi|pl|py|asp|aspx|jsp|dist|lock|md|map|DS_Store)$ - [F,L,NC]
+
+    # --- 3) Cabeceras de autenticación / CSRF --------------------------------
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Handle X-XSRF-Token Header
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # Redirect Trailing Slashes If Not A Folder...
+    # --- 4) Rutas ------------------------------------------------------------
+    # Quita la barra final sobrante...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # Envía las peticiones al front controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# --- HEADERS DE SEGURIDAD ---
+# --- CABECERAS DE SEGURIDAD ---------------------------------------------------
 <IfModule mod_headers.c>
-    # Elimina la firma de PHP para mayor privacidad
+    # Elimina la firma de PHP
     Header always unset X-Powered-By
 
     # Fuerza a los navegadores a usar siempre HTTPS
-    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 
-    # Evita que el navegador sea engañado para ejecutar archivos maliciosos
-    Header set X-Content-Type-Options "nosniff"
+    # Evita que el navegador adivine el tipo MIME (y ejecute algo peligroso)
+    Header always set X-Content-Type-Options "nosniff"
 
-    # Previene Clickjacking al restringir el uso de iframes
-    Header set X-Frame-Options "SAMEORIGIN"
+    # Anti-clickjacking (complementa frame-ancestors de la CSP)
+    Header always set X-Frame-Options "SAMEORIGIN"
 
     # Controla la información de referencia enviada a sitios externos
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Apaga el auditor XSS de los navegadores antiguos (obsoleto y problemático)
+    Header always set X-XSS-Protection "0"
+
+    # Restringe APIs del navegador que la web no usa
+    Header always set Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+
+    # Aislamiento de contexto y de origen
+    Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+    Header always set Cross-Origin-Resource-Policy "same-origin"
+    Header always set X-Permitted-Cross-Domain-Policies "none"
+
+    # Content Security Policy: la lista blanca es EXACTAMENTE lo que usa la web
+    #   - assets propios que genera Vite en /build          -> 'self'
+    #   - SDK del plugin de Facebook (solo en /noticias)     -> connect.facebook.net
+    #   - mapa estático de Google                            -> maps.googleapis.com
+    #   - iframe del plugin de Facebook                      -> www.facebook.com
+    # Cualquier otro origen (scripts, frames, conexiones) queda bloqueado.
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://*.gstatic.com https://*.facebook.com https://*.fbcdn.net; font-src 'self' data:; connect-src 'self' https://connect.facebook.net https://www.facebook.com; frame-src https://www.facebook.com https://web.facebook.com https://connect.facebook.net; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests"
 </IfModule>
 
-# --- CACHE DE ASSETS ESTATICOS ---
+# --- CACHE DE ASSETS ESTATICOS ------------------------------------------------
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/css "access plus 1 year"

@@ -1,10 +1,5 @@
 User-agent: *
 Allow: /
 
-# Evita que Google intente indexar rutas internas o rutas de procesamiento
-Disallow: /admin
-Disallow: /login
-Disallow: /password/
-
-# Le indica a Google exactamente dónde encontrar el mapa de todas tus URLs
+# Mapa de todas las URLs del sitio
 Sitemap: https://iericardopalmapasco.edu.pe/sitemap.xml

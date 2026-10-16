@@ -37,8 +37,10 @@ class CacheResponse
 
         $key = $this->cacheKey($request);
 
-        // Permite forzar refresco enviando Cache-Control: no-cache desde el cliente.
-        if ($request->header('Cache-Control') === 'no-cache') {
+        // Permite forzar refresco enviando la cabecera propia "X-Cache-Refresh: 1".
+        // (No usamos Cache-Control: la descartamos en bootstrap/app.php como
+        //  mitigación de la ReDoS CVE-2026-108082.)
+        if ($request->header('X-Cache-Refresh') === '1') {
             Cache::forget($key);
         }
 
