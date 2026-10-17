@@ -36,6 +36,21 @@ return [
     ],
     'google' => [
         'maps_key' => env('GOOGLE_MAPS_KEY'),
-    ]
+    ],
+
+    /*
+     * Feed de la página de Facebook que se muestra en /noticias.
+     *
+     * El "Page Plugin" oficial (iframe) dejó de cargar el timeline a nivel
+     * global (solo muestra la cabecera), así que traemos las publicaciones con
+     * la Graph API desde el servidor. El token se genera en el panel de
+     * desarrolladores de Facebook y se guarda SOLO en el .env del servidor
+     * (nunca en el repositorio: el repo es público).
+     */
+    'facebook' => [
+        'page_id' => env('FACEBOOK_PAGE_ID', '279471448578826'),
+        'token' => env('FACEBOOK_PAGE_TOKEN'),
+        'version' => env('FACEBOOK_GRAPH_VERSION', 'v21.0'),
+    ],
 
 ];

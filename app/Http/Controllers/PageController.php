@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Galeria;
+use App\Services\FacebookFeed;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
@@ -23,9 +24,11 @@ class PageController extends Controller
         return view('docentes');
     }
 
-    public function noticias()
+    public function noticias(FacebookFeed $facebook)
     {
-        return view('noticias');
+        return view('noticias', [
+            'facebookPosts' => $facebook->posts(6),
+        ]);
     }
 
     public function contacto()

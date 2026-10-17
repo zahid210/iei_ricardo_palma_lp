@@ -9,6 +9,11 @@ Route::middleware('cache.response:3600')->group(function () {
     Route::get('/', [PageController::class, 'home'])->name('home');
     Route::get('/nosotros', [PageController::class, 'nosotros'])->name('nosotros');
     Route::get('/docentes', [PageController::class, 'docentes'])->name('docentes');
+});
+
+// Noticias: TTL corto. La respuesta HTML lleva dentro el feed de Facebook, así
+// que se regenera seguido para que las publicaciones se refresquen solas.
+Route::middleware('cache.response:900')->group(function () {
     Route::get('/noticias', [PageController::class, 'noticias'])->name('noticias');
 });
 

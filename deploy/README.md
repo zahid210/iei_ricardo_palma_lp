@@ -93,11 +93,13 @@ Listo: en ~1 minuto los cambios están en el sitio.
 
 - **Assets** (`build/`, imágenes, fuentes): caché agresiva definida en
   `public/.htaccess` (Vite: 1 año _immutable_; imágenes: 30 días).
-- **Páginas HTML** (`/`, `/nosotros`, `/docentes`, `/noticias`): se cachean en el
+- **Páginas HTML** (`/`, `/nosotros`, `/docentes`): se cachean en el
   servidor 1 hora (`app/Http/Middleware/CacheResponse.php`), pero **la caché se
   invalida sola en cada despliegue** y al navegador se le pide que revalide
   siempre (`max-age=0`). Resultado: los cambios se ven **al instante** y el sitio
   sigue rápido (el servidor evita BD + Blade).
+  - `/noticias` se cachea solo **15 minutos** (`cache.response:900`), para que el
+    feed de Facebook que lleva dentro se refresque seguido.
   - **Cómo funciona la invalidación:** `deploy/deploy.sh` escribe el **SHA del
     commit** en `deploy-version.txt` (raíz de la app) y lo sube **siempre**. El
     middleware lee ese archivo y lo mete en la clave de caché, así que cada push
@@ -119,6 +121,51 @@ Listo: en ~1 minuto los cambios están en el sitio.
 - En este hosting **no hay shell**, así que no se puede ejecutar
   `php artisan optimize` / `config:cache`; tampoco hace falta (Laravel funciona
   sin cachear config/rutas, y así los cambios aplican al instante).
+
+## Feed de Facebook en `/noticias`
+
+El **"Page Plugin" oficial de Facebook** (el iframe `fb-page`) dejó de cargar el
+timeline **a nivel global**: muestra la cabecera de la página pero deja el área
+de publicaciones en blanco/cargando, en todos los navegadores y también en la
+propia herramienta de desarrolladores de Facebook. No es un fallo del enlace ni
+de nuestro código, y **no se puede arreglar desde nuestro lado**.
+
+Por eso el feed se trae ahora **desde nuestro servidor** con la Graph API
+(`app/Services/FacebookFeed.php`) y se pinta con nuestro propio diseño
+(`resources/views/noticias.blade.php`). Así la sección se ve **siempre** y se
+mantiene **actualizada sola** (se cachea 15 min).
+
+### Activación (una sola vez): token de Facebook
+
+Requiere un **Page Access Token** en el `.env` **del servidor** (no en el repo,
+que es público):
+
+```
+FACEBOOK_PAGE_ID=279471448578826
+FACEBOOK_PAGE_TOKEN=...
+FACEBOOK_GRAPH_VERSION=v21.0
+```
+
+Cómo obtenerlo:
+
+1. Entra con la cuenta que **administra la página** en
+   <https://developers.facebook.com/tools/explorer/>.
+2. Permisos: añade `pages_show_list` y `pages_read_engagement`.
+3. Pulsa **Generate Access Token** y autoriza.
+4. En el desplegable **User or Page → Get Page Access Token**, elige la página
+   de la institución y copia el token.
+5. Para que **no caduque**, pégalo en
+   <https://developers.facebook.com/tools/debug/accesstoken/> y pulsa
+   **Extend Access Token** (obtienes uno de larga duración); vuelve a pedir el
+   Page Token con ese.
+6. Añade `FACEBOOK_PAGE_TOKEN` al `.env` del servidor (cPanel) y guarda.
+
+**Sin token** la sección no se rompe: muestra un aviso con un botón
+"Ver publicaciones en Facebook". En cuanto el token exista, el feed aparece solo
+(no hay que tocar código ni desplegar).
+
+> El token **no** se guarda en el repositorio. Si algún día se revoca o caduca,
+> basta con generar otro y actualizar el `.env`.
 
 ## Qué pasa con `vendor/` y `public/build/`
 
@@ -167,8 +214,8 @@ Refuerzos aplicados (se despliegan solos, no requieren nada manual):
   `Referrer-Policy`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`,
   `Cross-Origin-Resource-Policy`, `X-Permitted-Cross-Domain-Policies` y una
   **Content-Security-Policy** con lista blanca (assets propios de Vite,
-  `maps.googleapis.com` para el mapa estático y `connect.facebook.net` /
-  `facebook.com` para el plugin de Facebook de `/noticias`).
+  `maps.googleapis.com` para el mapa estático y `*.fbcdn.net` para las imágenes
+  del feed de Facebook de `/noticias`).
 - **`public/robots.txt`** ya no anuncia rutas internas (`/admin`, `/login`…): no
   existen y solo eran una pista para atacantes.
 - El repo está **genericizado**: no contiene hosts, usuarios ni rutas reales

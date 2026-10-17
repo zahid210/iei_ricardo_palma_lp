@@ -3,9 +3,6 @@
 @section('title', 'Noticias | I.E.I. N° 31756 Ricardo Palma')
 @section('meta_description', 'Entérate de las últimas novedades, eventos institucionales, comunicados de admisión y actividades escolares de nuestra comunidad ricardina en Pasco.')
 @section('content')
-    {{-- Elemento raíz requerido para el SDK de Facebook --}}
-    <div id="fb-root"></div>
-
     {{-- CUERPO DE NOTICIAS --}}
     <section class="py-10 sm:py-14 bg-neutral-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -37,30 +34,66 @@
                             </a>
                         </div>
 
-                        {{-- Widget Page Plugin con hack scale (Totalmente nítido y Responsivo) --}}
+                        {{-- Publicaciones reales de Facebook (traídas por nuestro servidor) --}}
                         <div class="bg-neutral-50 p-4 sm:p-6">
-                            <div id="fb-scale-wrap" class="relative w-full overflow-hidden">
-                                <div id="fb-scale-inner" style="width:500px; margin:0 auto; transform-origin:top center">
-                                    <div class="fb-page"
-                                         data-href="https://www.facebook.com/ricardinosemprendeores"
-                                         data-tabs="timeline,events"
-                                         data-width="500"
-                                         data-height="800"
-                                         data-small-header="false"
-                                         data-adapt-container-width="true"
-                                         data-hide-cover="false"
-                                         data-show-facepile="true"
-                                         data-lazy="true">
-                                        <blockquote cite="https://www.facebook.com/ricardinosemprendeores"
-                                                    class="fb-xfbml-parse-ignore">
-                                            <a href="https://www.facebook.com/ricardinosemprendeores"
-                                               class="block p-4 text-center font-serif text-xs text-neutral-400">
-                                                Cargando publicaciones desde Facebook…
-                                            </a>
-                                        </blockquote>
-                                    </div>
+                            @if(!empty($facebookPosts))
+                                <div class="space-y-4">
+                                    @foreach($facebookPosts as $post)
+                                        <article class="bg-white border border-neutral-100/60 rounded-xs p-5 shadow-xs">
+                                            <div class="mb-3 flex items-center gap-2">
+                                                <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#1877F2]">
+                                                    <svg class="h-3.5 w-3.5 fill-current text-white" viewBox="0 0 24 24">
+                                                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                                    </svg>
+                                                </span>
+                                                <div>
+                                                    <p class="font-system text-xs font-bold leading-tight text-neutral-800">
+                                                        I.E.I. 31756 Ricardo Palma
+                                                    </p>
+                                                    @if($post['date'])
+                                                        <p class="font-serif text-[11px] text-neutral-400">{{ $post['date'] }}</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            @if($post['message'])
+                                                <p class="whitespace-pre-line font-serif text-sm leading-relaxed text-neutral-700">{{ $post['message'] }}</p>
+                                            @endif
+
+                                            @if($post['image'])
+                                                <img src="{{ $post['image'] }}"
+                                                     alt="Publicación de la I.E.I. Ricardo Palma"
+                                                     loading="lazy"
+                                                     class="mt-3 w-full rounded-xs border border-neutral-100 object-cover">
+                                            @endif
+
+                                            @if($post['permalink_url'])
+                                                <a href="{{ $post['permalink_url'] }}" target="_blank" rel="noopener noreferrer"
+                                                   class="mt-3 inline-block font-system text-xs font-bold text-[#1877F2] transition-colors hover:text-[#166FE5]">
+                                                    Ver publicación en Facebook &rarr;
+                                                </a>
+                                            @endif
+                                        </article>
+                                    @endforeach
                                 </div>
-                            </div>
+                            @else
+                                <div class="flex flex-col items-center justify-center gap-3 py-10 text-center">
+                                    <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#1877F2]">
+                                        <svg class="h-5 w-5 fill-current text-white" viewBox="0 0 24 24">
+                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                        </svg>
+                                    </span>
+                                    <p class="max-w-sm font-serif text-sm leading-relaxed text-neutral-500">
+                                        Síguenos en nuestra página oficial de Facebook para no perderte ningún
+                                        comunicado ni actividad.
+                                    </p>
+                                    <a href="https://www.facebook.com/ricardinosemprendeores" target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="inline-flex items-center gap-2 rounded-sm bg-[#1877F2] px-5 py-2.5 font-system text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-colors hover:bg-[#166FE5]">
+                                        Ver publicaciones en Facebook
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -118,22 +151,22 @@
                         </p>
                     </div>
 
-                    {{-- Tarjeta 3: Ad-blocker Fallback --}}
+                    {{-- Tarjeta 3: Actualización automática --}}
                     <div class="bg-white p-5 shadow-sm border border-neutral-100/60 rounded-xs opacity-0 translate-y-6 transition-all duration-500 ease-out">
                         <div class="flex items-start gap-3">
-                            <div class="flex h-8 w-8 shrink-0 items-center justify-center bg-amber-50 rounded-sm">
-                                <svg class="h-4 w-4 text-amber-600" viewBox="0 0 24 24" fill="none"
-                                     stroke="currentColor" stroke-width="2">
-                                    <path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            <div class="flex h-8 w-8 shrink-0 items-center justify-center bg-ricardo-teal/10 rounded-sm">
+                                <svg class="h-4 w-4 text-ricardo-teal" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 0 0 4.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 0 1-15.357-2m15.357 2H15"/>
                                 </svg>
                             </div>
                             <div>
                                 <h4 class="font-system text-xs font-bold text-neutral-800 uppercase tracking-wide">
-                                    ¿No ves las noticias?
+                                    Actualizado automáticamente
                                 </h4>
                                 <p class="mt-1 font-serif text-xs leading-relaxed text-neutral-500 text-justify">
-                                    Si utilizas un bloqueador de publicidad en tu navegador, el complemento de Facebook
-                                    podría verse restringido. Accede directamente de forma segura.
+                                    Esta sección muestra las publicaciones más recientes de nuestra página de
+                                    Facebook y se actualiza sola.
                                 </p>
                                 <a href="https://www.facebook.com/ricardinosemprendeores"
                                    target="_blank" rel="noopener noreferrer"
@@ -150,11 +183,14 @@
                             <span class="font-system text-xs font-bold uppercase tracking-wider text-neutral-500">
                                 Compartir
                             </span>
-                            <div class="fb-share-button"
-                                 data-href="https://www.facebook.com/ricardinosemprendeores"
-                                 data-layout="button"
-                                 data-size="large">
-                            </div>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                               target="_blank" rel="noopener noreferrer"
+                               class="inline-flex items-center gap-2 rounded-sm bg-[#1877F2] px-4 py-2 font-system text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-colors hover:bg-[#166FE5]">
+                                <svg class="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </a>
                         </div>
                     </div>
 
@@ -163,9 +199,3 @@
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v21.0">
-    </script>
-@endpush
