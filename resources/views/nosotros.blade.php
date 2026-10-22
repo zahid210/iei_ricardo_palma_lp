@@ -3,30 +3,59 @@
 @section('title', 'Nosotros | I.E.I. N° 31756 Ricardo Palma')
 @section('meta_description', 'Conoce la visión, misión e historia de la I.E.I. Ricardo Palma de Chaupimarca. Formando estudiantes con valores en la región Pasco.')
 @section('content')
-    <!-- Hero / Encabezado de Nosotros -->
-    <section class="bg-white pt-6 pb-10 sm:pt-10 sm:pb-12">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <article
-                class="relative flex flex-col items-center justify-center bg-neutral-50 px-8 py-14 text-center sm:min-h-64 lg:min-h-[20rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
-                data-reveal>
+    <!-- BANNER INSTITUCIONAL -->
+    <section class="institution-hero">
+        <div class="institution-overlay"></div>
 
-                <!-- Detalle decorativo superior derecho con entrada retrasada -->
-                <div class="absolute right-0 top-0 flex h-32 w-8 [clip-path:polygon(0_0,_100%_0,_100%_100%,_0_84%)] sm:h-40 sm:w-10 opacity-0 -translate-y-6 transition-all duration-700 delay-300 ease-out"
-                     data-reveal>
-                    <span class="h-full w-1/2 bg-ricardo-teal"></span>
-                    <span class="h-full w-1/2 bg-ricardo-red"></span>
-                </div>
+        <div class="institution-content">
+            <span class="institution-eyebrow">
+                CONOCE NUESTRA INSTITUCIÓN
+            </span>
 
-                <h1 class="font-mate text-3xl leading-tight text-neutral-800 sm:text-4xl lg:text-5xl">
-                    Innovación y Excelencia Educativa
-                </h1>
-                <p class="mx-auto mt-5 max-w-3xl text-sm leading-relaxed text-neutral-700 sm:text-base">
-                    En la institución, nos enorgullece ofrecer una educación que combina lo mejor de la innovación
-                    tecnológica con un enfoque en la excelencia académica. Nuestro objetivo es preparar a los
-                    estudiantes no solo para superar los desafíos académicos, sino también para convertirse en líderes y
-                    ciudadanos responsables en un mundo en constante cambio.
-                </p>
-            </article>
+            <h1>
+                Innovación y
+                <span class="text-highlight">Excelencia</span>
+                Educativa
+            </h1>
+
+            <p>
+                Preparamos a los estudiantes para ser líderes y ciudadanos
+                responsables en un mundo en constante cambio.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PRESENTACIÓN -->
+    <section class="institution-intro">
+        <div class="intro-content">
+
+            <div class="intro-icon" aria-hidden="true">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-2-5.8L4 11l6-2.2L12 3Z"/>
+                    <path d="m19 2 .8 2.2L22 5l-2.2.8L19 8l-.8-2.2L16 5l2.2-.8L19 2Z"/>
+                    <path d="m5 16 .7 1.8L8 18.5l-2.3.7L5 21l-.7-1.8-2.3-.7 2.3-.7L5 16Z"/>
+                </svg>
+            </div>
+
+            <p>
+                En la institución, nos enorgullece ofrecer una educación
+                que combina lo mejor de la innovación tecnológica con un
+                enfoque en la excelencia académica. Nuestro objetivo es
+                preparar a los estudiantes no solo para superar los desafíos
+                académicos, sino también para convertirse en líderes y
+                ciudadanos responsables en un mundo en constante cambio.
+            </p>
+
         </div>
     </section>
 
