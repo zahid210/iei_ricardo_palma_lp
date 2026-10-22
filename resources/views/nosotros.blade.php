@@ -19,16 +19,14 @@
             </h1>
 
             <p>
-                En la institución, nos enorgullece ofrecer una educación que combina lo mejor de la innovación
-                tecnológica con un enfoque en la excelencia académica. Nuestro objetivo es preparar a los
-                estudiantes no solo para superar los desafíos académicos, sino también para convertirse en líderes y
-                ciudadanos responsables en un mundo en constante cambio.
+                Preparamos a los estudiantes para ser líderes y ciudadanos
+                responsables en un mundo en constante cambio.
             </p>
         </div>
     </section>
 
     <!-- SECCIÓN DE PRESENTACIÓN -->
-    <section class="institution-intro" style="display:none;">
+    <section class="institution-intro">
         <div class="intro-content">
 
             <div class="intro-icon" aria-hidden="true">

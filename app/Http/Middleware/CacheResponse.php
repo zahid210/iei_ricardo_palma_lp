@@ -31,6 +31,10 @@ class CacheResponse
 {
     public function handle(Request $request, Closure $next, int $ttl = 3600): Response
     {
+        if (app()->environment('local')) {
+            return $next($request);
+        }
+
         if (! $this->shouldCache($request)) {
             return $next($request);
         }
