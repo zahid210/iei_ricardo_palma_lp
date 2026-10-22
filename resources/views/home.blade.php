@@ -3,10 +3,8 @@
 @section('title', 'I.E.I. N° 31756 Ricardo Palma')
 @section('meta_description', 'Bienvenidos a la página de la Institución Educativa Integrada N° 31756 Ricardo Palma en Cerro de Pasco. Conoce nuestro compromiso con la educación.')
 @section('content')
-    <!-- Hero Section Estándar con Look Premium (Slider Automático) -->
-    <section role="region" aria-roledescription="carousel" aria-label="Galería institucional" aria-live="polite" class="relative w-full overflow-hidden bg-ricardo-teal h-[30rem] sm:h-[36rem] md:h-[40rem] lg:h-[44rem]" data-hero-slider>
-
-        <div class="absolute inset-0 z-20 bg-black/10 pointer-events-none"></div>
+    <!-- Hero Section con contenido + Slider Automático -->
+    <section role="region" aria-roledescription="carousel" aria-label="Galería institucional" aria-live="polite" class="relative flex min-h-[30rem] w-full items-center overflow-hidden bg-ricardo-teal sm:min-h-[36rem] md:min-h-[40rem] lg:min-h-[44rem]" data-hero-slider>
 
         <!-- Slide 1 -->
         <img
@@ -34,6 +32,55 @@
             data-hero-slide
             loading="lazy"
         >
+
+        <!-- Filtro oscuro sobre la fotografía -->
+        <div class="pointer-events-none absolute inset-0 z-20 bg-linear-to-r from-[#2b2d2b]/82 via-[#2b2d2b]/63 to-[#2b2d2b]/35"></div>
+
+        <!-- Contenido principal -->
+        <div class="relative z-30 mx-auto w-full max-w-[968px] px-6 pb-[30px] pt-[50px] lg:px-0 lg:pb-[38px] lg:pt-[60px]">
+
+            {{-- Etiqueta superior --}}
+            <span class="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/28 bg-white/12 px-3.5 py-[7px] font-system text-[10px] font-bold uppercase tracking-[2px] text-white">
+                <span class="h-[7px] w-[7px] flex-shrink-0 rounded-full bg-ricardo-yellow"></span>
+                I.E.I. N.° 31756 — Cerro de Pasco
+            </span>
+
+            <h1 class="mb-[18px] max-w-[680px] text-[clamp(36px,4.4vw,58px)] font-normal leading-[1.13] tracking-[0.5px] text-white [font-variant:small-caps]">
+                Formando Ricardinos
+                <span class="mt-[7px] block text-[0.72em] leading-[1.18] text-ricardo-yellow">
+                    comprometidos con su comunidad
+                </span>
+            </h1>
+
+            <p class="mb-[30px] mt-5 max-w-[560px] text-[15px] leading-[1.45] text-[#e7e5e0] sm:text-[16px]">
+                Educación Inicial, Primaria y Secundaria basada en valores, innovación y Jornada Escolar
+                Completa para un futuro brillante.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-[13px] max-[420px]:flex-col max-[420px]:items-stretch">
+                <a href="#niveles"
+                   class="inline-flex min-h-[45px] items-center justify-center gap-3 border border-ricardo-teal bg-ricardo-teal px-[25px] text-[14px] text-[#061e1b] no-underline transition-colors duration-300 hover:border-ricardo-teal-dark hover:bg-ricardo-teal-dark hover:text-white max-[420px]:w-full">
+                    Conoce Nuestros Niveles
+                    <span class="text-[18px]" aria-hidden="true">&rarr;</span>
+                </a>
+
+                <a href="{{ route('noticias') }}"
+                   class="inline-flex min-h-[45px] min-w-[163px] items-center justify-center border border-white/38 bg-white/6 px-[25px] text-[14px] text-white/85 transition-colors duration-300 hover:bg-white/18 hover:text-white max-[420px]:w-full">
+                    Últimas Noticias
+                </a>
+            </div>
+
+            {{-- Indicadores del carrusel --}}
+            <div class="mt-[38px] flex items-center gap-[9px] lg:mt-[50px]" role="group" aria-label="Seleccionar imagen del carrusel">
+                @foreach([1, 2, 3] as $numero)
+                    <button type="button"
+                            data-hero-indicator
+                            data-active="{{ $loop->first ? 'true' : 'false' }}"
+                            aria-label="Diapositiva {{ $numero }}"
+                            class="h-[5px] w-[13px] cursor-pointer rounded-[5px] border-0 bg-[#e1e1cd]/55 p-0 transition-all duration-300 data-[active=true]:w-[32px] data-[active=true]:bg-ricardo-yellow"></button>
+                @endforeach
+            </div>
+        </div>
     </section>
 
     <section class="bg-white py-10 sm:py-12 lg:py-14">
@@ -47,11 +94,11 @@
                     <span class="h-full w-1/2 bg-ricardo-teal"></span>
                     <span class="h-full w-1/2 bg-ricardo-red"></span>
                 </div>
-                <h1 class="font-mate text-3xl leading-tight text-neutral-800 sm:text-4xl lg:text-5xl">
+                <h2 class="font-mate text-3xl leading-tight text-neutral-800 sm:text-4xl lg:text-5xl">
                     “Ser Ricardino,<br>
                     es ser cada día<br>
                     mejor”
-                </h1>
+                </h2>
             </article>
 
             <figure role="region" aria-roledescription="carousel" aria-label="Estudiante destacada" class="relative w-full min-h-64 overflow-hidden sm:min-h-80 lg:min-h-[28rem] opacity-0 translate-y-8 transition-all duration-700 ease-out"
@@ -133,7 +180,7 @@
     </section>
 
     <!-- Sección Niveles (Efecto Cascada / Stagger Activado) -->
-    <section id="niveles" class="bg-white py-8 sm:py-10">
+    <section id="niveles" class="scroll-mt-28 bg-white py-8 sm:py-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Nuestros Niveles</x-section-title>
 

@@ -1,5 +1,6 @@
 let timerId;
 let slides;
+let indicators;
 let currentIndex = 0;
 const slideDuration = 3000;
 
@@ -18,6 +19,16 @@ function setActiveSlide(index) {
             slide.classList.add('transition-opacity', 'duration-[1500ms]', 'ease-in-out', 'opacity-0', 'z-0');
         }
     });
+
+    indicators.forEach((indicator, i) => {
+        indicator.dataset.active = i === index ? 'true' : 'false';
+    });
+}
+
+function goToSlide(index) {
+    currentIndex = index;
+    setActiveSlide(currentIndex);
+    startAutoPlay();
 }
 
 function startAutoPlay() {
@@ -38,11 +49,16 @@ export function initHeroSlider() {
     if (!slider) return;
 
     slides = slider.querySelectorAll('[data-hero-slide]');
+    indicators = slider.querySelectorAll('[data-hero-indicator]');
     if (slides.length <= 1) return;
 
     currentIndex = 0;
     setActiveSlide(0);
     startAutoPlay();
+
+    indicators.forEach((indicator, i) => {
+        indicator.addEventListener('click', () => goToSlide(i));
+    });
 }
 
 export function destroyHeroSlider() {

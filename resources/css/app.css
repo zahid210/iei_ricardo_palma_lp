@@ -25,3 +25,17 @@
     --font-system: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer base {
+    /* Desplazamiento suave para los enlaces ancla (#niveles, #galeria, ...) */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Respeta la preferencia de movimiento reducido del sistema */
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+    }
+}
