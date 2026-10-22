@@ -51,7 +51,8 @@ remote_path() {
 # ---------- construir el script de lftp ----------
 LFTP_SCRIPT="$(mktemp)"
 VERSION_FILE="$(mktemp)"
-trap 'rm -f "$LFTP_SCRIPT" "$VERSION_FILE"' EXIT
+FLAG_DIR="$(mktemp -d)"
+trap 'rm -f "$LFTP_SCRIPT" "$VERSION_FILE"; rm -rf "$FLAG_DIR"' EXIT
 
 {
   echo "set ftp:ssl-force true"
@@ -74,6 +75,8 @@ queue_rm() {    # $1 = ruta remota
 }
 
 PUTS=0; DELS=0
+NEED_COMPOSER=0
+NEED_MIGRATE=0
 upload_one() {
   local f="$1" r=""
   if r="$(remote_path "$f")" && [ -f "$f" ]; then
@@ -93,6 +96,7 @@ if [ "$MODE" = "full" ] || [ -z "$BEFORE" ] \
    || ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
   echo ">> Modo COMPLETO: subiendo todos los archivos rastreados"
   while IFS= read -r f; do upload_one "$f"; done < <(git ls-files)
+  NEED_MIGRATE=1
 else
   echo ">> Modo INCREMENTAL: $BEFORE..$SHA"
   while IFS=$'\t' read -r st p1 p2; do
@@ -102,6 +106,14 @@ else
       R*|C*) delete_one "$p1"; [ -n "${p2:-}" ] && upload_one "$p2" ;;
     esac
   done < <(git diff --name-status -M "$BEFORE" "$SHA")
+
+  CHANGED_NAMES="$(git diff --name-only -M "$BEFORE" "$SHA" 2>/dev/null || true)"
+  if printf '%s\n' "$CHANGED_NAMES" | grep -qxE 'composer\.(json|lock)'; then
+    NEED_COMPOSER=1
+  fi
+  if printf '%s\n' "$CHANGED_NAMES" | grep -qE '^database/migrations/'; then
+    NEED_MIGRATE=1
+  fi
 fi
 
 # ---------- archivos personalizados del servidor (siempre al dia) ----------
@@ -117,6 +129,25 @@ queue_put "deploy/public_html/index.php" "$PUB_DIR/index.php"; PUTS=$((PUTS+1))
 # invalidaba).
 printf '%s' "${SHA:-sin-sha}" > "$VERSION_FILE"
 queue_put "$VERSION_FILE" "$APP_DIR/deploy-version.txt"; PUTS=$((PUTS+1))
+
+# ---------- marcadores para el cron del servidor --------------
+# deploy-cron.sh (ejecutado por un Cron Job de cPanel) lee estos archivos y
+# ejecuta la tarea correspondiente. Se suben AL FINAL, cuando el código ya
+# está completo. Cada marcador se borra solo si la tarea termina bien.
+: > "$FLAG_DIR/clear"
+queue_put "$FLAG_DIR/clear" "$APP_DIR/.deploy/clear"; PUTS=$((PUTS+1))
+
+if [ "$NEED_MIGRATE" = 1 ]; then
+  : > "$FLAG_DIR/migrate"
+  queue_put "$FLAG_DIR/migrate" "$APP_DIR/.deploy/migrate"; PUTS=$((PUTS+1))
+  echo ">> Marcador: hay migraciones pendientes"
+fi
+
+if [ "$NEED_COMPOSER" = 1 ]; then
+  : > "$FLAG_DIR/composer"
+  queue_put "$FLAG_DIR/composer" "$APP_DIR/.deploy/composer"; PUTS=$((PUTS+1))
+  echo ">> Marcador: composer install pendiente"
+fi
 
 echo ">> Archivos a subir: $PUTS | a borrar: $DELS"
 echo "quit" >> "$LFTP_SCRIPT"

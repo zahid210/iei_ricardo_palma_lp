@@ -31,3 +31,6 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Marcadores de despliegue (se generan en CI/servidor)
+/.deploy/

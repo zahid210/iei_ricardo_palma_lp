@@ -200,13 +200,38 @@ nada más.
 > los antiguos pueden quedarse sin romper nada (y se evitan 404 con HTML
 > cacheado).
 
-## Qué pasa con `vendor/`
+## `vendor/` y migraciones automáticos (Cron de cPanel)
 
-No se sube automáticamente. Cambia muy rara vez (solo al añadir/quitar paquetes
-en `composer.json`/`composer.lock`) y una subida FTPS parcial podría dejar el
-`vendor/` a medias y romper el sitio. Cuando haga falta, se actualiza una vez a
-mano (ver la sección de ReDoS más abajo); el resto de cambios (código, vistas,
-CSS/JS, assets) ya van solos con `push`.
+Este hosting tiene el **shell SSH deshabilitado**, pero los **Cron Jobs de
+cPanel sí ejecutan PHP**. El despliegue deja “marcadores” en `.deploy/` y un
+cron los procesa:
+
+| Marcador | Lo crea el push cuando… | Acción del cron |
+|---|---|---|
+| `.deploy/composer` | cambia `composer.json` o `composer.lock` | `composer install --no-dev` |
+| `.deploy/migrate` | cambia algo en `database/migrations/` | `php artisan migrate --force` |
+| `.deploy/clear` | cualquier push | `view:clear` + `route:clear` |
+
+Cada tarea **borra su marcador solo si termina bien**; si falla, se reintenta en
+la siguiente pasada y queda registrada en
+`storage/logs/deploy-cron.log`.
+
+### Configuración (una sola vez)
+
+En cPanel → **Tareas Cron** (Cron Jobs), agrega esta línea (cada 5 minutos):
+
+```
+*/5 * * * * /bin/bash /home/iericard/ricardo_palma_core/deploy-cron.sh
+```
+
+A partir de ahí, un push que agregue paquetes o migraciones se aplica solo en
+**≤ 5 minutos**. El código, las vistas y los assets siguen viéndose al instante.
+
+- `composer.phar` está en `/home/iericard/composer.phar` (fuera de la app, para
+  que el despliegue no lo borre).
+- El cron usa `/opt/cpanel/ea-php84/root/usr/bin/php` (PHP 8.4 del hosting).
+- Si más adelante se habilita el shell SSH, se puede migrar a `rsync` + comandos
+  por SSH y eliminar el cron; el resto no cambia.
 
 ### ⚠️ El `public/` de la app NO es el document root (ojo con Vite)
 
@@ -266,14 +291,19 @@ cabecera `Cache-Control` maliciosa: PHP la parsea en cada petición al construir
 antes de crear la `Request`. El refresco manual de caché pasó a la cabecera
 `X-Cache-Refresh: 1`.
 
-El arreglo definitivo es actualizar la dependencia y subir el `vendor/`:
+El arreglo definitivo es actualizar la dependencia. Ya **no** hay que subir el
+`vendor/` a mano: el cron del servidor ejecuta `composer install` cuando cambia
+`composer.lock` (ver “`vendor/` y migraciones automáticos” más arriba).
 
 ```
-composer update guzzlehttp/guzzle guzzlehttp/psr7 guzzlehttp/promises \
-    league/commonmark league/flysystem symfony/http-foundation --with-all-dependencies
+# en local
+composer update symfony/http-foundation --with-all-dependencies
+git add composer.json composer.lock
+git commit -m "chore: actualizar symfony/http-foundation"
+git push
 ```
 
-Luego hay que **subir por FTPS el `vendor/` resultante a `/ricardo_palma_core/`**
-(el despliegue normal NO toca `vendor/`). Haz copia de seguridad previa y verifica
-el sitio después. En cuanto `vendor/` esté al día, el bloque de mitigación de
-`bootstrap/app.php` puede retirarse.
+El push deja el marcador `.deploy/composer`; en ≤ 5 minutos el cron ejecuta
+`composer install --no-dev` en el servidor y regenera el autoloader. Revisa
+`storage/logs/deploy-cron.log` para confirmar. En cuanto `vendor/` esté al día,
+el bloque de mitigación de `bootstrap/app.php` puede retirarse.
