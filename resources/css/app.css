@@ -51,15 +51,15 @@
 /* BANNER PRINCIPAL */
 .institution-hero {
     position: relative;
-    min-height: 298px;
+    min-height: 360px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     overflow: hidden;
 
     background-image: url("/images/fachada_colegio.jpg");
-    background-size: 140%;
-    background-position: center 48%;
+    background-size: 100%;
+    background-position: center 70%;
 
     color: var(--institution-white);
     font-family: Georgia, "Times New Roman", serif;
@@ -162,7 +162,7 @@
 /* SECCIÓN INFERIOR */
 .institution-intro {
     position: relative;
-    min-height: 255px;
+    min-height: 360px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -178,7 +178,6 @@
             transparent 32%
         ),
         #ffffff;
-
     font-family: Georgia, "Times New Roman", serif;
 }
 
@@ -212,9 +211,9 @@
 /* RESPONSIVE: TABLET Y MÓVIL */
 @media (max-width: 768px) {
     .institution-hero {
-        min-height: 310px;
-        background-size: 150%;
-        background-position: center;
+        min-height: 320px;
+        background-size: 115%;
+        background-position: center 70%;
     }
 
     .institution-content {
@@ -234,8 +233,9 @@
         font-size: 18px;
     }
 
+@media (max-width: 768px) {
     .institution-intro {
-        min-height: auto;
+        min-height: 320px;
         padding: 50px 25px;
     }
 
@@ -245,9 +245,9 @@
 }
 
 @media (max-width: 480px) {
-    .institution-hero {
-        min-height: 320px;
-        background-size: 165%;
+    .institution-intro {
+        min-height: 290px;
+        padding: 42px 22px;
     }
 
     .institution-content {
