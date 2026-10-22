@@ -47,6 +47,11 @@ fi
 if [ -f .deploy/composer ]; then
   log "== composer install --no-dev =="
   if [ -x "$PHP" ] && [ -f "$COMPOSER" ]; then
+    # El manifiesto cacheado puede apuntar a paquetes de desarrollo que
+    # --no-dev acaba de quitar (p. ej. laravel/pail) y entonces Laravel no
+    # arranca. Se borra para que lo regenere con el vendor de producción.
+    rm -f "$APP/bootstrap/cache/packages.php" "$APP/bootstrap/cache/services.php"
+
     if "$PHP" "$COMPOSER" install --no-dev --optimize-autoloader \
          --no-scripts --no-interaction --no-progress >>"$LOG" 2>&1; then
       # Regenerar el manifiesto de paquetes de Laravel (nuevos providers).
@@ -76,10 +81,13 @@ fi
 # --- Limpieza de vistas/rutas compiladas -----------------------------------
 if [ -f .deploy/clear ]; then
   log "== limpiar vistas/rutas compiladas =="
-  "$PHP" artisan view:clear >>"$LOG" 2>&1 || true
-  "$PHP" artisan route:clear >>"$LOG" 2>&1 || true
-  rm -f .deploy/clear
-  log "clear OK"
+  if "$PHP" artisan view:clear >>"$LOG" 2>&1 \
+     && "$PHP" artisan route:clear >>"$LOG" 2>&1; then
+    rm -f .deploy/clear
+    log "clear OK"
+  else
+    log "ERROR: clear falló (se reintentará en la próxima pasada)"
+  fi
 fi
 
 exit 0
