@@ -4,6 +4,12 @@ name: Desplegar a cPanel
 #  Tambien se puede lanzar a mano desde la pestana "Actions" (workflow_dispatch),
 #  que hace una sincronizacion COMPLETA (util para la primera vez).
 #
+#  Que se despliega solo en cada push:
+#    - Codigo PHP / vistas / rutas / config / public (menos build e index.php)
+#    - Front-end: se compila aqui (npm ci + npm run build) y se sube a
+#      /public_html/build Y /ricardo_palma_core/public/build.
+#      Asi los cambios de CSS/JS/Tailwind se ven sin subir nada a mano.
+#
 #  Requiere 3 Secrets en el repo (Settings > Secrets and variables > Actions):
 #     FTP_HOST   (ej: ftp.tu-dominio.com)
 #     FTP_USER   (ej: deploy@tu-dominio.com)
@@ -39,6 +45,19 @@ jobs:
       - name: Instalar lftp
         run: sudo apt-get update -qq && sudo apt-get install -y lftp
 
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Compilar front-end (Vite)
+        # Tailwind escanea las vistas Blade: cualquier clase nueva en una vista
+        # exige recompilar. Por eso se compila en cada push.
+        run: |
+          npm ci
+          npm run build
+
       - name: Calcular modo de despliegue
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -51,7 +70,16 @@ jobs:
           echo "BEFORE=${{ github.event.before }}" >> "$GITHUB_ENV"
           echo "SHA=${{ github.sha }}" >> "$GITHUB_ENV"
 
-      - name: Desplegar por FTPS
+      - name: Desplegar assets compilados (build)
+        # Va ANTES del codigo: cuando el HTML nuevo quede publicado, los assets
+        # compilados ya estan en el servidor.
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: bash deploy/deploy-assets.sh
+
+      - name: Desplegar codigo por FTPS
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}

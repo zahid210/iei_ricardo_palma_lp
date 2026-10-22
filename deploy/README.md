@@ -11,12 +11,22 @@ git push origin main
       ▼
 GitHub Actions  (.github/workflows/deploy.yml)
       │
+      ├─ compila el front-end   (npm ci && npm run build)
+      │
+      ├─ sube los assets compilados (deploy/deploy-assets.sh):
+      │     • build/  →  /public_html/build
+      │     • build/  →  /ricardo_palma_core/public/build
+      │
       ├─ detecta qué archivos cambiaron (git diff)
       │
-      └─ sube por FTPS a cPanel:
+      └─ sube por FTPS a cPanel (deploy/deploy.sh):
              • código de la app   →  /ricardo_palma_core
              • assets públicos    →  /public_html
 ```
+
+El **front-end se compila en cada push**. Tailwind escanea las vistas Blade, así
+que cualquier clase nueva que se escriba en una vista se incluye sola en el CSS;
+no hay que compilar ni subir nada a mano.
 
 ## Estructura del servidor (importante)
 
@@ -51,8 +61,12 @@ y el despliegue la copia siempre:
 ## Qué NO se toca nunca (exclusiones)
 
 `.env*`, `vendor/`, `node_modules/`, `storage/`, `bootstrap/cache/`,
-`public/build/` (compilado en el servidor), `public/index.php` (se toma de
-`deploy/`), `tests/`, `phpunit.xml`, `.git*` y `.phpunit.result.cache`.
+`public/index.php` (se toma de `deploy/`), `tests/`, `phpunit.xml`, `.git*` y
+`.phpunit.result.cache`.
+
+> `public/build/` **tampoco** se sube con el descriptor normal (está en
+> `.gitignore`), pero **sí se despliega aparte**: GitHub Actions lo compila y lo
+> sube con `deploy/deploy-assets.sh` a las dos ubicaciones. Ver más abajo.
 
 ## Configuración (una sola vez)
 
@@ -167,11 +181,32 @@ Cómo obtenerlo:
 > El token **no** se guarda en el repositorio. Si algún día se revoca o caduca,
 > basta con generar otro y actualizar el `.env`.
 
-## Qué pasa con `vendor/` y `public/build/`
+## Front-end automático (`public/build/`)
 
-No se suben. Se generan/compilan **en el servidor** y ya están ahí. Si algún día
-cambian dependencias (`composer.json`) o el front-end (`package.json`, Vite),
-hay que actualizarlos en el servidor por separado (no hay shell/SSH).
+**Ya no es manual.** En cada push, GitHub Actions:
+
+1. instala las dependencias de Node (`npm ci`);
+2. compila Vite/Tailwind (`npm run build`);
+3. sube `public/build/` a **los dos** sitios con `deploy/deploy-assets.sh`:
+   - `/public_html/build` → lo que descarga el navegador;
+   - `/ricardo_palma_core/public/build` → el manifest que lee `@vite`.
+
+Se compila **en cada push** (no solo cuando cambian `resources/`), porque
+Tailwind genera el CSS a partir de las clases que encuentra en las vistas Blade.
+Así, si un colaborador añade una clase nueva en una vista, aparece sin hacer
+nada más.
+
+> No se usa `--delete`: los assets de Vite llevan un hash en el nombre, así que
+> los antiguos pueden quedarse sin romper nada (y se evitan 404 con HTML
+> cacheado).
+
+## Qué pasa con `vendor/`
+
+No se sube automáticamente. Cambia muy rara vez (solo al añadir/quitar paquetes
+en `composer.json`/`composer.lock`) y una subida FTPS parcial podría dejar el
+`vendor/` a medias y romper el sitio. Cuando haga falta, se actualiza una vez a
+mano (ver la sección de ReDoS más abajo); el resto de cambios (código, vistas,
+CSS/JS, assets) ya van solos con `push`.
 
 ### ⚠️ El `public/` de la app NO es el document root (ojo con Vite)
 
@@ -187,9 +222,9 @@ Consecuencias prácticas:
 
 - `@vite` lee el manifest de `public_path('build/manifest.json')` =
   `/ricardo_palma_core/public/build/manifest.json`, pero el navegador pide los
-  assets a `/public_html/build/assets/*`. **Al reconstruir el front-end hay que
-  subir la carpeta `build/` a LOS DOS sitios**, o el manifest y los assets
-  quedarán desincronizados.
+  assets a `/public_html/build/assets/*`. **La misma carpeta `build/` tiene que
+  estar en los dos sitios**, o el manifest y los assets quedarán
+  desincronizados. De eso se encarga `deploy/deploy-assets.sh` en cada push.
 - Cualquier código que use `public_path()` (crear archivos, `storage:link`…)
   apunta a `/ricardo_palma_core/public`, **no** al sitio público. No lo uses para
   servir/generar archivos del docroot.
