@@ -1,8 +1,16 @@
 @import 'tailwindcss';
 
 @source '../views/**/*.blade.php';
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+/*
+ * No se escanean vendor/ ni storage/framework/views a propósito: en GitHub
+ * Actions esas carpetas no existen, y así el CSS compilado es idéntico en
+ * local y en CI. Las vistas compiladas de storage/ salen de estas mismas
+ * vistas Blade, y la paginación de Laravel no se usa.
+ *
+ * Si algún día se usa paginación, publica sus vistas y quedarán cubiertas por
+ * el @source de arriba:
+ *     php artisan vendor:publish --tag=laravel-pagination
+ */
 
 @theme {
     --font-sans: 'Literata', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;

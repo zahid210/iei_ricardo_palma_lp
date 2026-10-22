@@ -38,7 +38,7 @@ remote_path() {
   case "$1" in
     .github/*|deploy/*)                  return 1 ;;
     public/index.php)                    return 1 ;;   # lo aporta deploy/public_html/index.php
-    public/build/*)                      return 1 ;;   # compilado en el servidor
+    public/build/*)                      return 1 ;;   # lo sube deploy-assets.sh (compilado en CI)
     .env|.env.*|vendor/*|node_modules/*) return 1 ;;
     storage/*|bootstrap/cache/*)         return 1 ;;   # datos/estado del servidor
     tests/*)                             return 1 ;;   # no se suben los tests al servidor
