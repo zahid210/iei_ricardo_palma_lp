@@ -155,7 +155,7 @@
                     >
                 </figure>
 
-                <article class="space-y-5 text-sm leading-relaxed text-neutral-700 sm:text-base lg:pt-1 opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
+                <article class="space-y-5 text-[15px] leading-relaxed text-neutral-700 sm:text-[17px] lg:pt-1 opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <p>
                         La <strong class="font-semibold text-ricardo-teal">Institución Educativa Integrada N.° 31756
                             “Ricardo Palma”</strong>,
@@ -245,7 +245,7 @@
 
             <div class="mt-10 flex flex-col gap-12">
 
-                <article class="mx-auto max-w-4xl text-center text-lg leading-relaxed text-neutral-800 sm:text-xl lg:text-2xl opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
+                <article class="mx-auto max-w-4xl text-center text-[19px] leading-relaxed text-neutral-800 sm:text-xl lg:text-2xl opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <p>
                         Formar estudiantes íntegros, críticos, creativos e innovadores mediante una educación de
                         calidad, inclusiva y basada en valores; consolidando una institución líder con gestión participativa,

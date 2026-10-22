@@ -51,10 +51,10 @@
 /* BANNER PRINCIPAL */
 .institution-hero {
     position: relative;
-    min-height: 298px;
+    min-height: 390px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     overflow: hidden;
 
     background-image: url("/images/fachada_colegio.jpg");
@@ -87,7 +87,7 @@
 
     width: 100%;
     max-width: 850px;
-    padding: 67px 24px 45px;
+    padding: 90px 24px 75px;
     box-sizing: border-box;
 
     text-align: center;
@@ -118,7 +118,34 @@
 
 /* PALABRA RESALTADA EN AMARILLO */
 .institution-content .text-highlight {
-    color: var(--institution-yellow);
+    background: linear-gradient(90deg, #ffffff 0%, var(--institution-yellow) 50%, #ffffff 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: highlight-sheen 4s ease-in-out infinite;
+}
+
+@keyframes highlight-sheen {
+    0% {
+        background-position: 200% 0;
+    }
+    50% {
+        background-position: 0% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .institution-content .text-highlight {
+        animation: none;
+        color: var(--institution-yellow);
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+    }
 }
 
 /* DESCRIPCIÓN DEL BANNER */
@@ -127,7 +154,7 @@
     margin: 0 auto;
 
     color: #ffffff;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 1.45;
 }
@@ -185,12 +212,12 @@
 /* RESPONSIVE: TABLET Y MÓVIL */
 @media (max-width: 768px) {
     .institution-hero {
-        min-height: 310px;
+        min-height: 420px;
         background-position: center;
     }
 
     .institution-content {
-        padding: 65px 22px 35px;
+        padding: 80px 22px 60px;
     }
 
     .institution-content h1 {
@@ -203,7 +230,7 @@
     }
 
     .institution-content > p {
-        font-size: 13px;
+        font-size: 18px;
     }
 
     .institution-intro {
@@ -218,11 +245,11 @@
 
 @media (max-width: 480px) {
     .institution-hero {
-        min-height: 320px;
+        min-height: 440px;
     }
 
     .institution-content {
-        padding: 58px 18px 35px;
+        padding: 75px 18px 60px;
     }
 
     .institution-content h1 {
@@ -232,7 +259,7 @@
 
     .institution-content > p {
         max-width: 350px;
-        font-size: 13px;
+        font-size: 16px;
     }
 
     .institution-intro {

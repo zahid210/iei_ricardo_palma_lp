@@ -19,14 +19,16 @@
             </h1>
 
             <p>
-                Preparamos a los estudiantes para ser líderes y ciudadanos
-                responsables en un mundo en constante cambio.
+                En la institución, nos enorgullece ofrecer una educación que combina lo mejor de la innovación
+                tecnológica con un enfoque en la excelencia académica. Nuestro objetivo es preparar a los
+                estudiantes no solo para superar los desafíos académicos, sino también para convertirse en líderes y
+                ciudadanos responsables en un mundo en constante cambio.
             </p>
         </div>
     </section>
 
     <!-- SECCIÓN DE PRESENTACIÓN -->
-    <section class="institution-intro">
+    <section class="institution-intro" style="display:none;">
         <div class="intro-content">
 
             <div class="intro-icon" aria-hidden="true">
@@ -65,7 +67,7 @@
             <x-section-title>¿Quiénes Somos?</x-section-title>
 
             <div class="mt-8 grid gap-8 lg:grid-cols-[.5fr_.5fr] lg:items-center">
-                <article class="space-y-4 text-sm leading-relaxed text-neutral-700 sm:text-base opacity-0 translate-y-8 transition-all duration-700 ease-out"
+                <article class="space-y-4 text-[15px] leading-relaxed text-neutral-700 sm:text-[17px] opacity-0 translate-y-8 transition-all duration-700 ease-out"
                          data-reveal>
                     <p>
                         Somos una institución comprometida en proporcionar una educación de calidad que se alinea con
@@ -115,7 +117,7 @@
 
                 <div>
                     <h2 class="font-mate text-2xl text-ricardo-teal-dark sm:text-3xl mt-2">Misión</h2>
-                    <div class="mt-4 pr-4 space-y-4 text-sm leading-relaxed text-neutral-700">
+                    <div class="mt-4 pr-4 space-y-4 text-[15px] leading-relaxed text-neutral-700">
                         <p>
                             Brindar una educación integral, inclusiva y de calidad a los estudiantes de la Institución
                             Educativa Integrada N.° 31756 “Ricardo Palma”, promoviendo el desarrollo de competencias,
@@ -134,7 +136,7 @@
 
                 <div class="mt-8 text-right">
                     <span class="block font-system text-[10px] font-bold uppercase tracking-widest text-neutral-400">Enfoque Pedagógico</span>
-                    <p class="mt-1 font-mate text-base text-ricardo-teal-dark font-medium transition-colors duration-300 group-hover:text-ricardo-teal">
+                    <p class="mt-1 font-mate text-[17px] text-ricardo-teal-dark font-medium transition-colors duration-300 group-hover:text-ricardo-teal">
                         Formación integral, inclusiva y de calidad
                     </p>
                 </div>
@@ -156,7 +158,7 @@
 
                 <div>
                     <h2 class="font-mate text-2xl text-ricardo-red sm:text-3xl mt-2">Visión</h2>
-                    <div class="mt-4 pr-4 text-sm leading-relaxed text-neutral-700">
+                    <div class="mt-4 pr-4 text-[15px] leading-relaxed text-neutral-700">
                         <p>
                             Ser la primera elección de las familias que garantice la formación académica, la madurez
                             emocional y la educación en valores necesarias para el futuro de sus hijos en un mundo
@@ -167,7 +169,7 @@
 
                 <div class="mt-8 text-right">
                     <span class="block font-system text-[10px] font-bold uppercase tracking-widest text-neutral-400">Valores Fundamentales</span>
-                    <p class="mt-1 font-mate text-base text-ricardo-red-dark font-medium transition-colors duration-300 group-hover:text-ricardo-red">
+                    <p class="mt-1 font-mate text-[17px] text-ricardo-red-dark font-medium transition-colors duration-300 group-hover:text-ricardo-red">
                         Equidad, innovación, empatía y autonomía
                     </p>
                 </div>
@@ -180,7 +182,7 @@
     <section class="bg-white py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Valor Institucional</x-section-title>
-            <p class="mx-auto mt-4 max-w-3xl text-center text-sm leading-relaxed text-neutral-700 sm:text-base opacity-0 translate-y-4 transition-all duration-500 ease-out" data-reveal>
+            <p class="mx-auto mt-4 max-w-3xl text-center text-[15px] leading-relaxed text-neutral-700 sm:text-[17px] opacity-0 translate-y-4 transition-all duration-500 ease-out" data-reveal>
                 En nuestra institución promovemos la práctica permanente de valores que fortalecen la convivencia
                 escolar y la formación integral de los estudiantes.
             </p>
@@ -191,7 +193,7 @@
                 <div class="group border border-neutral-100 bg-white p-6 opacity-0 translate-y-8 transition-all duration-500 ease-out hover:border-ricardo-red hover:-translate-y-1 hover:shadow-xs">
                     <h3 class="font-mate text-xl text-ricardo-red transition-colors duration-300 group-hover:text-ricardo-red-dark">
                         Respeto</h3>
-                    <p class="mt-2 text-sm text-neutral-600">Valoramos a cada persona y fomentamos una convivencia
+                    <p class="mt-2 text-[15px] text-neutral-600">Valoramos a cada persona y fomentamos una convivencia
                         armoniosa basada en el buen trato y la tolerancia.</p>
                 </div>
 
@@ -199,7 +201,7 @@
                 <div class="group border border-neutral-100 bg-white p-6 opacity-0 translate-y-8 transition-all duration-500 ease-out hover:border-ricardo-red hover:-translate-y-1 hover:shadow-xs">
                     <h3 class="font-mate text-xl text-ricardo-red transition-colors duration-300 group-hover:text-ricardo-red-dark">
                         Responsabilidad</h3>
-                    <p class="mt-2 text-sm text-neutral-600">Cumplimos nuestros deberes con compromiso, puntualidad y
+                    <p class="mt-2 text-[15px] text-neutral-600">Cumplimos nuestros deberes con compromiso, puntualidad y
                         dedicación en cada una de nuestras acciones.</p>
                 </div>
 
@@ -207,7 +209,7 @@
                 <div class="group border border-neutral-100 bg-white p-6 opacity-0 translate-y-8 transition-all duration-500 ease-out hover:border-ricardo-red hover:-translate-y-1 hover:shadow-xs">
                     <h3 class="font-mate text-xl text-ricardo-red transition-colors duration-300 group-hover:text-ricardo-red-dark">
                         Honestidad</h3>
-                    <p class="mt-2 text-sm text-neutral-600">Actuamos con verdad, transparencia y coherencia en nuestra
+                    <p class="mt-2 text-[15px] text-neutral-600">Actuamos con verdad, transparencia y coherencia en nuestra
                         vida personal y escolar.</p>
                 </div>
 
@@ -215,7 +217,7 @@
                 <div class="group border border-neutral-100 bg-white p-6 opacity-0 translate-y-8 transition-all duration-500 ease-out hover:border-ricardo-red hover:-translate-y-1 hover:shadow-xs">
                     <h3 class="font-mate text-xl text-ricardo-red transition-colors duration-300 group-hover:text-ricardo-red-dark">
                         Solidaridad</h3>
-                    <p class="mt-2 text-sm text-neutral-600">Promovemos la ayuda mutua, el compañerismo y el trabajo
+                    <p class="mt-2 text-[15px] text-neutral-600">Promovemos la ayuda mutua, el compañerismo y el trabajo
                         colaborativo dentro de la comunidad educativa.</p>
                 </div>
 
@@ -223,7 +225,7 @@
                 <div class="group border border-neutral-100 bg-white p-6 opacity-0 translate-y-8 transition-all duration-500 ease-out hover:border-ricardo-red hover:-translate-y-1 hover:shadow-xs">
                     <h3 class="font-mate text-xl text-ricardo-red transition-colors duration-300 group-hover:text-ricardo-red-dark">
                         Compromiso</h3>
-                    <p class="mt-2 text-sm text-neutral-600">Asumimos con seriedad nuestra labor educativa y el esfuerzo
+                    <p class="mt-2 text-[15px] text-neutral-600">Asumimos con seriedad nuestra labor educativa y el esfuerzo
                         constante por mejorar cada día.</p>
                 </div>
 
@@ -231,7 +233,7 @@
                 <div class="group border border-neutral-100 bg-white p-6 opacity-0 translate-y-8 transition-all duration-500 ease-out hover:border-ricardo-red hover:-translate-y-1 hover:shadow-xs">
                     <h3 class="font-mate text-xl text-ricardo-red transition-colors duration-300 group-hover:text-ricardo-red-dark">
                         Innovación</h3>
-                    <p class="mt-2 text-sm text-neutral-600">Impulsamos nuevas formas de enseñar y aprender, integrando
+                    <p class="mt-2 text-[15px] text-neutral-600">Impulsamos nuevas formas de enseñar y aprender, integrando
                         estrategias y recursos que fortalezcan el desarrollo de competencias.</p>
                 </div>
             </div>
@@ -252,7 +254,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Walter Porras Ramirez</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Walter Porras Ramirez</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-red">Director</p>
                 </article>
 
@@ -263,7 +265,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Nicolas Espinoza Suarez</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Nicolas Espinoza Suarez</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Sub Director</p>
                 </article>
 
@@ -274,7 +276,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Adrián Támara Trinidad</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Adrián Támara Trinidad</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinador Pedagógico</p>
                 </article>
 
@@ -285,7 +287,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Rayda Rivas Solorzano</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Rayda Rivas Solorzano</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinadora de Ciencias</p>
                 </article>
 
@@ -296,7 +298,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Carmen Romero Garcia</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Carmen Romero Garcia</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinadora de TOE</p>
                 </article>
 
@@ -307,7 +309,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Luz Pardave Yachas</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Luz Pardave Yachas</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Coordinadora Nivel Inicial</p>
                 </article>
 
@@ -318,7 +320,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Catering Campos Fernandez</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Catering Campos Fernandez</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">Psicóloga</p>
                 </article>
 
@@ -329,7 +331,7 @@
                              class="h-full w-full object-cover scale-100 transition-transform duration-300 group-hover:scale-105"
                              loading="lazy">
                     </div>
-                    <h3 class="mt-4 font-mate text-base text-neutral-800 sm:text-lg">Jean Rajo Guzman</h3>
+                    <h3 class="mt-4 font-mate text-[17px] text-neutral-800 sm:text-[19px]">Jean Rajo Guzman</h3>
                     <p class="mt-1 font-system text-xs font-bold uppercase tracking-wider text-ricardo-teal">CIST</p>
                 </article>
 
@@ -344,7 +346,7 @@
 
                 <article class="opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <h2 class="font-mate text-2xl text-ricardo-red">Compromiso Institucional</h2>
-                    <div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-700">
+                    <div class="mt-4 space-y-4 text-[15px] leading-relaxed text-neutral-700">
                         <p>
                             En la Institución Educativa Integrada N.° 31756 “Ricardo Palma” trabajamos con dedicación
                             para formar estudiantes con valores, capacidades y visión de futuro, fortaleciendo una
@@ -360,7 +362,7 @@
 
                 <article class="opacity-0 translate-y-8 transition-all duration-700 ease-out">
                     <h2 class="font-mate text-2xl text-ricardo-red">Reflejos</h2>
-                    <div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-700">
+                    <div class="mt-4 space-y-4 text-[15px] leading-relaxed text-neutral-700">
                         <p>
                             La Institución Educativa Integrada N.° 31756 “Ricardo Palma” refleja su compromiso con una
                             educación basada en valores, respeto, responsabilidad e innovación, promoviendo el

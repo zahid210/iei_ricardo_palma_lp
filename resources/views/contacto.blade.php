@@ -14,7 +14,7 @@
                 {{-- COLUMNA IZQUIERDA: Formulario Institucional --}}
                 <div class="lg:col-span-7 opacity-0 translate-y-8 transition-all duration-700 ease-out" data-reveal>
                     <div class="bg-white p-6 shadow-sm border border-neutral-100/60 rounded-xs">
-                        <h2 class="font-mate text-lg font-bold text-neutral-800 uppercase tracking-wide">
+                        <h2 class="font-mate text-[19px] font-bold text-neutral-800 uppercase tracking-wide">
                             <span class="mr-2 inline-block h-4 w-[3px] bg-ricardo-red align-middle rounded-full"></span>
                             Envíanos un mensaje
                         </h2>
@@ -22,7 +22,7 @@
                             Completa tus datos y te responderemos a la brevedad posible.
                         </p>
 
-                        <form action="{{route('contacto.store')}}" method="POST" class="mt-6 space-y-5 font-system text-sm" novalidate>
+                        <form action="{{route('contacto.store')}}" method="POST" class="mt-6 space-y-5 font-system text-[15px]" novalidate>
                             @csrf
 
                             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -117,7 +117,7 @@
 
                     {{-- Bloque de Ubicación --}}
                     <div class="bg-white p-6 shadow-sm border border-neutral-100/60 text-left rounded-xs">
-                        <h2 class="font-mate text-lg font-bold text-neutral-800 uppercase tracking-wide">
+                        <h2 class="font-mate text-[19px] font-bold text-neutral-800 uppercase tracking-wide">
                             <span class="mr-2 inline-block h-4 w-[3px] bg-ricardo-teal align-middle rounded-full"></span>
                             Nuestra Ubicación
                         </h2>
@@ -156,12 +156,12 @@
                         <div class="mt-4 space-y-4 text-xs">
                             <div>
                                 <p class="font-bold uppercase tracking-wider text-neutral-400 text-[9px]">Horario Escolar</p>
-                                <p class="mt-1 font-literata text-sm text-neutral-700">Lunes a Viernes de 8:00 a.m. a 1:00 p.m.</p>
+                                <p class="mt-1 font-literata text-[15px] text-neutral-700">Lunes a Viernes de 8:00 a.m. a 1:00 p.m.</p>
                             </div>
 
                             <div>
                                 <p class="font-bold uppercase tracking-wider text-neutral-400 text-[9px]">Atención Telefónica</p>
-                                <p class="mt-1 font-literata text-sm text-neutral-700">+51 921 896 330</p>
+                                <p class="mt-1 font-literata text-[15px] text-neutral-700">+51 921 896 330</p>
                             </div>
 
                             <div class="pt-2">
@@ -191,7 +191,7 @@
             </div>
 
             {{-- Mensaje --}}
-            <div class="ms-3 text-sm font-system font-medium">
+            <div class="ms-3 text-[15px] font-system font-medium">
                 {{ session('success') }}
             </div>
         </div>

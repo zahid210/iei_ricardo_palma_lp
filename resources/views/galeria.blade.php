@@ -8,7 +8,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14">
             <x-section-title>Galería Institucional</x-section-title>
 
-            <p class="mx-auto mt-4 max-w-3xl text-center text-sm leading-relaxed text-neutral-700 sm:text-base opacity-0 translate-y-4 transition-all duration-500 ease-out" data-reveal>
+            <p class="mx-auto mt-4 max-w-3xl text-center text-[15px] leading-relaxed text-neutral-700 sm:text-[17px] opacity-0 translate-y-4 transition-all duration-500 ease-out" data-reveal>
                 Momentos destacados de nuestra comunidad educativa.
             </p>
 

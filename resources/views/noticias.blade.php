@@ -22,7 +22,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="font-system text-sm font-bold text-neutral-800">
+                                    <h3 class="font-system text-[15px] font-bold text-neutral-800">
                                         I.E.I. 31756 Ricardo Palma
                                     </h3>
                                 </div>
@@ -57,7 +57,7 @@
                                             </div>
 
                                             @if($post['message'])
-                                                <p class="whitespace-pre-line font-serif text-sm leading-relaxed text-neutral-700">{{ $post['message'] }}</p>
+                                                <p class="whitespace-pre-line font-serif text-[15px] leading-relaxed text-neutral-700">{{ $post['message'] }}</p>
                                             @endif
 
                                             @if($post['image'])
@@ -83,7 +83,7 @@
                                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                         </svg>
                                     </span>
-                                    <p class="max-w-sm font-serif text-sm leading-relaxed text-neutral-500">
+                                    <p class="max-w-sm font-serif text-[15px] leading-relaxed text-neutral-500">
                                         Síguenos en nuestra página oficial de Facebook para no perderte ningún
                                         comunicado ni actividad.
                                     </p>
@@ -105,7 +105,7 @@
                     <div class="bg-white p-6 text-center shadow-sm border border-neutral-100/60 rounded-xs opacity-0 translate-y-6 transition-all duration-500 ease-out">
                         <img src="{{ asset('images/logo_color.png') }}" alt="Logo I.E.I. Ricardo Palma"
                              class="mx-auto mb-3 h-14 w-auto object-contain">
-                        <h4 class="font-mate text-sm font-bold text-neutral-800">
+                        <h4 class="font-mate text-[15px] font-bold text-neutral-800">
                             I.E.I. 31756 Ricardo Palma
                         </h4>
                         <p class="mt-0.5 font-serif text-xs text-neutral-500">
@@ -141,7 +141,7 @@
 
                     {{-- Tarjeta 2: Comunicación oficial --}}
                     <div class="bg-white p-6 shadow-sm border border-neutral-100/60 rounded-xs opacity-0 translate-y-6 transition-all duration-500 ease-out">
-                        <h4 class="font-serif text-sm font-bold text-neutral-800 flex items-center">
+                        <h4 class="font-serif text-[15px] font-bold text-neutral-800 flex items-center">
                             <span class="mr-2 inline-block h-4 w-[3px] bg-ricardo-teal rounded-full"></span>
                             Comunicación oficial
                         </h4>

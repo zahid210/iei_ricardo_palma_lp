@@ -21,7 +21,7 @@
                 <div class="hidden md:block h-[1px] w-full max-w-[150px] bg-ricardo-teal/60 opacity-0 scale-x-0 origin-center transition-all duration-1000 ease-out"
                      data-reveal data-bar></div>
 
-                <p class="font-mate text-sm sm:text-base text-neutral-700 italic px-2 max-w-2xl opacity-0 translate-y-4 transition-all duration-700 delay-100 ease-out"
+                <p class="font-mate text-[15px] sm:text-[17px] text-neutral-700 italic px-2 max-w-2xl opacity-0 translate-y-4 transition-all duration-700 delay-100 ease-out"
                    data-reveal>
                     "Profesionales comprometidos con la formación integral, el aprendizaje de calidad y el desarrollo de nuestros estudiantes."
                 </p>
@@ -45,7 +45,7 @@
                     <div class="h-1/2 w-full bg-ricardo-red"></div>
                 </div>
 
-                <div class="space-y-6 text-sm sm:text-[15px] lg:text-base text-neutral-700 leading-relaxed text-justify">
+                <div class="space-y-6 text-[15px] sm:text-[15px] lg:text-[17px] text-neutral-700 leading-relaxed text-justify">
                     <p>
                         En la Institución Educativa Integrada N.° 31756 “Ricardo Palma”, contamos con un equipo de
                         docentes comprometidos con la educación, la formación en valores y el desarrollo integral de
@@ -72,7 +72,7 @@
                 <x-section-title>Compromiso Pedagógico</x-section-title>
             </div>
 
-            <div class="max-w-4xl mx-auto text-sm sm:text-[15px] lg:text-base text-neutral-600 leading-relaxed space-y-4 mb-14 text-center opacity-0 translate-y-6 transition-all duration-700 ease-out"
+            <div class="max-w-4xl mx-auto text-[15px] sm:text-[15px] lg:text-[17px] text-neutral-600 leading-relaxed space-y-4 mb-14 text-center opacity-0 translate-y-6 transition-all duration-700 ease-out"
                  data-reveal>
                 <p>
                     Nuestros docentes asumen con responsabilidad la tarea de educar, orientar y acompañar a los
