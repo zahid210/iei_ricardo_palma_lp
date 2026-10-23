@@ -103,6 +103,25 @@ git push origin main
 
 Listo: en ~1 minuto los cambios están en el sitio.
 
+### Antes de hacer push (front-end)
+
+Si tocaste `resources/css`, `resources/js` o `resources/views`, compila antes:
+
+```bash
+npm run build
+```
+
+Si el build falla, GitHub Actions tampoco podrá desplegar (el sitio anterior
+sigue en línea, pero tu cambio no llega).
+
+Para que sea automático, activa el hook incluido **una vez por clon**:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+El hook compila y **aborta el commit** si el CSS/JS tiene un error.
+
 ## Caché (rendimiento)
 
 - **Assets** (`build/`, imágenes, fuentes): caché agresiva definida en

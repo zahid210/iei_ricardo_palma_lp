@@ -1,0 +1,27 @@
+#!/bin/sh
+# ---------------------------------------------------------------------------
+#  Compila el front-end antes de cada commit que toque CSS/JS/vistas.
+#
+#  Actívalo UNA vez por clon:
+#      git config core.hooksPath .githooks
+#
+#  Motivo: Tailwind escanea las vistas Blade y el CSS se compila con Vite. Un
+#  error de sintaxis en app.css (o una clase nueva) solo se detecta al
+#  compilar. Si el build falla en GitHub Actions, el despliegue por FTPS no se
+#  ejecuta: el sitio no se rompe, pero el cambio no llega. Este hook lo detecta
+#  antes de commitear.
+# ---------------------------------------------------------------------------
+
+archivos=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if printf '%s\n' "$archivos" | grep -qE '^(resources/(css|js|views)/|vite\.config\.(js|ts)|package(-lock)?\.json$)'; then
+    echo ">> Cambios de front-end detectados: compilando (npm run build)..."
+    if ! npm run build; then
+        echo ""
+        echo "ERROR: el build falló. Corrige el CSS/JS antes de commitear."
+        echo "Si faltan dependencias: npm ci"
+        exit 1
+    fi
+fi
+
+exit 0

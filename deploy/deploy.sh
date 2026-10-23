@@ -32,11 +32,31 @@ MODE="${MODE:-diff}"
 BEFORE="${BEFORE:-}"
 SHA="${SHA:-$(git rev-parse HEAD 2>/dev/null || echo '')}"
 
+# ---------- base del diff: ultimo SHA desplegado con exito ----------
+# BEFORE (github.event.before) es el push anterior. Si ese push fallo (p. ej.
+# el build de CSS), sus cambios NUNCA llegaron al servidor y el siguiente push
+# solo subiria los suyos, dejando un hueco. Para evitarlo, usamos el SHA que
+# deploy.sh escribio en deploy-version.txt tras el ultimo despliegue correcto.
+# Si no existe, no es un commit valido o no es ancestro de SHA, se usa BEFORE.
+REMOTE_SHA=""
+if command -v lftp >/dev/null 2>&1 && [ -n "$SHA" ]; then
+  REMOTE_SHA="$(lftp -c "set ssl:verify-certificate no; set net:timeout 20; open -u $FTP_USER,$FTP_PASS ftp://$FTP_HOST; cat $APP_DIR/deploy-version.txt" 2>/dev/null | tr -d '[:space:]' || true)"
+fi
+
+if printf '%s' "$REMOTE_SHA" | grep -qE '^[0-9a-f]{40}$' \
+   && git cat-file -e "${REMOTE_SHA}^{commit}" 2>/dev/null \
+   && git merge-base --is-ancestor "$REMOTE_SHA" "$SHA" 2>/dev/null; then
+  if [ "$REMOTE_SHA" != "$BEFORE" ]; then
+    echo ">> Base del diff: $REMOTE_SHA (ultimo despliegue correcto)"
+  fi
+  BEFORE="$REMOTE_SHA"
+fi
+
 # ---------- mapeo repo -> servidor ----------
 # Imprime la ruta remota, o devuelve 1 si el archivo NO debe desplegarse.
 remote_path() {
   case "$1" in
-    .github/*|deploy/*)                  return 1 ;;
+    .github/*|deploy/*|.githooks/*)      return 1 ;;
     public/index.php)                    return 1 ;;   # lo aporta deploy/public_html/index.php
     public/build/*)                      return 1 ;;   # lo sube deploy-assets.sh (compilado en CI)
     .env|.env.*|vendor/*|node_modules/*) return 1 ;;
