@@ -17,12 +17,17 @@ GitHub Actions  (.github/workflows/deploy.yml)
       │     • build/  →  /public_html/build
       │     • build/  →  /ricardo_palma_core/public/build
       │
-      ├─ detecta qué archivos cambiaron (git diff)
+      ├─ detecta qué archivos cambiaron (git diff contra el último SHA
+      │     desplegado con éxito, guardado en deploy-version.txt)
       │
       └─ sube por FTPS a cPanel (deploy/deploy.sh):
              • código de la app   →  /ricardo_palma_core
              • assets públicos    →  /public_html
 ```
+
+Si un push falla **antes** de desplegar (por ejemplo, un error de CSS en el
+build), sus cambios no se pierden: el siguiente despliegue calcula el diff desde
+el último SHA que quedó en `deploy-version.txt` y sube todo lo pendiente.
 
 El **front-end se compila en cada push**. Tailwind escanea las vistas Blade, así
 que cualquier clase nueva que se escriba en una vista se incluye sola en el CSS;
