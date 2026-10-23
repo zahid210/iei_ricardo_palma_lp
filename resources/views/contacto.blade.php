@@ -6,7 +6,7 @@
 @section('content')
 
     {{-- Cuerpo Principal --}}
-    <section class="py-10 sm:py-16 bg-neutral-50">
+    <section class="py-10 sm:py-16 section-muted">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 items-start">

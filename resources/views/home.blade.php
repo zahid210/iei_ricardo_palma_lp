@@ -40,32 +40,32 @@
         <div class="relative z-30 mx-auto w-full max-w-[968px] px-6 pb-[30px] pt-[50px] lg:px-0 lg:pb-[38px] lg:pt-[60px]">
 
             {{-- Etiqueta superior --}}
-            <span class="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/28 bg-white/12 px-3.5 py-[7px] font-system text-[10px] font-bold uppercase tracking-[2px] text-white">
-                <span class="h-[7px] w-[7px] flex-shrink-0 rounded-full bg-ricardo-yellow"></span>
+            <span class="mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/28 bg-white/12 px-4 py-2 font-system text-[12px] font-bold uppercase tracking-[2.5px] text-white">
+                <span class="h-2 w-2 flex-shrink-0 rounded-full bg-ricardo-yellow"></span>
                 I.E.I. N.° 31756 — Cerro de Pasco
             </span>
 
-            <h1 class="mb-[18px] max-w-[680px] text-[clamp(36px,4.4vw,58px)] font-normal leading-[1.13] tracking-[0.5px] text-white [font-variant:small-caps]">
+            <h1 class="mb-5 max-w-[760px] text-[clamp(40px,5vw,64px)] font-normal leading-[1.13] tracking-[0.5px] text-white [font-variant:small-caps]">
                 Formando Ricardinos
-                <span class="mt-[7px] block text-[0.72em] leading-[1.18] text-ricardo-yellow">
+                <span class="mt-2 block text-[0.74em] leading-[1.18] text-highlight">
                     comprometidos con su comunidad
                 </span>
             </h1>
 
-            <p class="mb-[30px] mt-5 max-w-[560px] text-[15px] leading-[1.45] text-[#e7e5e0] sm:text-[16px]">
+            <p class="mb-8 mt-5 max-w-[620px] text-[17px] leading-[1.5] text-[#e7e5e0] sm:text-[19px]">
                 Educación Inicial, Primaria y Secundaria basada en valores, innovación y Jornada Escolar
                 Completa para un futuro brillante.
             </p>
 
-            <div class="flex flex-wrap items-center gap-[13px] max-[420px]:flex-col max-[420px]:items-stretch">
+            <div class="flex flex-wrap items-center gap-3.5 max-[420px]:flex-col max-[420px]:items-stretch">
                 <a href="#niveles"
-                   class="inline-flex min-h-[45px] items-center justify-center gap-3 border border-ricardo-teal bg-ricardo-teal px-[25px] text-[14px] text-[#061e1b] no-underline transition-colors duration-300 hover:border-ricardo-teal-dark hover:bg-ricardo-teal-dark hover:text-white max-[420px]:w-full">
+                   class="inline-flex min-h-[48px] items-center justify-center gap-3 border border-ricardo-teal bg-ricardo-teal px-7 text-[15px] font-medium text-[#061e1b] no-underline transition-colors duration-300 hover:border-ricardo-teal-dark hover:bg-ricardo-teal-dark hover:text-white max-[420px]:w-full">
                     Conoce Nuestros Niveles
-                    <span class="text-[18px]" aria-hidden="true">&rarr;</span>
+                    <span class="text-[19px]" aria-hidden="true">&rarr;</span>
                 </a>
 
                 <a href="{{ route('noticias') }}"
-                   class="inline-flex min-h-[45px] min-w-[163px] items-center justify-center border border-white/38 bg-white/6 px-[25px] text-[14px] text-white/85 transition-colors duration-300 hover:bg-white/18 hover:text-white max-[420px]:w-full">
+                   class="inline-flex min-h-[48px] min-w-[175px] items-center justify-center border border-white/38 bg-white/6 px-7 text-[15px] font-medium text-white/85 transition-colors duration-300 hover:bg-white/18 hover:text-white max-[420px]:w-full">
                     Últimas Noticias
                 </a>
             </div>
@@ -180,7 +180,7 @@
     </section>
 
     <!-- Sección Niveles (Efecto Cascada / Stagger Activado) -->
-    <section id="niveles" class="scroll-mt-28 bg-white py-8 sm:py-10">
+    <section id="niveles" class="scroll-mt-28 section-muted py-8 sm:py-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Nuestros Niveles</x-section-title>
 
@@ -239,7 +239,7 @@
     </section>
 
     <!-- Sección Nuestro Objetivo y Contadores Animados -->
-    <section id="objetivo" class="bg-white pb-16 sm:pb-20">
+    <section id="objetivo" class="section-muted pb-16 sm:pb-20 pt-10 sm:pt-14">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Nuestro Objetivo</x-section-title>
 

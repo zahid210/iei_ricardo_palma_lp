@@ -8,10 +8,11 @@
         {{ $slot }}
     </h2>
 
-    {{-- La Barra Bicolor: Efecto de crecimiento/desplazamiento hacia la derecha --}}
-    {{-- origin-left asegura que se expanda de izquierda a derecha --}}
-    <div class="mt-5 w-full max-w-none opacity-0 scale-x-0 origin-left transition-all duration-1000 ease-out" data-reveal data-bar>
-        <div class="h-1.5 bg-ricardo-teal"></div>
-        <div class="h-1.5 bg-ricardo-red"></div>
+    {{-- Subrayado de dos líneas juntas: verde completa y roja más corta con corte en diagonal --}}
+    <div class="section-underline-container">
+        {{-- Línea verde delgada: de inicio a fin --}}
+        <div class="section-underline-teal"></div>
+        {{-- Línea roja delgada: más corta y junta con corte diagonal --}}
+        <div class="section-underline-red"></div>
     </div>
 </div>

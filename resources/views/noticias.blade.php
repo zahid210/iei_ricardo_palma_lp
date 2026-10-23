@@ -2,9 +2,61 @@
 
 @section('title', 'Noticias | I.E.I. N° 31756 Ricardo Palma')
 @section('meta_description', 'Entérate de las últimas novedades, eventos institucionales, comunicados de admisión y actividades escolares de nuestra comunidad ricardina en Pasco.')
+
 @section('content')
+    <!-- BANNER INSTITUCIONAL -->
+    <section class="institution-hero" style="--hero-bg: url('{{ asset('images/ricardino_aula.jpg') }}');">
+        <div class="institution-overlay"></div>
+
+        <div class="institution-content">
+            <span class="institution-eyebrow">
+                ACTUALIDAD Y COMUNICADOS
+            </span>
+
+            <h1>
+                Noticias
+                <span class="text-highlight">Institucionales</span>
+            </h1>
+
+            <p>
+                Mantente informado sobre las actividades, logros institucionales y novedades de nuestra comunidad educativa.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PRESENTACIÓN -->
+    <section class="institution-intro">
+        <div class="intro-content">
+
+            <div class="intro-icon" aria-hidden="true">
+                {{-- Símbolo de Periódico / Boletín de Noticias --}}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+                    <path d="M18 14h-8"/>
+                    <path d="M15 18h-5"/>
+                    <path d="M10 6h8v4h-8V6Z"/>
+                </svg>
+            </div>
+
+            <p>
+                Compartimos día a día el entusiasmo, la dedicación y los logros de nuestros estudiantes y docentes. Aquí encontrarás comunicados oficiales, proyectos pedagógicos, celebraciones y momentos destacados de la familia ricardina.
+            </p>
+
+        </div>
+    </section>
+
     {{-- CUERPO DE NOTICIAS --}}
-    <section class="py-10 sm:py-14 bg-neutral-50">
+    <section class="py-10 sm:py-14 section-muted">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 items-start">

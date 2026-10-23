@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @source '../views/**/*.blade.php';
+@source '../js/**/*.js';
 /*
  * No se escanean vendor/ ni storage/framework/views a propósito: en GitHub
  * Actions esas carpetas no existen, y así el CSS compilado es idéntico en
@@ -48,6 +49,35 @@
     --institution-text: #555555;
 }
 
+/* SECCIONES ALTERNADAS (FONDO GRIS SUAVE Y BLANCO) */
+.section-muted {
+    background-color: #f6f6f6;
+}
+
+/* SUBRAYADO INSTITUCIONAL DE SECCIONES (Línea verde y roja juntas con corte diagonal) */
+.section-underline-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.section-underline-teal {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #129582;
+}
+
+.section-underline-red {
+    display: block;
+    height: 3px;
+    width: 220px;
+    max-width: 65%;
+    background-color: #CA1708;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
 /* BANNER PRINCIPAL */
 .institution-hero {
     position: relative;
@@ -57,9 +87,9 @@
     align-items: flex-start;
     overflow: hidden;
 
-    background-image: url("/images/fachada_colegio.jpg");
-    background-size: 100%;
-    background-position: center 70%;
+    background-image: var(--hero-bg, url("/images/fachada_colegio.jpg"));
+    background-size: cover;
+    background-position: var(--hero-pos, center 30%);
 
     color: var(--institution-white);
     font-family: Georgia, "Times New Roman", serif;
@@ -98,8 +128,8 @@
     display: block;
     margin-bottom: 7px;
 
-    font-size: 11px;
-    font-weight: 400;
+    font-size: 12px;
+    font-weight: 500;
     letter-spacing: 3px;
     line-height: 1.5;
     color: #ffffff;
@@ -110,14 +140,14 @@
     margin: 0 0 11px;
 
     color: #fffbea;
-    font-size: clamp(27px, 3.1vw, 39px);
+    font-size: clamp(29px, 3.3vw, 41px);
     font-weight: 700;
     line-height: 1.2;
     font-variant: small-caps;
 }
 
-/* PALABRA RESALTADA EN AMARILLO */
-.institution-content .text-highlight {
+/* PALABRA RESALTADA EN AMARILLO (DEGRADADO ANIMADO) */
+.text-highlight {
     background: linear-gradient(90deg, #ffffff 0%, var(--institution-yellow) 50%, #ffffff 100%);
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -139,7 +169,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .institution-content .text-highlight {
+    .text-highlight {
         animation: none;
         color: var(--institution-yellow);
         background: none;
@@ -150,11 +180,11 @@
 
 /* DESCRIPCIÓN DEL BANNER */
 .institution-content > p {
-    max-width: 560px;
+    max-width: 600px;
     margin: 0 auto;
 
     color: #ffffff;
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 400;
     line-height: 1.45;
 }
@@ -184,7 +214,7 @@
 /* CONTENIDO INFERIOR */
 .intro-content {
     width: 100%;
-    max-width: 680px;
+    max-width: 720px;
     text-align: center;
 }
 
@@ -203,17 +233,17 @@
     margin: 0;
 
     color: var(--institution-text);
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 400;
-    line-height: 1.47;
+    line-height: 1.48;
 }
 
 /* RESPONSIVE: TABLET Y MÓVIL */
 @media (max-width: 768px) {
     .institution-hero {
         min-height: 320px;
-        background-size: 115%;
-        background-position: center 70%;
+        background-size: cover;
+        background-position: var(--hero-pos, center 30%);
     }
 
     .institution-content {
@@ -221,16 +251,16 @@
     }
 
     .institution-content h1 {
-        font-size: clamp(27px, 5vw, 36px);
+        font-size: clamp(27px, 5vw, 37px);
     }
 
     .institution-eyebrow {
-        font-size: 10px;
+        font-size: 11px;
         letter-spacing: 2px;
     }
 
     .institution-content > p {
-        font-size: 18px;
+        font-size: 19px;
     }
 }
 
@@ -241,7 +271,7 @@
     }
 
     .intro-content p {
-        font-size: 18px;
+        font-size: 19px;
     }
 }
 
@@ -256,13 +286,13 @@
     }
 
     .institution-content h1 {
-        font-size: 30px;
+        font-size: 31px;
         line-height: 1.2;
     }
 
     .institution-content > p {
-        max-width: 350px;
-        font-size: 16px;
+        max-width: 360px;
+        font-size: 17px;
     }
 
     .institution-intro {
@@ -270,6 +300,6 @@
     }
 
     .intro-content p {
-        font-size: 16px;
+        font-size: 17px;
     }
 }

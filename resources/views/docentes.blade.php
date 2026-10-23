@@ -4,68 +4,61 @@
 @section('meta_description', 'Conoce al equipo de profesores y profesionales comprometidos con la educación, el desarrollo integral y los valores de los estudiantes ricardinos.')
 
 @section('content')
-    <section class="bg-white pt-6 pb-10 sm:pt-8 sm:pb-12">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- BANNER INSTITUCIONAL -->
+    <section class="institution-hero" style="--hero-bg: url('{{ asset('images/plana_docente.jpg') }}'); --hero-pos: center 15%;">
+        <div class="institution-overlay"></div>
 
-            <div class="w-full overflow-hidden rounded-sm shadow-xs opacity-0 translate-y-8 transition-all duration-700 ease-out"
-                 data-reveal>
-                <img
-                    src="{{ asset('images/plana_docente.jpg') }}"
-                    alt="Plana Docente de la Institución Educativa Ricardo Palma"
-                    class="w-full h-auto object-cover scale-100 transition-transform duration-700 ease-out hover:scale-102"
-                    fetchpriority="high"
+        <div class="institution-content">
+            <span class="institution-eyebrow">
+                COMUNIDAD EDUCATIVA
+            </span>
+
+            <h1>
+                Nuestra
+                <span class="text-highlight">Plana Docente</span>
+            </h1>
+
+            <p>
+                "Profesionales comprometidos con la formación integral, el aprendizaje de calidad y el desarrollo de nuestros estudiantes."
+            </p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PRESENTACIÓN -->
+    <section class="institution-intro">
+        <div class="intro-content">
+
+            <div class="intro-icon" aria-hidden="true">
+                {{-- Símbolo de Birrete (Graduation Cap) --}}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 >
+                    <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
+                    <path d="M22 10v6"/>
+                    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
+                </svg>
             </div>
 
-            <div class="mt-8 flex items-center justify-center gap-4 text-center w-full max-w-5xl mx-auto">
-                <div class="hidden md:block h-[1px] w-full max-w-[150px] bg-ricardo-teal/60 opacity-0 scale-x-0 origin-center transition-all duration-1000 ease-out"
-                     data-reveal data-bar></div>
-
-                <p class="font-mate text-[15px] sm:text-[17px] text-neutral-700 italic px-2 max-w-2xl opacity-0 translate-y-4 transition-all duration-700 delay-100 ease-out"
-                   data-reveal>
-                    "Profesionales comprometidos con la formación integral, el aprendizaje de calidad y el desarrollo de nuestros estudiantes."
-                </p>
-
-                <div class="hidden md:block h-[1px] w-full max-w-[150px] bg-ricardo-red/60 opacity-0 scale-x-0 origin-center transition-all duration-1000 ease-out"
-                     data-reveal data-bar></div>
-            </div>
+            <p>
+                En la Institución Educativa Integrada N.° 31756 “Ricardo Palma”, contamos con un equipo de
+                docentes comprometidos con la educación, la formación en valores y el desarrollo integral de
+                nuestros estudiantes. Su labor diaria fortalece los aprendizajes, promueve la convivencia
+                escolar y contribuye al crecimiento académico, personal y social de toda nuestra comunidad
+                educativa.
+            </p>
 
         </div>
     </section>
 
-    <section class="bg-neutral-50 py-14 border-y border-neutral-100">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-
-            <div class="flex items-stretch gap-6 opacity-0 translate-y-8 transition-all duration-700 ease-out"
-                 data-reveal>
-
-                <div class="w-[4px] flex flex-col shrink-0 rounded-full overflow-hidden opacity-0 scale-y-0 origin-center transition-all duration-1000 ease-out"
-                     data-reveal data-bar-v aria-hidden="true">
-                    <div class="h-1/2 w-full bg-ricardo-teal"></div>
-                    <div class="h-1/2 w-full bg-ricardo-red"></div>
-                </div>
-
-                <div class="space-y-6 text-[15px] sm:text-[15px] lg:text-[17px] text-neutral-700 leading-relaxed text-justify">
-                    <p>
-                        En la Institución Educativa Integrada N.° 31756 “Ricardo Palma”, contamos con un equipo de
-                        docentes comprometidos con la educación, la formación en valores y el desarrollo integral de
-                        nuestros estudiantes. Su labor diaria fortalece los aprendizajes, promueve la convivencia
-                        escolar y contribuye al crecimiento académico, personal y social de toda nuestra comunidad
-                        educativa.
-                    </p>
-                    <p>
-                        Nuestros docentes desempeñan un rol fundamental en la orientación, acompañamiento y formación de
-                        los estudiantes, aplicando estrategias pedagógicas que responden a las necesidades actuales de
-                        la educación y fomentan una enseñanza activa, inclusiva y significativa.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <section class="bg-white py-14 sm:py-16">
+    <section class="section-muted py-14 sm:py-16">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
             <div class="w-full mb-10">

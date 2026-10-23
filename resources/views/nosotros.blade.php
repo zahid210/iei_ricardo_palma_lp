@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Nosotros | I.E.I. N° 31756 Ricardo Palma')
 @section('meta_description', 'Conoce la visión, misión e historia de la I.E.I. Ricardo Palma de Chaupimarca. Formando estudiantes con valores en la región Pasco.')
@@ -96,7 +96,7 @@
     </section>
 
     <!-- Misión y Visión (Entrada en Cascada) -->
-    <section class="bg-neutral-50 py-12 sm:py-16">
+    <section class="section-muted py-12 sm:py-16">
         <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:px-8 md:grid-cols-2" data-reveal data-stagger>
 
             <!-- Tarjeta Misión -->
@@ -239,7 +239,7 @@
     </section>
 
     <!-- Equipo Directivo (Onda de Carga Dinámica / Stagger) -->
-    <section class="bg-neutral-50 py-12 sm:py-16">
+    <section class="section-muted py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-section-title>Equipo Directivo</x-section-title>
 
@@ -381,7 +381,7 @@
     </section>
 
     <!-- Cierre Emotivo -->
-    <section class="bg-white py-20 sm:py-28">
+    <section class="section-muted py-20 sm:py-28">
         <div class="mx-auto max-w-4xl px-6 text-center sm:px-8 opacity-0 translate-y-8 transition-all duration-1000 ease-out" data-reveal>
 
             <!-- Línea de Cierre Motivacional: Efecto de abertura hacia los extremos desde el centro -->
