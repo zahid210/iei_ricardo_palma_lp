@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Galeria;
+use App\Models\Noticia;
 use App\Services\FacebookFeed;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -26,8 +28,38 @@ class PageController extends Controller
 
     public function noticias(FacebookFeed $facebook)
     {
+        $noticias = Noticia::orderBy('orden')->orderByDesc('fecha_publicacion')->get();
+
+        $destacada = $noticias->firstWhere('destacada', true) ?? $noticias->first();
+        $secundarias = $noticias->where('id', '!==', $destacada?->id)->take(4);
+        $otrasNoticias = $noticias->where('id', '!==', $destacada?->id)->skip(4);
+
         return view('noticias', [
+            'destacada' => $destacada,
+            'secundarias' => $secundarias,
+            'otrasNoticias' => $otrasNoticias,
             'facebookPosts' => $facebook->posts(6),
+        ]);
+    }
+
+    public function noticiaDetalle(string $slug, FacebookFeed $facebook)
+    {
+        $noticia = Noticia::where('slug', $slug)->firstOrFail();
+
+        $anterior = Noticia::where('id', '<', $noticia->id)
+            ->orderByDesc('id')
+            ->first();
+
+        $relacionadas = Noticia::where('id', '!=', $noticia->id)
+            ->orderByDesc('fecha_publicacion')
+            ->take(3)
+            ->get();
+
+        return view('noticia-detalle', [
+            'noticia' => $noticia,
+            'anterior' => $anterior,
+            'relacionadas' => $relacionadas,
+            'facebookPosts' => $facebook->posts(4),
         ]);
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PageController;
+use Illuminate\Support\Facades\Route;
 
 // Páginas públicas de solo lectura: se cachea la respuesta HTML completa (TTL 1 h).
 Route::middleware('cache.response:3600')->group(function () {
@@ -15,6 +15,7 @@ Route::middleware('cache.response:3600')->group(function () {
 // que se regenera seguido para que las publicaciones se refresquen solas.
 Route::middleware('cache.response:900')->group(function () {
     Route::get('/noticias', [PageController::class, 'noticias'])->name('noticias');
+    Route::get('/noticias/{slug}', [PageController::class, 'noticiaDetalle'])->name('noticias.show');
 });
 
 // Galería: se cachean los datos (no el HTML) y se invalidan con `galeria:sync`.

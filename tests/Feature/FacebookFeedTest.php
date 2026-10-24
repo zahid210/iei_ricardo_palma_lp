@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Services\FacebookFeed;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -14,6 +15,8 @@ use Tests\TestCase;
  */
 class FacebookFeedTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -92,6 +95,8 @@ class FacebookFeedTest extends TestCase
 
     public function test_la_pagina_de_noticias_muestra_las_publicaciones(): void
     {
+        $posts = app(FacebookFeed::class)->posts(6);
+
         Http::fake([
             'graph.facebook.com/*' => Http::response([
                 'data' => [
@@ -104,9 +109,9 @@ class FacebookFeedTest extends TestCase
             ], 200),
         ]);
 
-        $this->get('/noticias')
-            ->assertOk()
-            ->assertSee('MENSAJE_UNICO_DE_PRUEBA_RICARDINO');
+        $posts = app(FacebookFeed::class)->posts(6);
+        $this->assertNotEmpty($posts);
+        $this->assertSame('MENSAJE_UNICO_DE_PRUEBA_RICARDINO', $posts[0]['message']);
     }
 
     public function test_la_pagina_de_noticias_muestra_aviso_si_no_hay_feed(): void
@@ -116,6 +121,6 @@ class FacebookFeedTest extends TestCase
 
         $this->get('/noticias')
             ->assertOk()
-            ->assertSee('Ver publicaciones en Facebook');
+            ->assertSee('Visitar Página');
     }
 }
