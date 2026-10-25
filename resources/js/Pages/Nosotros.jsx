@@ -446,27 +446,6 @@ export default function Nosotros() {
                 </div>
             </section>
 
-            {/* =========================================================================
-                6. CIERRE INSPIRADOR: LEMA INSTITUCIONAL
-               ========================================================================= */}
-            <section className="bg-white py-16 sm:py-20 text-center">
-                <div className="mx-auto max-w-4xl px-5 sm:px-8 space-y-6">
-                    <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold block">
-                        Tradición & Identidad
-                    </span>
-                    <blockquote className="font-mate text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-neutral-900">
-                        “Ser Ricardino, es ser cada día mejor”
-                    </blockquote>
-                    <div className="flex h-1 w-20 mx-auto">
-                        <span className="w-2/3 bg-ricardo-teal"></span>
-                        <span className="w-1/3 bg-ricardo-red"></span>
-                    </div>
-                    <p className="font-literata text-sm sm:text-base text-neutral-600 max-w-lg mx-auto leading-relaxed font-light">
-                        El principio formativo que orienta la labor docente, el esfuerzo de los alumnos y la confianza de las familias en Pasco.
-                    </p>
-                </div>
-            </section>
-
         </AppLayout>
     );
 }
