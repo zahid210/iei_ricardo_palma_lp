@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreDocenteRequest;
+use App\Http\Requests\Admin\UpdateDocenteRequest;
 use App\Models\Docente;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class DocenteController extends Controller
@@ -25,15 +26,9 @@ class DocenteController extends Controller
         return inertia('Admin/Docentes/Index', compact('docentes', 'porNivel'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDocenteRequest $request)
     {
-        $validated = $request->validate([
-            'nivel' => ['required', 'string', 'in:Inicial,Primaria,Secundaria'],
-            'nombres_apellidos' => ['required', 'string', 'max:255'],
-            'cargo' => ['required', 'string', 'max:255'],
-            'dni' => ['nullable', 'string', 'max:20'],
-            'orden' => ['nullable', 'integer'],
-        ]);
+        $validated = $request->validated();
 
         Docente::create([
             'nivel' => $validated['nivel'],
@@ -46,18 +41,12 @@ class DocenteController extends Controller
 
         Cache::forget('docentes:todos');
 
-        return redirect()->route('admin.docentes.index')->with('success', 'Docente agregado correctamente.');
+        return redirect()->route('admin.docentes.index')->with('success', 'Profesor registrado con éxito.');
     }
 
-    public function update(Request $request, Docente $docente)
+    public function update(UpdateDocenteRequest $request, Docente $docente)
     {
-        $validated = $request->validate([
-            'nivel' => ['required', 'string', 'in:Inicial,Primaria,Secundaria'],
-            'nombres_apellidos' => ['required', 'string', 'max:255'],
-            'cargo' => ['required', 'string', 'max:255'],
-            'dni' => ['nullable', 'string', 'max:20'],
-            'orden' => ['nullable', 'integer'],
-        ]);
+        $validated = $request->validated();
 
         $docente->update([
             'nivel' => $validated['nivel'],
@@ -69,7 +58,7 @@ class DocenteController extends Controller
 
         Cache::forget('docentes:todos');
 
-        return redirect()->route('admin.docentes.index')->with('success', 'Información del docente actualizada.');
+        return redirect()->route('admin.docentes.index')->with('success', 'Datos del profesor actualizados.');
     }
 
     public function destroy(Docente $docente)
@@ -77,6 +66,6 @@ class DocenteController extends Controller
         $docente->delete();
         Cache::forget('docentes:todos');
 
-        return redirect()->route('admin.docentes.index')->with('success', 'Docente eliminado correctamente.');
+        return redirect()->route('admin.docentes.index')->with('success', 'Profesor retirado de la lista.');
     }
 }

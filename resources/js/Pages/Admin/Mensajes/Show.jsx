@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import AdminLayout from '../../../Layouts/AdminLayout';
 import { 
     ArrowLeft, 
     Mail, 
-    Phone, 
     Calendar, 
-    MessageSquare, 
-    ExternalLink, 
+    Phone, 
+    User, 
+    GraduationCap, 
     CheckCircle2, 
     Send,
-    User
+    MessageSquare
 } from 'lucide-react';
 
 export default function Show({ contacto }) {
@@ -18,13 +18,13 @@ export default function Show({ contacto }) {
         router.patch(`/admin/mensajes/${contacto.id}/toggle-leido`);
     };
 
-    const cleanPhone = contacto.telefono ? contacto.telefono.replace(/\D/g, '') : '';
+    const cleanPhone = contacto.telefono ? contacto.telefono.replace(/\D/g, '') : null;
     const whatsappUrl = cleanPhone 
-        ? `https://wa.me/51${cleanPhone}?text=${encodeURIComponent(`Estimado(a) ${contacto.nombre}, le saludamos de la I.E.I. N° 31756 Ricardo Palma respecto a su consulta escolar.`)}`
+        ? `https://wa.me/51${cleanPhone.length === 9 ? cleanPhone : cleanPhone.slice(-9)}?text=${encodeURIComponent(`Hola ${contacto.nombre}, le escribimos de la I.E.I. N° 31756 Ricardo Palma en respuesta a su consulta.`)}`
         : null;
 
     return (
-        <AdminLayout title={`Mensaje de: ${contacto.nombre}`}>
+        <AdminLayout title={`Mensaje: ${contacto.nombre}`}>
             <div className="max-w-4xl mx-auto space-y-6">
                 
                 {/* Cabecera y Volver */}
@@ -38,6 +38,7 @@ export default function Show({ contacto }) {
                     </Link>
 
                     <button
+                        type="button"
                         onClick={handleToggleLeido}
                         className="btn-admin-secondary text-xs"
                     >
@@ -105,21 +106,21 @@ export default function Show({ contacto }) {
                         </div>
                     </div>
 
-                    {/* Cuerpo del Mensaje */}
+                    {/* Contenido de la Consulta */}
                     <div className="space-y-2">
                         <span className="font-mate text-xs uppercase tracking-wider font-bold text-neutral-500 block">
-                            Contenido de la Consulta
+                            Contenido del Mensaje
                         </span>
                         <div className="p-6 rounded-2xl border border-neutral-200/90 bg-white font-literata text-base text-neutral-800 leading-relaxed whitespace-pre-wrap">
                             {contacto.mensaje}
                         </div>
                     </div>
 
-                    {/* Botones de Respuesta Rápida */}
+                    {/* Botones de Acción */}
                     <div className="pt-4 border-t border-neutral-200/80 flex flex-wrap items-center justify-between gap-3">
                         <div className="flex items-center gap-2 text-xs text-neutral-500 font-literata">
                             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                            <span>El mensaje se encuentra registrado de forma segura.</span>
+                            <span>Consulta registrada en el sistema escolar.</span>
                         </div>
 
                         <div className="flex items-center gap-3">
@@ -136,7 +137,7 @@ export default function Show({ contacto }) {
                             )}
 
                             <a
-                                href={`mailto:${contacto.correo}?subject=Respuesta I.E.I. N° 31756 Ricardo Palma&body=Estimado(a) ${encodeURIComponent(contacto.nombre)}:%0D%0A%0D%0AGracias por comunicarse con la Institución Educativa Integrada N.° 31756 "Ricardo Palma". Respecto a su consulta...`}
+                                href={`mailto:${contacto.correo}?subject=Respuesta de la I.E.I. N° 31756 Ricardo Palma&body=Estimado(a) ${encodeURIComponent(contacto.nombre)}:%0D%0A%0D%0AEn respuesta a su consulta realizada a través de nuestra página web...`}
                                 className="btn-admin-primary"
                             >
                                 <Mail className="w-4 h-4" />

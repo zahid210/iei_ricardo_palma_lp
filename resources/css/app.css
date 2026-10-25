@@ -1276,3 +1276,103 @@
     padding: 16px;
   }
 }
+
+/* =========================================================================
+   ESTILOS DE BOTONES ADMINISTRATIVOS
+   ========================================================================= */
+.btn-admin-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color-ricardo-teal, #129582);
+  color: #ffffff;
+  padding: 0.625rem 1rem;
+  border-radius: 0.75rem;
+  font-family: var(--font-mate, ui-serif, serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.btn-admin-primary:hover {
+  background-color: var(--color-ricardo-teal-dark, #27767A);
+  box-shadow: 0 4px 12px -2px rgba(18, 149, 130, 0.25);
+}
+.btn-admin-primary:active {
+  transform: scale(0.99);
+}
+
+.btn-admin-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.75rem;
+  font-family: var(--font-mate, ui-serif, serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-admin-secondary:hover {
+  background-color: #f9fafb;
+  color: #111827;
+  border-color: #d1d5db;
+}
+
+.btn-admin-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #fef2f2;
+  color: var(--color-ricardo-red, #B3282D);
+  border: 1px solid #fecaca;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.75rem;
+  font-family: var(--font-mate, ui-serif, serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-admin-danger:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* =========================================================================
+   ESTILOS DE FORMULARIOS ADMINISTRATIVOS
+   ========================================================================= */
+.admin-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  padding: 0.625rem 0.875rem;
+  font-family: var(--font-literata, ui-serif, serif);
+  font-size: 0.875rem;
+  color: #111827;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.admin-input::placeholder {
+  color: #9ca3af;
+}
+.admin-input:focus {
+  border-color: var(--color-ricardo-teal, #129582);
+  box-shadow: 0 0 0 3px rgba(18, 149, 130, 0.15);
+  background-color: #ffffff;
+}

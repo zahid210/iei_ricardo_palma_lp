@@ -85,7 +85,6 @@ export default function Index({ docentes = [], porNivel = {} }) {
         });
     };
 
-    // Filtrado por pestaña y búsqueda
     const displayedDocentes = docentes.filter((d) => {
         const matchesTab = activeTab === 'Todos' || d.nivel === activeTab;
         const matchesSearch = 
@@ -109,36 +108,37 @@ export default function Index({ docentes = [], porNivel = {} }) {
     };
 
     return (
-        <AdminLayout title="Plana Docente">
+        <AdminLayout title="Plana de Profesores">
             <div className="space-y-6">
                 
                 {/* Encabezado y Botón Principal */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-neutral-200/80 shadow-2xs">
                     <div className="space-y-1">
                         <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                            Cuerpo Pedagógico
+                            Equipo Pedagógico
                         </span>
                         <h1 className="font-mate text-2xl sm:text-3xl text-neutral-900 uppercase font-bold tracking-tight">
-                            Plana Docente y Administrativa
+                            Profesores del Colegio
                         </h1>
                         <p className="text-xs sm:text-sm text-neutral-500 font-literata">
-                            Gestiona a los docentes por nivel formativo: Inicial, Primaria y Secundaria.
+                            Profesores y personal auxiliar organizados por nivel: Inicial, Primaria y Secundaria.
                         </p>
                     </div>
 
                     <button
+                        type="button"
                         onClick={openCreateModal}
                         className="btn-admin-primary shrink-0 self-start sm:self-auto"
                     >
                         <Plus className="w-4 h-4" />
-                        <span>Nuevo Docente</span>
+                        <span>Nuevo Profesor</span>
                     </button>
                 </div>
 
                 {/* Filtros por Nivel y Buscador */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                     
-                    {/* Tabs */}
+                    {/* Tabs de Nivel con color institucional rojo en activo */}
                     <div className="flex items-center gap-1.5 p-1 bg-white rounded-2xl border border-neutral-200/80 shadow-2xs overflow-x-auto">
                         {['Todos', 'Inicial', 'Primaria', 'Secundaria'].map((tab) => {
                             const count = tab === 'Todos' ? docentes.length : (porNivel[tab]?.length || 0);
@@ -146,10 +146,11 @@ export default function Index({ docentes = [], porNivel = {} }) {
                             return (
                                 <button
                                     key={tab}
+                                    type="button"
                                     onClick={() => setActiveTab(tab)}
                                     className={`px-4 py-2 rounded-xl text-xs font-mate uppercase tracking-wider font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
                                         isActive
-                                            ? 'bg-ricardo-teal text-white shadow-xs'
+                                            ? 'bg-ricardo-red text-white shadow-xs'
                                             : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
                                     }`}
                                 >
@@ -162,15 +163,15 @@ export default function Index({ docentes = [], porNivel = {} }) {
                         })}
                     </div>
 
-                    {/* Buscador */}
+                    {/* Buscador Rápido */}
                     <div className="flex items-center gap-2.5 bg-white px-3.5 py-2.5 rounded-2xl border border-neutral-200/80 shadow-2xs sm:w-72">
                         <Search className="w-4 h-4 text-neutral-400 shrink-0" />
                         <input
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            placeholder="Buscar docente o cargo..."
-                            className="w-full text-xs text-neutral-900 placeholder-neutral-400 outline-none bg-transparent"
+                            placeholder="Buscar profesor o cargo..."
+                            className="w-full text-xs text-neutral-900 placeholder-neutral-400 outline-none bg-transparent font-literata"
                         />
                         {searchTerm && (
                             <button onClick={() => setSearchTerm('')} className="text-xs text-neutral-400 hover:text-neutral-700">
@@ -180,7 +181,7 @@ export default function Index({ docentes = [], porNivel = {} }) {
                     </div>
                 </div>
 
-                {/* Tabla de Docentes */}
+                {/* Tabla de Profesores */}
                 <div className="bg-white rounded-3xl border border-neutral-200/80 shadow-2xs overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-xs sm:text-sm border-collapse">
@@ -223,16 +224,18 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                             <td className="py-4 px-5 text-right">
                                                 <div className="flex items-center justify-end gap-2">
                                                     <button
+                                                        type="button"
                                                         onClick={() => openEditModal(docente)}
                                                         className="p-2 rounded-xl text-neutral-500 hover:text-ricardo-teal hover:bg-teal-50 transition-colors cursor-pointer"
-                                                        title="Editar docente"
+                                                        title="Editar datos del profesor"
                                                     >
                                                         <Edit3 className="w-4 h-4" />
                                                     </button>
                                                     <button
+                                                        type="button"
                                                         onClick={() => handleDelete(docente.id, docente.nombres_apellidos)}
                                                         className="p-2 rounded-xl text-neutral-400 hover:text-ricardo-red hover:bg-red-50 transition-colors cursor-pointer"
-                                                        title="Eliminar docente"
+                                                        title="Eliminar de la lista"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
@@ -243,7 +246,7 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                 ) : (
                                     <tr>
                                         <td colSpan={6} className="py-12 text-center text-neutral-400">
-                                            No se encontraron docentes con los criterios seleccionados.
+                                            No se encontraron profesores con los criterios seleccionados.
                                         </td>
                                     </tr>
                                 )}
@@ -254,7 +257,7 @@ export default function Index({ docentes = [], porNivel = {} }) {
 
             </div>
 
-            {/* Modal de Crear / Editar Docente */}
+            {/* Modal de Crear / Editar Profesor */}
             {formModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/40 backdrop-blur-xs">
                     <div className="bg-white rounded-3xl border border-neutral-200/90 shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6">
@@ -262,13 +265,14 @@ export default function Index({ docentes = [], porNivel = {} }) {
                         <div className="flex items-center justify-between border-b border-neutral-200/80 pb-4">
                             <div>
                                 <h3 className="font-mate text-lg font-bold text-neutral-900 uppercase tracking-tight">
-                                    {editingDocente ? 'Editar Docente' : 'Registrar Nuevo Docente'}
+                                    {editingDocente ? 'Editar Profesor' : 'Registrar Nuevo Profesor'}
                                 </h3>
                                 <span className="text-xs text-neutral-500 font-literata">
                                     I.E.I. N° 31756 Ricardo Palma
                                 </span>
                             </div>
                             <button
+                                type="button"
                                 onClick={() => setFormModalOpen(false)}
                                 className="text-neutral-400 hover:text-neutral-700 p-1.5 rounded-xl hover:bg-neutral-100"
                             >
@@ -357,8 +361,8 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                 {errors.orden && <span className="text-xs text-ricardo-red">{errors.orden}</span>}
                             </div>
 
-                            {/* Botones */}
-                            <div className="pt-4 border-t border-neutral-200/80 flex items-center justify-end gap-3">
+                            {/* Botones Únicos */}
+                            <div className="pt-3 flex items-center justify-end gap-3 border-t border-neutral-200/80">
                                 <button
                                     type="button"
                                     onClick={() => setFormModalOpen(false)}
@@ -372,7 +376,7 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                     className="btn-admin-primary disabled:opacity-60"
                                 >
                                     <Save className="w-4 h-4" />
-                                    <span>{processing ? 'Guardando...' : (editingDocente ? 'Actualizar' : 'Registrar')}</span>
+                                    <span>{processing ? 'Guardando...' : (editingDocente ? 'Actualizar Profesor' : 'Registrar Profesor')}</span>
                                 </button>
                             </div>
                         </form>
@@ -391,14 +395,14 @@ export default function Index({ docentes = [], porNivel = {} }) {
                             </div>
                             <div>
                                 <h3 className="font-mate text-base font-bold text-neutral-900 uppercase tracking-tight">
-                                    Eliminar Docente
+                                    Eliminar Profesor
                                 </h3>
                                 <span className="text-xs text-neutral-400 font-literata">Esta acción no se puede deshacer</span>
                             </div>
                         </div>
 
                         <p className="text-sm text-neutral-600 font-literata leading-relaxed">
-                            ¿Estás seguro de que deseas retirar de la plana docente a <strong className="text-neutral-900 font-semibold">"{deleteModal.name}"</strong>?
+                            ¿Estás seguro de que deseas retirar de la lista de profesores a <strong className="text-neutral-900 font-semibold">"{deleteModal.name}"</strong>?
                         </p>
 
                         <div className="pt-2 flex items-center justify-end gap-3">

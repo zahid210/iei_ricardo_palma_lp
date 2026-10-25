@@ -9,29 +9,51 @@ import {
     Clock, 
     Search, 
     Phone, 
-    Inbox
+    Inbox,
+    X
 } from 'lucide-react';
 
-export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
-    const [filterStatus, setFilterStatus] = useState('todos');
-    const [searchTerm, setSearchTerm] = useState('');
+export default function Index({ 
+    mensajes = { data: [], links: [] }, 
+    noLeidos = 0, 
+    leidos = 0, 
+    totalCount = 0,
+    filters = { filtro: 'todos', q: '' }
+}) {
+    const [searchTerm, setSearchTerm] = useState(filters.q || '');
+    const currentFiltro = filters.filtro || 'todos';
 
-    const messagesList = mensajes.data || [];
+    const handleFilterChange = (nuevoFiltro) => {
+        router.get('/admin/mensajes', {
+            filtro: nuevoFiltro,
+            q: searchTerm
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
 
-    const filtered = messagesList.filter((msg) => {
-        const matchesStatus = 
-            filterStatus === 'todos' ||
-            (filterStatus === 'no_leidos' && !msg.leido) ||
-            (filterStatus === 'leidos' && msg.leido);
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        router.get('/admin/mensajes', {
+            filtro: currentFiltro,
+            q: searchTerm
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
 
-        const matchesSearch = 
-            msg.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            msg.correo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (msg.telefono && msg.telefono.includes(searchTerm)) ||
-            (msg.mensaje && msg.mensaje.toLowerCase().includes(searchTerm.toLowerCase()));
-
-        return matchesStatus && matchesSearch;
-    });
+    const handleClearSearch = () => {
+        setSearchTerm('');
+        router.get('/admin/mensajes', {
+            filtro: currentFiltro,
+            q: ''
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
 
     const handleToggleLeido = (id) => {
         router.patch(`/admin/mensajes/${id}/toggle-leido`, {}, {
@@ -39,21 +61,23 @@ export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
         });
     };
 
+    const messagesList = mensajes.data || [];
+
     return (
-        <AdminLayout title="Bandeja de Mensajes">
+        <AdminLayout title="Buzón de Mensajes">
             <div className="space-y-6">
                 
                 {/* Encabezado */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-neutral-200/80 shadow-2xs">
                     <div className="space-y-1">
                         <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                            Buzón Institucional
+                            Buzón del Colegio
                         </span>
                         <h1 className="font-mate text-2xl sm:text-3xl text-neutral-900 uppercase font-bold tracking-tight">
-                            Consultas de la Comunidad
+                            Mensajes y Consultas
                         </h1>
                         <p className="text-xs sm:text-sm text-neutral-500 font-literata">
-                            Historial oficial de mensajes enviados por padres y visitantes desde el formulario de contacto.
+                            Mensajes enviados por padres de familia y vecinos desde la página de contacto.
                         </p>
                     </div>
 
@@ -70,58 +94,66 @@ export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
                 {/* Filtros de Estado y Buscador */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                     
-                    {/* Tabs */}
+                    {/* Tabs con conteos reales de la base de datos */}
                     <div className="flex items-center gap-1.5 p-1 bg-white rounded-2xl border border-neutral-200/80 shadow-2xs">
                         <button
-                            onClick={() => setFilterStatus('todos')}
+                            type="button"
+                            onClick={() => handleFilterChange('todos')}
                             className={`px-4 py-2 rounded-xl text-xs font-mate uppercase tracking-wider font-bold transition-all cursor-pointer ${
-                                filterStatus === 'todos'
+                                currentFiltro === 'todos'
                                     ? 'bg-ricardo-teal text-white shadow-xs'
                                     : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
                             }`}
                         >
-                            Todos ({messagesList.length})
+                            Todos ({totalCount})
                         </button>
 
                         <button
-                            onClick={() => setFilterStatus('no_leidos')}
+                            type="button"
+                            onClick={() => handleFilterChange('no_leidos')}
                             className={`px-4 py-2 rounded-xl text-xs font-mate uppercase tracking-wider font-bold transition-all cursor-pointer flex items-center gap-2 ${
-                                filterStatus === 'no_leidos'
+                                currentFiltro === 'no_leidos'
                                     ? 'bg-ricardo-red text-white shadow-xs'
                                     : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
                             }`}
                         >
                             <span>No leídos</span>
                             {noLeidos > 0 && (
-                                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${filterStatus === 'no_leidos' ? 'bg-white/20 text-white' : 'bg-red-100 text-ricardo-red'}`}>
+                                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${currentFiltro === 'no_leidos' ? 'bg-white/20 text-white' : 'bg-red-100 text-ricardo-red'}`}>
                                     {noLeidos}
                                 </span>
                             )}
                         </button>
 
                         <button
-                            onClick={() => setFilterStatus('leidos')}
+                            type="button"
+                            onClick={() => handleFilterChange('leidos')}
                             className={`px-4 py-2 rounded-xl text-xs font-mate uppercase tracking-wider font-bold transition-all cursor-pointer ${
-                                filterStatus === 'leidos'
+                                currentFiltro === 'leidos'
                                     ? 'bg-neutral-800 text-white shadow-xs'
                                     : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
                             }`}
                         >
-                            Leídos
+                            Leídos ({leidos})
                         </button>
                     </div>
 
-                    {/* Buscador */}
-                    <div className="flex items-center gap-2.5 bg-white px-3.5 py-2.5 rounded-2xl border border-neutral-200/80 shadow-2xs sm:w-72">
+                    {/* Buscador Rápido con Submit */}
+                    <form onSubmit={handleSearchSubmit} className="flex items-center gap-2.5 bg-white px-3.5 py-2.5 rounded-2xl border border-neutral-200/80 shadow-2xs sm:w-80">
                         <Search className="w-4 h-4 text-neutral-400 shrink-0" />
                         <input
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="Buscar por nombre, correo..."
-                            className="w-full text-xs text-neutral-900 placeholder-neutral-400 outline-none bg-transparent"
+                            className="w-full text-xs text-neutral-900 placeholder-neutral-400 outline-none bg-transparent font-literata"
                         />
-                    </div>
+                        {searchTerm && (
+                            <button type="button" onClick={handleClearSearch} className="text-xs text-neutral-400 hover:text-neutral-700">
+                                <X className="w-3.5 h-3.5" />
+                            </button>
+                        )}
+                    </form>
                 </div>
 
                 {/* Tabla de Mensajes */}
@@ -130,7 +162,7 @@ export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
                         <table className="w-full text-left text-xs sm:text-sm border-collapse">
                             <thead>
                                 <tr className="border-b border-neutral-200/80 bg-[#FBFBFA] font-mate text-xs uppercase tracking-wider text-neutral-500">
-                                    <th className="py-3.5 px-5 font-bold">Estado</th>
+                                    <th className="py-3.5 px-5 font-bold w-12 text-center">Estado</th>
                                     <th className="py-3.5 px-5 font-bold">Fecha</th>
                                     <th className="py-3.5 px-5 font-bold">Remitente</th>
                                     <th className="py-3.5 px-5 font-bold">Contacto</th>
@@ -140,24 +172,19 @@ export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-200/60 font-literata">
-                                {filtered.length > 0 ? (
-                                    filtered.map((msg) => (
+                                {messagesList.length > 0 ? (
+                                    messagesList.map((msg) => (
                                         <tr 
                                             key={msg.id} 
                                             className={`transition-colors ${
-                                                !msg.leido ? 'bg-teal-50/30 hover:bg-teal-50/60' : 'hover:bg-neutral-50/70'
+                                                !msg.leido ? 'bg-amber-50/25 font-medium' : 'hover:bg-neutral-50/70'
                                             }`}
                                         >
-                                            <td className="py-4 px-5 whitespace-nowrap">
+                                            <td className="py-4 px-5 text-center">
                                                 {!msg.leido ? (
-                                                    <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 font-mate text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                                        Nuevo
-                                                    </span>
+                                                    <span className="inline-block w-2.5 h-2.5 rounded-full bg-ricardo-red" title="Mensaje no leído" />
                                                 ) : (
-                                                    <span className="inline-flex items-center gap-1 bg-neutral-100 text-neutral-600 font-mate text-[10px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
-                                                        Leído
-                                                    </span>
+                                                    <span className="inline-block w-2 h-2 rounded-full bg-neutral-300" title="Mensaje leído" />
                                                 )}
                                             </td>
 
@@ -176,7 +203,7 @@ export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
                                                     </a>
                                                 </div>
                                                 {msg.telefono && (
-                                                    <div className="text-[11px] text-neutral-400 flex items-center gap-1">
+                                                    <div className="text-[11px] text-neutral-400 flex items-center gap-1 font-mono">
                                                         <Phone className="w-3 h-3 text-neutral-400" />
                                                         <span>{msg.telefono}</span>
                                                     </div>
@@ -211,6 +238,7 @@ export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
                                                     </Link>
 
                                                     <button
+                                                        type="button"
                                                         onClick={() => handleToggleLeido(msg.id)}
                                                         className={`p-1.5 rounded-xl border transition-colors cursor-pointer ${
                                                             msg.leido
@@ -237,23 +265,33 @@ export default function Index({ mensajes = { data: [] }, noLeidos = 0 }) {
                     </div>
                 </div>
 
-                {/* Paginación si corresponde */}
+                {/* Paginación Segura (Sin links '#' que disparan 404) */}
                 {mensajes.links && mensajes.links.length > 3 && (
                     <div className="flex items-center justify-center gap-1.5 pt-2">
-                        {mensajes.links.map((link, idx) => (
-                            <Link
-                                key={idx}
-                                href={link.url || '#'}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                                className={`px-3.5 py-1.5 rounded-xl text-xs font-mate font-semibold transition-all ${
-                                    link.active
-                                        ? 'bg-ricardo-teal text-white shadow-xs'
-                                        : link.url
-                                            ? 'bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                                            : 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
-                                }`}
-                            />
-                        ))}
+                        {mensajes.links.map((link, idx) => {
+                            if (!link.url) {
+                                return (
+                                    <span
+                                        key={idx}
+                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                        className="px-3.5 py-1.5 rounded-xl text-xs font-mate font-semibold bg-neutral-100 text-neutral-400 cursor-not-allowed select-none"
+                                    />
+                                );
+                            }
+
+                            return (
+                                <Link
+                                    key={idx}
+                                    href={link.url}
+                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                    className={`px-3.5 py-1.5 rounded-xl text-xs font-mate font-semibold transition-all ${
+                                        link.active
+                                            ? 'bg-ricardo-teal text-white shadow-xs'
+                                            : 'bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                                    }`}
+                                />
+                            );
+                        })}
                     </div>
                 )}
 

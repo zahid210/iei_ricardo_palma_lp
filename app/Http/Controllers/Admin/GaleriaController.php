@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreGaleriaRequest;
 use App\Models\Galeria;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class GaleriaController extends Controller
@@ -16,15 +17,12 @@ class GaleriaController extends Controller
         return inertia('Admin/Galeria/Index', compact('fotos'));
     }
 
-    public function store(Request $request)
+    public function store(StoreGaleriaRequest $request)
     {
-        $validated = $request->validate([
-            'titulo' => ['required', 'string', 'max:255'],
-            'imagen_file' => ['required', 'image', 'max:5120'],
-        ]);
+        $validated = $request->validated();
 
         $file = $request->file('imagen_file');
-        $fileName = 'galeria_' . time() . '_' . Str::random(5) . '.' . $file->getClientOriginalExtension();
+        $fileName = 'galeria_upload_' . time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('images'), $fileName);
         $path = 'images/' . $fileName;
 
@@ -36,14 +34,24 @@ class GaleriaController extends Controller
         Cache::forget('galeria:todas');
         Cache::forget('galeria_items');
 
-        return redirect()->route('admin.galeria.index')->with('success', 'Fotografía agregada a la galería.');
+        return redirect()->route('admin.galeria.index')->with('success', 'Fotografía publicada en la galería.');
     }
 
-    public function destroy(Galeria $galerium)
+    public function destroy(Galeria $galeria)
     {
-        $galerium->delete();
+        // Limpieza de archivo físico solo si es una imagen subida por el panel administrativo
+        if ($galeria->imagen_path && str_starts_with($galeria->imagen_path, 'images/galeria_upload_')) {
+            $fullPath = public_path($galeria->imagen_path);
+            if (File::exists($fullPath)) {
+                File::delete($fullPath);
+            }
+        }
+
+        $galeria->delete();
+
         Cache::forget('galeria:todas');
         Cache::forget('galeria_items');
+
         return redirect()->route('admin.galeria.index')->with('success', 'Fotografía eliminada correctamente.');
     }
 }

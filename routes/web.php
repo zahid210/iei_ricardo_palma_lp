@@ -51,13 +51,19 @@ Route::prefix('admin')->group(function () {
         })->name('dashboard');
 
         // Noticias
-        Route::resource('noticias', AdminNoticiaController::class)->except(['show']);
+        Route::resource('noticias', AdminNoticiaController::class)
+            ->parameters(['noticias' => 'noticia'])
+            ->except(['show']);
 
         // Galería
-        Route::resource('galeria', AdminGaleriaController::class)->only(['index', 'store', 'destroy']);
+        Route::resource('galeria', AdminGaleriaController::class)
+            ->parameters(['galeria' => 'galeria'])
+            ->only(['index', 'store', 'destroy']);
 
         // Docentes
-        Route::resource('docentes', AdminDocenteController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('docentes', AdminDocenteController::class)
+            ->parameters(['docentes' => 'docente'])
+            ->only(['index', 'store', 'update', 'destroy']);
 
         // Mensajes de contacto (solo lectura y cambio de estado, sin eliminación física para auditoría)
         Route::get('/mensajes', [AdminContactoController::class, 'index'])->name('mensajes.index');
