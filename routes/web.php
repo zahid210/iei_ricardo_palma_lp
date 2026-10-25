@@ -36,9 +36,11 @@ Route::post('/contacto', [ContactController::class, 'store'])
 // PANEL DE ADMINISTRACIÓN (Ruta Oculta)
 // ==========================================
 Route::prefix('admin')->group(function () {
-    // Autenticación
+    // Autenticación con limitador de tasa (brute-force protection: 5 intentos por minuto)
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+    Route::post('/login', [AdminAuthController::class, 'login'])
+        ->middleware('throttle:5,1')
+        ->name('admin.login.submit');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
     // Módulos protegidos por autenticación
