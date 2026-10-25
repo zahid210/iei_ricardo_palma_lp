@@ -17,7 +17,7 @@ class AuthController extends Controller
             return redirect()->route('admin.noticias.index');
         }
 
-        return view('admin.login');
+        return inertia('Admin/Login');
     }
 
     public function login(Request $request)

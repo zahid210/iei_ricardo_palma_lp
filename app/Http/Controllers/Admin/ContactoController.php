@@ -16,7 +16,7 @@ class ContactoController extends Controller
 
         $noLeidos = Contact::where('leido', false)->count();
 
-        return view('admin.mensajes.index', compact('mensajes', 'noLeidos'));
+        return inertia('Admin/Mensajes/Index', compact('mensajes', 'noLeidos'));
     }
 
     public function show(Contact $contacto)
@@ -25,7 +25,7 @@ class ContactoController extends Controller
             $contacto->update(['leido' => true]);
         }
 
-        return view('admin.mensajes.show', compact('contacto'));
+        return inertia('Admin/Mensajes/Show', compact('contacto'));
     }
 
     public function toggleLeido(Contact $contacto)

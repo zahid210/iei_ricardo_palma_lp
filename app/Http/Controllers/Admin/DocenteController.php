@@ -22,7 +22,7 @@ class DocenteController extends Controller
             'Secundaria' => $docentes->where('nivel', 'Secundaria')->values(),
         ];
 
-        return view('admin.docentes.index', compact('docentes', 'porNivel'));
+        return inertia('Admin/Docentes/Index', compact('docentes', 'porNivel'));
     }
 
     public function store(Request $request)

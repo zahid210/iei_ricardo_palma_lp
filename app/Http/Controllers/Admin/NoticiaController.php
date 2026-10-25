@@ -12,12 +12,12 @@ class NoticiaController extends Controller
     public function index()
     {
         $noticias = Noticia::orderBy('orden')->orderByDesc('fecha_publicacion')->get();
-        return view('admin.noticias.index', compact('noticias'));
+        return inertia('Admin/Noticias/Index', compact('noticias'));
     }
 
     public function create()
     {
-        return view('admin.noticias.create');
+        return inertia('Admin/Noticias/Create');
     }
 
     public function store(Request $request)
@@ -66,7 +66,7 @@ class NoticiaController extends Controller
 
     public function edit(Noticia $noticia)
     {
-        return view('admin.noticias.edit', compact('noticia'));
+        return inertia('Admin/Noticias/Edit', compact('noticia'));
     }
 
     public function update(Request $request, Noticia $noticia)

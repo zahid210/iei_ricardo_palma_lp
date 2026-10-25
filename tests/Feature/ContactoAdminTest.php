@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ContactoAdminTest extends TestCase
@@ -32,8 +33,12 @@ class ContactoAdminTest extends TestCase
 
         $response = $this->get(route('admin.mensajes.index'));
         $response->assertStatus(200);
-        $response->assertSee('Juan Perez');
-        $response->assertSee('Nuevo');
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/Mensajes/Index')
+            ->has('mensajes.data', 1)
+            ->where('mensajes.data.0.nombre', 'Juan Perez')
+            ->where('mensajes.data.0.leido', false)
+        );
     }
 
     public function test_viewing_message_marks_it_as_read(): void
@@ -49,6 +54,10 @@ class ContactoAdminTest extends TestCase
 
         $response = $this->get(route('admin.mensajes.show', $contact->id));
         $response->assertStatus(200);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/Mensajes/Show')
+            ->where('contacto.id', $contact->id)
+        );
 
         $this->assertDatabaseHas('contacts', [
             'id' => $contact->id,

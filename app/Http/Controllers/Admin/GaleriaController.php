@@ -13,7 +13,7 @@ class GaleriaController extends Controller
     public function index()
     {
         $fotos = Galeria::orderByDesc('id')->get();
-        return view('admin.galeria.index', compact('fotos'));
+        return inertia('Admin/Galeria/Index', compact('fotos'));
     }
 
     public function store(Request $request)
