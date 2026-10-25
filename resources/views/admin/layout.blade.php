@@ -21,14 +21,14 @@
             --danger-btn-hover: #b91c1c;
             --sidebar-width: 250px;
             --brand-green: #119b8c;
-            --font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            border-radius: 0 !important; /* Estrictamente sin bordes redondeados */
+            border-radius: 0 !important;
         }
 
         body {
@@ -92,21 +92,22 @@
 
         /* NAVEGACIÓN LATERAL */
         .sidebar-nav {
-            padding: 20px 0;
+            padding: 16px 0;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
+            overflow-y: auto;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 24px;
+            padding: 11px 24px;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 500;
             border-left: 3px solid transparent;
             transition: all 0.15s ease;
@@ -124,12 +125,14 @@
             font-weight: 600;
         }
 
+        /* PIE DE BARRA LATERAL (Cuentas al fondo) */
         .sidebar-footer {
             padding: 16px 20px;
             border-top: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             gap: 8px;
+            background: #fafbfc;
         }
 
         .btn-sidebar {
@@ -137,7 +140,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 9px 14px;
+            padding: 9px 12px;
             background: #ffffff;
             border: 1px solid var(--border-color);
             color: var(--text-primary);
@@ -150,7 +153,14 @@
         }
 
         .btn-sidebar:hover {
-            background: #f9fafb;
+            background: #f3f4f6;
+        }
+
+        .btn-sidebar.active-account {
+            background-color: #f0fdf4;
+            border-color: #bbf7d0;
+            color: var(--brand-green);
+            font-weight: 600;
         }
 
         /* CONTENIDO PRINCIPAL */
@@ -275,6 +285,15 @@
             margin-bottom: 20px;
         }
 
+        .alert-error {
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: #b91c1c;
+            padding: 12px 16px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
         /* ICONOS SVG */
         .icon {
             width: 16px;
@@ -327,6 +346,11 @@
                 Noticias
             </a>
 
+            <a href="{{ route('admin.galeria.index') }}" class="nav-item {{ request()->routeIs('admin.galeria.*') ? 'active' : '' }}">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="0" ry="0"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Galería
+            </a>
+
             <a href="{{ route('admin.docentes.index') }}" class="nav-item {{ request()->routeIs('admin.docentes.*') ? 'active' : '' }}">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
                 Docentes
@@ -338,7 +362,14 @@
             </a>
         </nav>
 
+        <!-- SECCIÓN INFERIOR: GESTIÓN DE ACCESOS Y CIERRE -->
         <div class="sidebar-footer">
+            {{-- Botón de Gestión de Cuentas al fondo de la barra --}}
+            <a href="{{ route('admin.usuarios.index') }}" class="btn-sidebar {{ request()->routeIs('admin.usuarios.*') ? 'active-account' : '' }}">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                Cuentas de Acceso
+            </a>
+
             <a href="{{ route('home') }}" target="_blank" class="btn-sidebar">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 Ver sitio público
@@ -369,6 +400,12 @@
             @if(session('success'))
                 <div class="alert-success">
                     {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert-error">
+                    {{ session('error') }}
                 </div>
             @endif
 

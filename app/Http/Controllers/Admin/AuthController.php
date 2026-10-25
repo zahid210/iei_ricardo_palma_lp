@@ -50,6 +50,13 @@ class AuthController extends Controller
             return redirect()->intended(route('admin.noticias.index'));
         }
 
+        // Si no es el administrador de .env, verificar en base de datos (usuarios adicionales creados)
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('admin.noticias.index'));
+        }
+
         throw ValidationException::withMessages([
             'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
         ]);
