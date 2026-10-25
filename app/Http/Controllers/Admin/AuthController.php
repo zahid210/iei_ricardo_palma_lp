@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -25,9 +27,24 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $remember = $request->boolean('remember');
+        $adminEmail = (string) env('ADMIN_EMAIL', 'admin@rpalma.edu.pe');
+        $adminPassword = (string) env('ADMIN_PASSWORD', 'palma2026');
+        $adminName = (string) env('ADMIN_NAME', 'Administrador');
 
-        if (Auth::attempt($credentials, $remember)) {
+        // Autenticación estricta contra variables de entorno (.env)
+        // sin depender de registros manuales en base de datos.
+        $emailMatches = hash_equals(strtolower($adminEmail), strtolower($credentials['email']));
+        $passwordMatches = hash_equals($adminPassword, $credentials['password']);
+
+        if ($emailMatches && $passwordMatches) {
+            // Obtenemos o creamos la sesión del usuario administrador en BD
+            // sincronizando la contraseña con la clave actual del .env
+            $user = User::firstOrNew(['email' => $adminEmail]);
+            $user->name = $adminName;
+            $user->password = Hash::make($adminPassword);
+            $user->save();
+
+            Auth::login($user, $request->boolean('remember'));
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.noticias.index'));
