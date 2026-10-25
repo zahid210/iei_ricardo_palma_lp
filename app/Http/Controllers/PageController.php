@@ -29,6 +29,11 @@ class PageController extends Controller
         $datos = Cache::get('docentes:todos');
 
         if (! is_array($datos)) {
+            // Si la tabla estuviera vacía en el servidor, autoseed desde el json
+            if (Docente::count() === 0 && file_exists(database_path('data/docentes.json'))) {
+                (new \Database\Seeders\DocenteSeeder())->run();
+            }
+
             $datos = Docente::where('activo', true)
                 ->orderBy('orden')
                 ->orderBy('nombres_apellidos')
