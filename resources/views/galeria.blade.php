@@ -19,10 +19,11 @@
                     @foreach($imagenes as $item)
                         <article class="break-inside-avoid group relative overflow-hidden rounded-xl shadow-lg opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             {{-- La imagen se ajusta al ancho del contenedor y mantiene su altura original --}}
-                            <img src="{{ asset('storage/' . $item->imagen_path) }}"
+                            <img src="{{ $item->url }}"
                                  alt="{{ $item->titulo }}"
                                  class="w-full h-auto block transition-transform duration-700 ease-in-out group-hover:scale-105"
-                                 loading="lazy">
+                                 loading="lazy"
+                                 onerror="this.src='{{ asset('images/logo_color.png') }}';">
 
                             {{-- Overlay sutil para elegancia --}}
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>

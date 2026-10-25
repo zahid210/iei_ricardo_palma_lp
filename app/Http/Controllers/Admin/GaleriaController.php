@@ -33,6 +33,7 @@ class GaleriaController extends Controller
             'imagen_path' => $path,
         ]);
 
+        Cache::forget('galeria:todas');
         Cache::forget('galeria_items');
 
         return redirect()->route('admin.galeria.index')->with('success', 'Fotografía agregada a la galería.');
@@ -41,6 +42,7 @@ class GaleriaController extends Controller
     public function destroy(Galeria $galerium)
     {
         $galerium->delete();
+        Cache::forget('galeria:todas');
         Cache::forget('galeria_items');
         return redirect()->route('admin.galeria.index')->with('success', 'Fotografía eliminada correctamente.');
     }
