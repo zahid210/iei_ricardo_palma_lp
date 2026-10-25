@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\ContactoController as AdminContactoController;
 use App\Http\Controllers\Admin\DocenteController as AdminDocenteController;
 use App\Http\Controllers\Admin\GaleriaController as AdminGaleriaController;
 use App\Http\Controllers\Admin\NoticiaController as AdminNoticiaController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -64,9 +63,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/mensajes', [AdminContactoController::class, 'index'])->name('mensajes.index');
         Route::get('/mensajes/{contacto}', [AdminContactoController::class, 'show'])->name('mensajes.show');
         Route::delete('/mensajes/{contacto}', [AdminContactoController::class, 'destroy'])->name('mensajes.destroy');
-
-        // Cuentas de Acceso (Usuarios)
-        Route::resource('usuarios', AdminUserController::class)->only(['index', 'store', 'update', 'destroy']);
     });
 });
 
