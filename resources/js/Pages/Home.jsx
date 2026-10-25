@@ -87,50 +87,64 @@ export default function Home() {
             <Head title="I.E.I. N° 31756 Ricardo Palma - Cerro de Pasco" />
 
             {/* =========================================================================
-                1. HERO SECTION INMERSIVO (MINIMALISTA, FOTOS REALES, CERO CLUTTER)
+                1. HERO SECTION INMERSIVO (MINIMALISTA, FONDO VERDE INSTITUCIONAL)
                ========================================================================= */}
-            <section className="relative flex min-h-[34rem] sm:min-h-[38rem] md:min-h-[42rem] lg:min-h-[46rem] w-full items-center overflow-hidden bg-neutral-950">
+            <section className="relative flex min-h-[36rem] sm:min-h-[40rem] lg:min-h-[44rem] w-full items-center overflow-hidden bg-[#0C3831]">
+                {/* Fotografías Reales con Transición Suave sobre Verde Ricardino */}
                 {heroSlides.map((slide, index) => (
                     <img
                         key={index}
                         src={slide.src}
                         alt={slide.alt}
-                        className={`absolute inset-0 h-full w-full object-cover object-[center_32%] transition-opacity duration-1000 ease-out ${
-                            index === currentHero ? 'opacity-100 scale-105 z-10' : 'opacity-0 scale-100 z-0'
+                        className={`absolute inset-0 h-full w-full object-cover object-[center_32%] transition-opacity duration-1000 ease-in-out ${
+                            index === currentHero
+                                ? 'opacity-90 z-10'
+                                : 'opacity-0 z-0 pointer-events-none'
                         }`}
                         onError={(e) => { e.currentTarget.src = slide.fallback; }}
                     />
                 ))}
 
-                {/* Filtro de contraste editorial */}
-                <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-neutral-950/35"></div>
+                {/* Velo Verde Institucional (Sin Sombra Negra) */}
+                <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-r from-[#0C3831]/90 via-[#0C3831]/60 to-[#0C3831]/25"></div>
 
                 <div className="relative z-30 mx-auto max-w-7xl px-5 sm:px-8 py-20 w-full">
                     <div className="max-w-2xl space-y-6">
-                        <h1 className="font-mate text-4xl sm:text-5xl lg:text-6xl font-normal text-white uppercase tracking-tight leading-[1.08]">
-                            Formando Ricardinos comprometidos con su comunidad
-                        </h1>
+                        
+                        {/* Título Principal Limpio */}
+                        <div className="space-y-3">
+                            <h1 className="font-mate text-4xl sm:text-5xl lg:text-[54px] text-white uppercase tracking-tight leading-[1.12]">
+                                Formando Ricardinos comprometidos con su comunidad
+                            </h1>
+                            <div className="flex h-1 w-20">
+                                <span className="w-2/3 bg-ricardo-teal"></span>
+                                <span className="w-1/3 bg-ricardo-red"></span>
+                            </div>
+                        </div>
 
-                        <p className="font-literata text-base sm:text-lg text-neutral-200 leading-relaxed font-light">
-                            Educación Inicial, Primaria y Secundaria basada en valores, innovación pedagógica y compromiso social para forjar un futuro con visión y liderazgo.
+                        {/* Bajada Institucional Sobria */}
+                        <p className="font-literata text-base sm:text-lg text-neutral-100/95 leading-relaxed font-light max-w-xl">
+                            Educación Inicial, Primaria y Secundaria basada en valores, innovación pedagógica y compromiso social en Cerro de Pasco.
                         </p>
 
-                        <div className="pt-2 flex flex-wrap gap-4">
+                        {/* Botones de Acción Minimalistas */}
+                        <div className="pt-2 flex flex-wrap items-center gap-3.5 sm:gap-4">
                             <a
                                 href="#niveles"
-                                className="inline-flex items-center gap-2 bg-ricardo-teal hover:bg-ricardo-teal-dark text-white px-6 py-3 font-mate text-xs uppercase tracking-wider font-semibold transition-all shadow-md hover:shadow-lg"
+                                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-white text-[#0C3831] hover:bg-ricardo-yellow hover:text-neutral-950 px-7 py-3.5 font-mate text-xs uppercase tracking-wider font-bold shadow-md hover:shadow-lg transition-all duration-300"
                             >
                                 <span>Conoce Nuestros Niveles</span>
-                                <ArrowRight className="w-4 h-4" />
+                                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                             </a>
 
                             <Link
                                 href="/nosotros"
-                                className="inline-flex items-center gap-2 border border-white/40 hover:border-white text-white hover:bg-white/10 px-6 py-3 font-mate text-xs uppercase tracking-wider font-semibold transition-colors"
+                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/5 hover:bg-white/15 hover:border-white/50 text-white backdrop-blur-sm px-7 py-3.5 font-mate text-xs uppercase tracking-wider font-semibold transition-all duration-300"
                             >
                                 <span>Nuestra Institución</span>
                             </Link>
                         </div>
+
                     </div>
                 </div>
             </section>

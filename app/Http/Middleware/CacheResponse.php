@@ -79,7 +79,7 @@ class CacheResponse
             return false;
         }
 
-        if ($request->ajax() || $request->is('contacto*')) {
+        if ($request->ajax() || $request->header('X-Inertia') || $request->is('contacto*')) {
             return false;
         }
 

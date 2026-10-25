@@ -6,6 +6,7 @@ use App\Services\FacebookFeed;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 /**
@@ -121,6 +122,9 @@ class FacebookFeedTest extends TestCase
 
         $this->get('/noticias')
             ->assertOk()
-            ->assertSee('Visitar Página');
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Noticias')
+                ->where('facebookPosts', [])
+            );
     }
 }

@@ -26,7 +26,7 @@ class PageController extends Controller
 
     public function nosotros()
     {
-        return view('nosotros');
+        return inertia('Nosotros');
     }
 
     public function docentes()
@@ -57,7 +57,7 @@ class PageController extends Controller
             'Secundaria' => $docentes->where('nivel', 'Secundaria')->values(),
         ];
 
-        return view('docentes', compact('porNivel'));
+        return inertia('Docentes', compact('porNivel'));
     }
 
     public function noticias(FacebookFeed $facebook)
@@ -68,10 +68,10 @@ class PageController extends Controller
         $secundarias = $noticias->where('id', '!==', $destacada?->id)->take(4);
         $otrasNoticias = $noticias->where('id', '!==', $destacada?->id)->skip(4);
 
-        return view('noticias', [
+        return inertia('Noticias', [
             'destacada' => $destacada,
-            'secundarias' => $secundarias,
-            'otrasNoticias' => $otrasNoticias,
+            'secundarias' => $secundarias->values(),
+            'otrasNoticias' => $otrasNoticias->values(),
             'facebookPosts' => $facebook->posts(6),
         ]);
     }
@@ -89,7 +89,7 @@ class PageController extends Controller
             ->take(3)
             ->get();
 
-        return view('noticia-detalle', [
+        return inertia('NoticiaDetalle', [
             'noticia' => $noticia,
             'anterior' => $anterior,
             'relacionadas' => $relacionadas,
@@ -99,7 +99,7 @@ class PageController extends Controller
 
     public function contacto()
     {
-        return view('contacto');
+        return inertia('Contacto');
     }
 
     public function galeria()
@@ -134,6 +134,6 @@ class PageController extends Controller
             ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
         );
 
-        return view('galeria', compact('imagenes'));
+        return inertia('Galeria', compact('imagenes'));
     }
 }
