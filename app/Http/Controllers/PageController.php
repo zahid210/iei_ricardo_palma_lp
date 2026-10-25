@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Docente;
 use App\Models\Galeria;
 use App\Models\Noticia;
 use App\Services\FacebookFeed;
@@ -23,7 +24,20 @@ class PageController extends Controller
 
     public function docentes()
     {
-        return view('docentes');
+        $docentes = Cache::remember('docentes:todos', now()->addHours(12), function () {
+            return Docente::where('activo', true)
+                ->orderBy('orden')
+                ->orderBy('nombres_apellidos')
+                ->get();
+        });
+
+        $porNivel = [
+            'Inicial' => $docentes->where('nivel', 'Inicial')->values(),
+            'Primaria' => $docentes->where('nivel', 'Primaria')->values(),
+            'Secundaria' => $docentes->where('nivel', 'Secundaria')->values(),
+        ];
+
+        return view('docentes', compact('porNivel'));
     }
 
     public function noticias(FacebookFeed $facebook)

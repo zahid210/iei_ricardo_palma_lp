@@ -162,4 +162,81 @@
 
         </div>
     </section>
+
+    <!-- LISTADO DE DOCENTES POR NIVEL -->
+    <section class="bg-white py-14 sm:py-20 border-t border-neutral-100">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="inline-block text-xs uppercase tracking-wider font-semibold text-ricardo-teal mb-2">
+                    Nuestra Plana Educativa
+                </span>
+                <x-section-title>Docentes y Personal por Nivel</x-section-title>
+                <p class="mt-4 text-[15px] sm:text-[16px] text-neutral-600">
+                    Conoce a los maestros y maestras que guían el aprendizaje en cada una de nuestras etapas formativas.
+                </p>
+            </div>
+
+            @php
+                $nivelesInfo = [
+                    'Inicial' => [
+                        'color' => 'bg-emerald-50 text-emerald-800 border-emerald-200',
+                        'accent' => 'text-emerald-700',
+                        'desc' => 'Primeros pasos en el desarrollo integral, psicomotriz y socioemocional.',
+                    ],
+                    'Primaria' => [
+                        'color' => 'bg-amber-50 text-amber-800 border-amber-200',
+                        'accent' => 'text-amber-700',
+                        'desc' => 'Consolidación de competencias fundamentales, lectura y pensamiento matemático.',
+                    ],
+                    'Secundaria' => [
+                        'color' => 'bg-sky-50 text-sky-800 border-sky-200',
+                        'accent' => 'text-sky-700',
+                        'desc' => 'Jornada Escolar Completa (JEC), pensamiento crítico y formación preuniversitaria.',
+                    ],
+                ];
+            @endphp
+
+            <div class="space-y-16">
+                @foreach($porNivel as $nivel => $lista)
+                    @if($lista->isNotEmpty())
+                        <div class="border border-neutral-200 rounded-none bg-neutral-50/50 p-6 sm:p-8" data-reveal>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-6 border-b border-neutral-200 gap-3">
+                                <div>
+                                    <div class="flex items-center gap-3">
+                                        <h3 class="font-mate text-2xl font-bold text-neutral-900">
+                                            Nivel {{ $nivel }}
+                                        </h3>
+                                        <span class="px-2.5 py-0.5 text-xs font-semibold rounded-none border {{ $nivelesInfo[$nivel]['color'] ?? 'bg-neutral-100 text-neutral-800 border-neutral-300' }}">
+                                            {{ $lista->count() }} profesionales
+                                        </span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-neutral-500 mt-1">
+                                        {{ $nivelesInfo[$nivel]['desc'] ?? '' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                @foreach($lista as $docente)
+                                    <div class="bg-white border border-neutral-200 p-4 flex items-start gap-3.5 hover:border-ricardo-teal transition-colors rounded-none">
+                                        <div class="w-10 h-10 flex-shrink-0 bg-neutral-100 border border-neutral-200 flex items-center justify-center font-bold text-neutral-600 text-sm">
+                                            {{ mb_substr($docente->nombres_apellidos, 0, 1) }}
+                                        </div>
+                                        <div class="min-w-0 flex-grow">
+                                            <h4 class="text-sm font-semibold text-neutral-900 leading-snug line-clamp-2" title="{{ $docente->nombres_apellidos }}">
+                                                {{ $docente->nombres_apellidos }}
+                                            </h4>
+                                            <span class="inline-block mt-1 text-[11.5px] uppercase font-semibold tracking-wide {{ $nivelesInfo[$nivel]['accent'] ?? 'text-neutral-600' }}">
+                                                {{ $docente->cargo }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </section>
 @endsection

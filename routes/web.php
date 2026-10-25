@@ -57,7 +57,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('galeria', AdminGaleriaController::class)->only(['index', 'store', 'destroy']);
 
         // Docentes
-        Route::get('/docentes', [AdminDocenteController::class, 'index'])->name('docentes.index');
+        Route::resource('docentes', AdminDocenteController::class)->only(['index', 'store', 'update', 'destroy']);
 
         // Mensajes de contacto
         Route::get('/mensajes', [AdminContactoController::class, 'index'])->name('mensajes.index');

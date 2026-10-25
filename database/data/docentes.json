@@ -1,0 +1,410 @@
+[
+  {
+    "nivel": "Inicial",
+    "nombres_apellidos": "ALVARADO RIVERA Gladys Luz",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4048539",
+    "orden": 1,
+    "activo": true
+  },
+  {
+    "nivel": "Inicial",
+    "nombres_apellidos": "GARAY GAVINO GINA Vanesa",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "71830013",
+    "orden": 2,
+    "activo": true
+  },
+  {
+    "nivel": "Inicial",
+    "nombres_apellidos": "GRANDA HINOSTROZA, Yolanda Gavi",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4070345",
+    "orden": 3,
+    "activo": true
+  },
+  {
+    "nivel": "Inicial",
+    "nombres_apellidos": "MAUTINO GAMARRA, Luz Almida",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4085733",
+    "orden": 4,
+    "activo": true
+  },
+  {
+    "nivel": "Inicial",
+    "nombres_apellidos": "PARDAVE YACHAS, Luz María",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4070869",
+    "orden": 5,
+    "activo": true
+  },
+  {
+    "nivel": "Inicial",
+    "nombres_apellidos": "TORRES YANAYACO Erika",
+    "cargo": "DOCENTE DE AULA",
+    "dni": null,
+    "orden": 6,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "YALICO JARA ROCÍO MARGOTH",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "44619419",
+    "orden": 7,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "ORTÍZ LÓPEZ, María",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4044486",
+    "orden": 8,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "CHÀVEZ NAVARRO, Madai",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "41317714",
+    "orden": 9,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "CABELLO MACHACUAY, Elsa Liz",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "43221708",
+    "orden": 10,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "ADVÍNCULA CRISTOBAL, Daniel",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "40721004",
+    "orden": 11,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "SANCHEZ DEL VALLE, Juan",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "43491065",
+    "orden": 12,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "USURIAGA CRISTOBAL, Nery Elena",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4208284",
+    "orden": 13,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "APELO COLQUI, Yanina Veronica",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "43995880",
+    "orden": 14,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "ESPINOZA SUAREZ, Nicolás Oscar",
+    "cargo": "SUB DIRECTOR",
+    "dni": "4080252",
+    "orden": 15,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "SANTIAGO COLCA, Susán Beatriz",
+    "cargo": "DOCENTE DE EDUCACIÓN FISICA",
+    "dni": "70515175",
+    "orden": 16,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "SOSA RIVERA, Marleny Smiliana",
+    "cargo": "DOCENTE DE AULA",
+    "dni": null,
+    "orden": 17,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "CHAVEZ MEDINA, César Luis",
+    "cargo": "P. I. P.",
+    "dni": "40366242",
+    "orden": 18,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "TORRES COLQUI, Tania Gladys",
+    "cargo": "DOCENTE DE AULA",
+    "dni": null,
+    "orden": 19,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "TARAZONA RAMIREZ, Nora",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4071525",
+    "orden": 20,
+    "activo": true
+  },
+  {
+    "nivel": "Primaria",
+    "nombres_apellidos": "VEGA CAJAHUANCA, Miguel Angel",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4062769",
+    "orden": 21,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "ARCE SANTOS, JAVIER ESTUARD",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4015811",
+    "orden": 22,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "ARZAPALO ARIAS NORMA",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "73446901",
+    "orden": 23,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "BALTAZAR RIXE, DOMINGO OSWALDO",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "9434782",
+    "orden": 24,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "BASILIO OSORIO, LELIZ ELENA",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "41277462",
+    "orden": 25,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "CAJACHAHUA ZEVALLOS, EDITH",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4071040",
+    "orden": 26,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "CARBAJAL ZUÑIGA, FRANK ROY",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "44008060",
+    "orden": 27,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "CHAVEZ SOLIS, SIXTO REVER",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4079103",
+    "orden": 28,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "ESPINOZA CALERO, LUPE ELIZABETH",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4065019",
+    "orden": 29,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "ESPINOZA ORTEGA, ROYER ROBERTO",
+    "cargo": "AUXILIAR DE EDUCACIÓN",
+    "dni": "4083493",
+    "orden": 30,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "ESPINOZA RAMOS, ABEL",
+    "cargo": "DOCENTE DE AULA",
+    "dni": null,
+    "orden": 31,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "GRIJALVA CHAVEZ, Obed David",
+    "cargo": "DOCENTE DE AULA",
+    "dni": null,
+    "orden": 32,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "JANAMPA REYES, RAUL",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4085422",
+    "orden": 33,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "JIMÉNEZ CURI PERCY FÉLIX",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "41332874",
+    "orden": 34,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "MUCHA GRIJALVA, AGUSTINA",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4080701",
+    "orden": 35,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "NUÑEZ BELTRAN, NILTON ROBERTO",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "20655746",
+    "orden": 36,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "POMA AGUILAR, WILDER",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "41304694",
+    "orden": 37,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "ROMERO GARCIA, CARMEN",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4063842",
+    "orden": 38,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "RIVAS SOLORZANO, RUFINA RAYDA",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4068190",
+    "orden": 39,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "RUIZ DIAZ, VICTORIA",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4008971",
+    "orden": 40,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "RECINAS ROMERO ROY",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4071915",
+    "orden": 41,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "SANCHEZ VARGAS, FELICIANO JULIAN",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4035143",
+    "orden": 42,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "TAMARA TRINIDAD, ABALO ADRIAN",
+    "cargo": "COORDINADOR",
+    "dni": "4066649",
+    "orden": 43,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "TOLENTINO SOVERO, LUIS ABEL",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "4020324",
+    "orden": 44,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "TORRES HURTADO, YURI EDUARDO",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "41578443",
+    "orden": 45,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "VALENZUELA SEGAMA JORGE LUIS",
+    "cargo": "DOCENTE DE AULA",
+    "dni": "70927158",
+    "orden": 46,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "YALICO CHOMBO, GISBERT",
+    "cargo": "PIP",
+    "dni": "44705717",
+    "orden": 47,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "CAMPOS FERNÁNDEZ, CATERING SOLEDAD",
+    "cargo": "PSICÓLOGA",
+    "dni": "70938148",
+    "orden": 48,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "RAJO GUZMAN, JEAN PIAGET",
+    "cargo": "CIST",
+    "dni": "72095924",
+    "orden": 49,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "BASILIO VELASQUEZ, LUCINDA DORIS",
+    "cargo": "SECRETARIA",
+    "dni": "45999587",
+    "orden": 50,
+    "activo": true
+  },
+  {
+    "nivel": "Secundaria",
+    "nombres_apellidos": "ROBLES ESPÍRITU, GLADYS LUZ",
+    "cargo": "SECRETARIA",
+    "dni": "4014700",
+    "orden": 51,
+    "activo": true
+  }
+]
