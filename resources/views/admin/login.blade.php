@@ -228,7 +228,7 @@
     <main class="login-box">
         <div class="login-header">
             <div class="brand-icon">
-                <img src="{{ asset('images/logo_color.png') }}" alt="Logo">
+                <img src="{{ asset('images/branding/logo_color.png') }}" alt="Logo" onerror="this.src='{{ asset('images/logo_color.png') }}';">
             </div>
             <h1>Panel de Administración</h1>
             <span>I.E.I. N° 31756 Ricardo Palma</span>

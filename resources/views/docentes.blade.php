@@ -5,7 +5,7 @@
 
 @section('content')
     <!-- BANNER INSTITUCIONAL -->
-    <section class="institution-hero" style="--hero-bg: url('{{ asset('images/plana_docente.jpg') }}'); --hero-pos: center 15%;">
+    <section class="institution-hero" style="--hero-bg: url('{{ asset('images/banners/plana_docente.jpg') }}'); --hero-pos: center 15%;">
         <div class="institution-overlay"></div>
 
         <div class="institution-content">

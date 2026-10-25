@@ -8,29 +8,32 @@
 
         <!-- Slide 1 -->
         <img
-            src="{{ asset('images/fachada_colegio.jpg') }}"
+            src="{{ asset('images/banners/fachada_colegio.jpg') }}"
             alt="Fachada de la I.E.I. Ricardo Palma"
             class="absolute inset-0 h-full w-full object-cover object-[center_32%] opacity-100 scale-105 z-10 transition-all duration-[6000ms] ease-out"
             data-hero-slide
             fetchpriority="high"
+            onerror="this.src='{{ asset('images/fachada_colegio.jpg') }}';"
         >
 
         <!-- Slide 2 -->
         <img
-            src="{{ asset('images/hero_2.jpg') }}"
+            src="{{ asset('images/banners/hero_2.jpg') }}"
             alt="Docentes de la Institución"
             class="absolute inset-0 h-full w-full object-cover object-center opacity-0 scale-100 z-0 transition-none"
             data-hero-slide
             loading="lazy"
+            onerror="this.src='{{ asset('images/hero_2.jpg') }}';"
         >
 
         <!-- Slide 3 -->
         <img
-            src="{{ asset('images/plana_docente.jpg') }}"
+            src="{{ asset('images/banners/plana_docente.jpg') }}"
             alt="Estudiantes Ricardinos"
             class="absolute inset-0 h-full w-full object-cover object-center opacity-0 scale-100 z-0 transition-none"
             data-hero-slide
             loading="lazy"
+            onerror="this.src='{{ asset('images/plana_docente.jpg') }}';"
         >
 
         <!-- Filtro oscuro sobre la fotografía -->

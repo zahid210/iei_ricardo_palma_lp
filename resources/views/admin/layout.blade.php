@@ -423,7 +423,7 @@
     <aside class="admin-sidebar">
         <div class="sidebar-brand">
             <div class="brand-icon">
-                <img src="{{ asset('images/logo_color.png') }}" alt="Logo">
+                <img src="{{ asset('images/branding/logo_color.png') }}" alt="Logo" onerror="this.src='{{ asset('images/logo_color.png') }}';">
             </div>
             <div class="brand-text">
                 <h1>Panel Administrativo</h1>

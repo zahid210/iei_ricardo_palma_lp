@@ -8,14 +8,14 @@
 
     <title>@yield('title', 'I.E.I. N° 31756 Ricardo Palma - Cerro de Pasco')</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('images/logo_color.png') }}?v=1">
+    <link rel="icon" type="image/png" href="{{ asset('images/branding/logo_color.png') }}?v=1">
 
     <meta name="robots" content="index, follow">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="@yield('title', 'I.E.I. N° 31756 Ricardo Palma')">
     <meta property="og:description" content="@yield('meta_description', 'Portal oficial de la I.E.I. N.° 31756 Ricardo Palma en Chaupimarca, Pasco.')">
-    <meta property="og:image" content="{{ asset('images/logo_color.png') }}">
+    <meta property="og:image" content="{{ asset('images/branding/logo_color.png') }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="I.E.I. 31756 Ricardo Palma">
 
@@ -31,7 +31,7 @@
 
     <nav class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-2 sm:flex-row sm:gap-0 sm:px-8 md:py-2.5" aria-label="Navegación principal">
         <a href="{{ route('home') }}" class="shrink-0 transition-transform hover:scale-105 duration-200" aria-label="Ir al inicio">
-            <img src="{{ asset('images/logo_color.png') }}" alt="I.E.I. Ricardo Palma" class="h-12 w-auto sm:h-14">
+            <img src="{{ asset('images/branding/logo_color.png') }}" alt="I.E.I. Ricardo Palma" class="h-12 w-auto sm:h-14">
         </a>
 
         <div class="flex flex-wrap justify-center gap-x-5 gap-y-1 text-center font-mate text-xs uppercase tracking-wider text-neutral-700 sm:gap-x-6 md:gap-x-8 sm:text-sm lg:text-base">
@@ -57,14 +57,14 @@
         {{-- Columna 1: Contacto --}}
         <section class="w-full md:max-w-[260px] mx-auto text-center md:text-left" aria-labelledby="footer-contacto">
             <h2 id="footer-contacto" class="font-system text-sm font-bold uppercase tracking-wider text-ricardo-yellow">Contáctanos</h2>
-            <img src="{{ asset('images/logo_original_blanco.png') }}" alt="I.E.I. Ricardo Palma" class="mx-auto mt-6 h-28 w-auto object-contain sm:h-32 md:mx-0">
+            <img src="{{ asset('images/branding/logo_original_blanco.png') }}" alt="I.E.I. Ricardo Palma" class="mx-auto mt-6 h-28 w-auto object-contain sm:h-32 md:mx-0">
 
             <div class="mt-6 flex justify-center gap-4 md:justify-start" aria-label="Redes sociales">
                 @foreach(['facebook' => 'https://www.facebook.com/ricardinosemprendeores', 'whatsapp' => 'https://wa.me/51921896330', 'youtube' => 'https://www.youtube.com/@ricardopalma4155'] as $social => $link)
                     <a href="{{ $link }}" target="_blank" rel="noopener noreferrer"
                        class="group flex h-9 w-9 items-center justify-center rounded-full border border-white/40 transition-all duration-300 hover:scale-110 hover:border-white hover:bg-white/10"
                        title="Síguenos en {{ ucfirst($social) }}">
-                        <img src="{{ asset('images/'.$social.'.svg') }}" alt="{{ ucfirst($social) }}" class="h-4 w-4 brightness-0 invert">
+                        <img src="{{ asset('images/iconos/'.$social.'.svg') }}" alt="{{ ucfirst($social) }}" class="h-4 w-4 brightness-0 invert" onerror="this.src='{{ asset('images/'.$social.'.svg') }}';">
                     </a>
                 @endforeach
             </div>

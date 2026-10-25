@@ -167,8 +167,9 @@
                             <div class="pt-2">
                                 <a href="https://wa.me/51921896330" target="_blank" rel="noopener noreferrer"
                                    class="inline-flex w-full items-center justify-center gap-2 bg-[#25D366] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#20ba56] shadow-xs rounded-sm">
-                                    <img src="{{ asset('images/whatsapp.svg') }}" alt=""
-                                         class="h-4 w-4 brightness-0 invert">
+                                    <img src="{{ asset('images/iconos/whatsapp.svg') }}" alt=""
+                                         class="h-4 w-4 brightness-0 invert"
+                                         onerror="this.src='{{ asset('images/whatsapp.svg') }}';">
                                     Atención inmediata por WhatsApp
                                 </a>
                             </div>

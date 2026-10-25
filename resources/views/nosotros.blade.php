@@ -85,10 +85,11 @@
                 <figure class="group overflow-hidden rounded-sm shadow-sm opacity-0 translate-y-8 transition-all duration-700 ease-out"
                         data-reveal>
                     <img
-                        src="{{ asset('images/quienes_somos.jpg') }}"
+                        src="{{ asset('images/institucional/quienes_somos.jpg') }}"
                         alt="Comunidad Educativa Ricardo Palma"
                         class="aspect-[4/3] w-full object-cover scale-100 transition-transform duration-500 ease-out group-hover:scale-105"
                         loading="lazy"
+                        onerror="this.src='{{ asset('images/quienes_somos.jpg') }}';"
                     >
                 </figure>
             </div>
