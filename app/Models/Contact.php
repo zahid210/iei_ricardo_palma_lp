@@ -14,12 +14,14 @@ class Contact extends Model
         'telefono',
         'correo',
         'nivel',
-        'mensaje'
+        'mensaje',
+        'leido',
     ];
 
     protected function casts(): array
     {
         return [
+            'leido' => 'boolean',
             'created_at' => 'datetime:d/m/Y H:i',
             'updated_at' => 'datetime:d/m/Y H:i',
         ];

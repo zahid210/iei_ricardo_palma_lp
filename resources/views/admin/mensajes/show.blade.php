@@ -100,17 +100,22 @@
         </div>
 
         <div class="detail-actions">
-            <a href="mailto:{{ $contacto->correo }}?subject=Respuesta de I.E.I. Ricardo Palma" class="btn-primary">
+            <a href="mailto:{{ $contacto->correo }}?subject=Respuesta a su consulta - I.E.I. Ricardo Palma" class="btn-primary">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 Responder por correo
             </a>
 
-            <form action="{{ route('admin.mensajes.destroy', $contacto->id) }}" method="POST" data-confirm="¿Eliminar este mensaje definitivamente?">
+            <form action="{{ route('admin.mensajes.toggle', $contacto->id) }}" method="POST">
                 @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-outline" style="color: var(--danger-btn); border-color: #fee2e2;">
-                    <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    Eliminar mensaje
+                @method('PATCH')
+                <button type="submit" class="btn-outline">
+                    @if($contacto->leido)
+                        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                        Marcar como no leído
+                    @else
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        Marcar como leído
+                    @endif
                 </button>
             </form>
         </div>

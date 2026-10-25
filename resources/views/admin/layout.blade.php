@@ -447,9 +447,15 @@
                 Docentes
             </a>
 
+            @php
+                $pendientesContacto = \App\Models\Contact::where('leido', false)->count();
+            @endphp
             <a href="{{ route('admin.mensajes.index') }}" class="nav-item {{ request()->routeIs('admin.mensajes.*') ? 'active' : '' }}">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 Mensajes
+                @if($pendientesContacto > 0)
+                    <span style="margin-left: auto; background: #dc2626; color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 0;">{{ $pendientesContacto }}</span>
+                @endif
             </a>
         </nav>
 

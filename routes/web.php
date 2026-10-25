@@ -59,10 +59,10 @@ Route::prefix('admin')->group(function () {
         // Docentes
         Route::resource('docentes', AdminDocenteController::class)->only(['index', 'store', 'update', 'destroy']);
 
-        // Mensajes de contacto
+        // Mensajes de contacto (solo lectura y cambio de estado, sin eliminación física para auditoría)
         Route::get('/mensajes', [AdminContactoController::class, 'index'])->name('mensajes.index');
         Route::get('/mensajes/{contacto}', [AdminContactoController::class, 'show'])->name('mensajes.show');
-        Route::delete('/mensajes/{contacto}', [AdminContactoController::class, 'destroy'])->name('mensajes.destroy');
+        Route::patch('/mensajes/{contacto}/toggle-leido', [AdminContactoController::class, 'toggleLeido'])->name('mensajes.toggle');
     });
 });
 

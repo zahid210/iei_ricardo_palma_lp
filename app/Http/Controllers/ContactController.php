@@ -30,8 +30,8 @@ class ContactController extends Controller
         $contact = Contact::create($validated);
 
         try {
-            Mail::to('soporte@iericardopalmapasco.edu.pe')
-                ->send(new ContactNotification($contact));
+            $destinatario = config('mail.to.address', env('MAIL_TO_ADDRESS', 'soporte@iericardopalmapasco.edu.pe'));
+            Mail::to($destinatario)->send(new ContactNotification($contact));
         } catch (\Throwable $e) {
             Log::error('Error enviando notificación de contacto', [
                 'contact_id' => $contact->id,
