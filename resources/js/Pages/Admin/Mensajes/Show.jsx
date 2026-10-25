@@ -23,6 +23,22 @@ export default function Show({ contacto }) {
         ? `https://wa.me/51${cleanPhone.length === 9 ? cleanPhone : cleanPhone.slice(-9)}?text=${encodeURIComponent(`Hola ${contacto.nombre}, le escribimos de la I.E.I. N° 31756 Ricardo Palma en respuesta a su consulta.`)}`
         : null;
 
+    const formatMessageDate = (dateVal) => {
+        if (!dateVal) return '-';
+        if (typeof dateVal === 'string' && /^\d{2}\/\d{2}\/\d{4}/.test(dateVal)) {
+            return dateVal;
+        }
+        const d = new Date(dateVal);
+        if (isNaN(d.getTime())) return String(dateVal);
+        return d.toLocaleDateString('es-PE', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
     return (
         <AdminLayout title={`Mensaje: ${contacto.nombre}`}>
             <div className="max-w-4xl mx-auto space-y-6">
@@ -61,7 +77,7 @@ export default function Show({ contacto }) {
                                 </h1>
                                 <span className="text-xs text-neutral-400 font-literata flex items-center gap-1.5 mt-0.5">
                                     <Calendar className="w-3.5 h-3.5" />
-                                    Recibido el {contacto.created_at ? new Date(contacto.created_at).toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}
+                                    Recibido el {formatMessageDate(contacto.created_at)}
                                 </span>
                             </div>
                         </div>

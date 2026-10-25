@@ -63,6 +63,22 @@ export default function Index({
 
     const messagesList = mensajes.data || [];
 
+    const formatMessageDate = (dateVal) => {
+        if (!dateVal) return '-';
+        if (typeof dateVal === 'string' && /^\d{2}\/\d{2}\/\d{4}/.test(dateVal)) {
+            return dateVal;
+        }
+        const d = new Date(dateVal);
+        if (isNaN(d.getTime())) return String(dateVal);
+        return d.toLocaleDateString('es-PE', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
     return (
         <AdminLayout title="Buzón de Mensajes">
             <div className="space-y-6">
@@ -189,7 +205,7 @@ export default function Index({
                                             </td>
 
                                             <td className="py-4 px-5 whitespace-nowrap text-xs text-neutral-400">
-                                                {msg.created_at ? new Date(msg.created_at).toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}
+                                                {formatMessageDate(msg.created_at)}
                                             </td>
 
                                             <td className="py-4 px-5 font-medium text-neutral-900 whitespace-nowrap">

@@ -22,8 +22,6 @@ class Contact extends Model
     {
         return [
             'leido' => 'boolean',
-            'created_at' => 'datetime:d/m/Y H:i',
-            'updated_at' => 'datetime:d/m/Y H:i',
         ];
     }
 }
