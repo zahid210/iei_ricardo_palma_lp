@@ -39,18 +39,18 @@ function formatCargo(cargo) {
         .replace(/(^|[\s,.\-\/])([a-záéíóúñ])/gi, (match, sep, char) => sep + char.toUpperCase());
 }
 
-// Descripción institucional por nivel pedagógico
+// Descripción por nivel educativo
 const NIVELES_CONFIG = {
     Inicial: {
-        desc: 'Desarrollo integral, motriz y socioemocional en la primera infancia.',
+        desc: 'Primeros pasos en el aprendizaje, motricidad y convivencia a través del juego.',
         rango: '3 a 5 años'
     },
     Primaria: {
-        desc: 'Consolidación de competencias fundamentales, comprensión lectora y pensamiento lógico.',
-        rango: '1.° a 6.° grado'
+        desc: 'Lectura, matemáticas y valores fundamentales para el desarrollo de los niños.',
+        rango: '1.° a 6.° de primaria'
     },
     Secundaria: {
-        desc: 'Pensamiento crítico, formación científica, tecnológica y preparación preuniversitaria.',
+        desc: 'Preparación académica, ciencias y formación para el futuro de los jóvenes.',
         rango: '1.° a 5.° de secundaria'
     }
 };
@@ -114,34 +114,34 @@ export default function Docentes({ porNivel = {} }) {
 
     return (
         <AppLayout>
-            <Head title="Plana Docente | I.E.I. N° 31756 Ricardo Palma" />
+            <Head title="Nuestros Profesores | I.E.I. N° 31756 Ricardo Palma" />
 
             {/* =========================================================================
-                1. CABECERA EDITORIAL INSTITUCIONAL (ESTILO NOSOTROS, CERO RUIDO)
+                1. CABECERA LIMPIA
                ========================================================================= */}
             <section className="relative bg-[#FBFBFA] border-b border-neutral-200/80 pt-10 sm:pt-14 pb-14 sm:pb-18">
                 <div className="mx-auto max-w-7xl px-5 sm:px-8 space-y-8">
                     
-                    {/* Migas de pan institucionales */}
+                    {/* Migas de pan */}
                     <div className="flex items-center gap-2 font-mate text-xs text-neutral-400 uppercase tracking-wider font-semibold">
                         <Link href="/" className="hover:text-ricardo-teal transition-colors">Inicio</Link>
                         <span>/</span>
-                        <span className="text-neutral-700">Comunidad Educativa</span>
+                        <span className="text-neutral-700">Comunidad</span>
                         <span>/</span>
-                        <span className="text-ricardo-teal">Plana Docente</span>
+                        <span className="text-ricardo-teal">Profesores</span>
                     </div>
 
-                    {/* Cabecera Asimétrica */}
+                    {/* Cabecera */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                         
-                        {/* Columna Izquierda: Presentación */}
+                        {/* Columna Izquierda */}
                         <div className="lg:col-span-7 space-y-5">
                             <div className="space-y-3">
                                 <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-bold block">
-                                    Cuerpo Pedagógico Institucional
+                                    Plana de Profesores
                                 </span>
                                 <h1 className="font-mate text-3xl sm:text-5xl lg:text-[46px] text-neutral-900 uppercase font-bold tracking-tight leading-[1.15]">
-                                    Nuestra Plana Docente
+                                    Nuestros Profesores
                                 </h1>
                                 <div className="flex h-1 w-24">
                                     <span className="w-2/3 bg-ricardo-teal"></span>
@@ -150,11 +150,11 @@ export default function Docentes({ porNivel = {} }) {
                             </div>
 
                             <p className="font-literata text-base sm:text-lg text-neutral-700 leading-relaxed font-light max-w-2xl">
-                                Maestras y maestros titulados con sólida vocación pedagógica, dedicados a la formación académica, científica y ética de nuestras infancias y juventudes en Cerro de Pasco.
+                                Profesores y profesoras comprometidos con la enseñanza, el cuidado y los valores de nuestros estudiantes en Cerro de Pasco.
                             </p>
                         </div>
 
-                        {/* Columna Derecha: Tarjetas de Síntesis Arquitectónica */}
+                        {/* Columna Derecha */}
                         <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div className="bg-white border border-neutral-200/80 rounded-xl p-4 shadow-2xs space-y-1">
                                 <div className="flex items-center justify-between text-ricardo-teal mb-2">
@@ -162,7 +162,7 @@ export default function Docentes({ porNivel = {} }) {
                                     <span className="font-mate text-xs uppercase tracking-wider font-semibold text-neutral-400">Total</span>
                                 </div>
                                 <p className="font-mate text-2xl font-bold text-neutral-900">{conteos.Todos}</p>
-                                <p className="font-literata text-xs text-neutral-500">Docentes y Especialistas</p>
+                                <p className="font-literata text-xs text-neutral-500">Profesores</p>
                             </div>
 
                             <div className="bg-white border border-neutral-200/80 rounded-xl p-4 shadow-2xs space-y-1">
@@ -180,7 +180,7 @@ export default function Docentes({ porNivel = {} }) {
                                     <span className="font-mate text-xs uppercase tracking-wider font-semibold text-neutral-400">Vocación</span>
                                 </div>
                                 <p className="font-mate text-2xl font-bold text-neutral-900">100%</p>
-                                <p className="font-literata text-xs text-neutral-500">Compromiso Pedagógico</p>
+                                <p className="font-literata text-xs text-neutral-500">Dedicación Escolar</p>
                             </div>
                         </div>
 

@@ -27,20 +27,20 @@ export default function Noticias({ destacada, secundarias = [], otrasNoticias = 
                         <span className="text-ricardo-teal">Noticias & Sala de Prensa</span>
                     </div>
 
-                    {/* Cabecera Limpia */}
+                    {/* Presentación */}
                     <div className="max-w-3xl space-y-4">
                         <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-bold block">
-                            Sala de Prensa & Comunicados Oficiales
+                            Noticias y Actividades
                         </span>
                         <h1 className="font-mate text-3xl sm:text-5xl lg:text-[46px] text-neutral-900 uppercase font-bold tracking-tight leading-[1.15]">
-                            Noticias Institucionales
+                            Noticias del Colegio
                         </h1>
                         <div className="flex h-1 w-24">
                             <span className="w-2/3 bg-ricardo-teal"></span>
                             <span className="w-1/3 bg-ricardo-red"></span>
                         </div>
                         <p className="font-literata text-base sm:text-lg text-neutral-700 leading-relaxed font-light pt-1">
-                            Crónicas pedagógicas, distinciones académicas, actividades cívicas y la vida diaria de nuestra comunidad educativa en las alturas de Cerro de Pasco.
+                            Actividades escolares, eventos cívicos, logros de nuestros alumnos y comunicados para los padres de familia en Cerro de Pasco.
                         </p>
                     </div>
 
@@ -95,7 +95,7 @@ export default function Noticias({ destacada, secundarias = [], otrasNoticias = 
                                         </p>
 
                                         <div className="pt-2 inline-flex items-center gap-2 font-mate text-xs uppercase tracking-wider font-bold text-ricardo-teal group-hover:translate-x-1 transition-transform">
-                                            <span>Leer crónica completa</span>
+                                            <span>Leer noticia completa</span>
                                             <ArrowRight className="w-3.5 h-3.5" />
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@ export default function Noticias({ destacada, secundarias = [], otrasNoticias = 
                             <div className="lg:col-span-5 space-y-4">
                                 <div className="border-b border-neutral-200/80 pb-3">
                                     <span className="font-mate text-xs uppercase tracking-widest text-neutral-400 font-bold">
-                                        Acontecimientos Recientes
+                                        Noticias Recientes
                                     </span>
                                 </div>
 
@@ -148,15 +148,15 @@ export default function Noticias({ destacada, secundarias = [], otrasNoticias = 
                         </div>
                     )}
 
-                    {/* Archivo / Más Crónicas */}
+                    {/* Archivo / Más Noticias */}
                     {otrasNoticias.length > 0 && (
                         <div className="pt-10 border-t border-neutral-200/80 space-y-8">
                             <div className="border-l-2 border-ricardo-teal pl-4 space-y-1">
                                 <h2 className="font-mate text-xl sm:text-2xl font-bold uppercase text-neutral-900 tracking-tight">
-                                    Otras Crónicas & Publicaciones
+                                    Más Noticias y Actividades
                                 </h2>
                                 <p className="font-literata text-xs sm:text-sm text-neutral-500">
-                                    Explora el registro histórico de actividades institucionales.
+                                    Otras actividades y publicaciones de nuestro colegio.
                                 </p>
                             </div>
 

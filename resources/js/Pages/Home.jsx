@@ -127,9 +127,9 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                             </div>
                         </div>
 
-                        {/* Bajada Institucional Sobria */}
+                        {/* Bajada Sobria */}
                         <p className="font-literata text-base sm:text-lg text-neutral-100/95 leading-relaxed font-light max-w-xl">
-                            Educación Inicial, Primaria y Secundaria basada en valores, innovación pedagógica y compromiso social en Cerro de Pasco.
+                            Educación Inicial, Primaria y Secundaria con dedicación, valores y trabajo conjunto con las familias en Cerro de Pasco.
                         </p>
 
                         {/* Botones de Acción Minimalistas */}
@@ -164,7 +164,7 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                         {/* Lema a la Izquierda */}
                         <div className="lg:col-span-5 space-y-5 text-left">
                             <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                                Filosofía Institucional
+                                Lema del Colegio
                             </span>
                             <blockquote className="font-mate text-3xl sm:text-4xl lg:text-[42px] font-normal text-neutral-900 leading-[1.18] uppercase tracking-tight">
                                 “Ser Ricardino, es ser cada día mejor”
@@ -174,7 +174,7 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                                 <span className="w-1/3 bg-ricardo-red"></span>
                             </div>
                             <p className="font-literata text-base sm:text-lg text-neutral-600 leading-relaxed pt-1">
-                                Principio ético que guía el trabajo de nuestros docentes y el aprendizaje cotidiano de cada estudiante en aulas, talleres y canchas.
+                                El principio que guía el esfuerzo de nuestros profesores y alumnos en las aulas y actividades del colegio.
                             </p>
                         </div>
 
@@ -199,10 +199,10 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                             <GeometricCoverflow slides={welcomePhotos} maxWidth="max-w-[680px]" />
                         </div>
 
-                        {/* Presentación Institucional a la Derecha */}
+                        {/* Presentación del Colegio a la Derecha */}
                         <div className="lg:col-span-5 space-y-5 order-1 lg:order-2 text-left">
                             <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                                Presentación Institucional
+                                Sobre Nuestro Colegio
                             </span>
                             <h2 className="font-mate text-3xl sm:text-4xl text-neutral-900 uppercase font-bold tracking-tight leading-snug">
                                 Bienvenidos a la I.E.I N.° 31756 Ricardo Palma
@@ -214,13 +214,13 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
 
                             <div className="space-y-4 font-literata text-base sm:text-[16px] text-neutral-700 leading-relaxed pt-1">
                                 <p>
-                                    La <strong className="font-semibold text-neutral-900">Institución Educativa Integrada N.° 31756 “Ricardo Palma”</strong>, ubicada en Cerro de Pasco, se ha consolidado como una institución comprometida con la formación integral de sus estudiantes en los niveles de Inicial, Primaria y Secundaria.
+                                    La <strong className="font-semibold text-neutral-900">Institución Educativa Integrada N.° 31756 “Ricardo Palma”</strong>, ubicada en Cerro de Pasco, brinda formación a niños y jóvenes en los niveles de Inicial, Primaria y Secundaria.
                                 </p>
                                 <p>
-                                    A lo largo de su trayectoria, ha impulsado proyectos de innovación educativa, fortaleciendo el aprendizaje integral y promoviendo una educación basada en valores, el respeto y la mejora continua.
+                                    Trabajamos con dedicación junto a las familias, fomentando una convivencia basada en el respeto, el esfuerzo personal y la solidaridad comunitaria.
                                 </p>
                                 <p>
-                                    Hoy, la institución continúa formando estudiantes competentes, autónomos y comprometidos con su comunidad, integrando nuevas estrategias pedagógicas y tecnologías.
+                                    Acompañamos el crecimiento de cada estudiante con profesores comprometidos y actividades pedagógicas y deportivas para su desarrollo.
                                 </p>
                             </div>
                         </div>
@@ -354,10 +354,10 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
             <section id="objetivo" className="bg-white py-16 sm:py-24">
                 <div className="mx-auto max-w-7xl px-5 sm:px-8 space-y-16">
                     
-                    {/* Manifiesto Institucional */}
+                    {/* Manifiesto */}
                     <div className="max-w-3xl mx-auto text-center space-y-5">
                         <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                            Misión y Compromiso
+                            Nuestro Compromiso
                         </span>
                         <h2 className="font-mate text-3xl sm:text-4xl text-neutral-900 uppercase font-bold tracking-tight">
                             Nuestro Objetivo
@@ -367,14 +367,14 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                             <span className="w-1/3 bg-ricardo-red"></span>
                         </div>
                         <p className="font-literata text-base sm:text-lg text-neutral-700 leading-relaxed pt-2">
-                            Formar estudiantes íntegros, críticos, creativos e innovadores mediante una educación de calidad, inclusiva y basada en valores; consolidando una institución líder con gestión participativa, docentes actualizados, familias comprometidas e infraestructura moderna y sostenible.
+                            Formar a nuestros estudiantes con dedicación, valores y respeto; fortaleciendo una convivencia donde profesores, alumnos y familias trabajemos unidos por el futuro de nuestros hijos.
                         </p>
                     </div>
 
-                    {/* Esculturas de Estadísticas Auténticas (Diseño Refinado y Minimalista) */}
+                    {/* Contadores */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                         
-                        {/* 10 Docentes Titulares */}
+                        {/* Docentes */}
                         <div className="group relative rounded-2xl border border-neutral-200/90 bg-[#FBFBFA] hover:bg-white py-9 px-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-ricardo-teal/40">
                             <div className="w-14 h-14 mx-auto rounded-2xl bg-teal-50 text-ricardo-teal flex items-center justify-center border border-teal-100/60 mb-4 transition-transform duration-300 group-hover:scale-110">
                                 <Users className="w-7 h-7" />
@@ -383,17 +383,17 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                                 {docentesCount}
                             </span>
                             <span className="font-mate text-xs uppercase tracking-widest text-neutral-600 font-semibold block mt-3">
-                                Docentes Titulares
+                                Profesores
                             </span>
                             <span className="mx-auto mt-4 block h-0.5 w-8 rounded-full bg-ricardo-teal/40 group-hover:w-16 group-hover:bg-ricardo-teal transition-all duration-500"></span>
                         </div>
 
-                        {/* 200 Padres Comprometidos */}
+                        {/* Familias */}
                         <div className="group relative rounded-2xl border border-neutral-200/90 bg-[#FBFBFA] hover:bg-white py-9 px-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-amber-500/40">
                             <div className="w-14 h-14 mx-auto rounded-2xl bg-amber-50 flex items-center justify-center border border-amber-100/60 p-2.5 mb-4 transition-transform duration-300 group-hover:scale-110">
                                 <img
                                     src="/images/padre.png"
-                                    alt="Padres Comprometidos"
+                                    alt="Familias Comprometidas"
                                     className="w-7 h-7 object-contain"
                                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                                 />
@@ -402,12 +402,12 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                                 200
                             </span>
                             <span className="font-mate text-xs uppercase tracking-widest text-neutral-600 font-semibold block mt-3">
-                                Padres Comprometidos
+                                Familias
                             </span>
                             <span className="mx-auto mt-4 block h-0.5 w-8 rounded-full bg-amber-500/40 group-hover:w-16 group-hover:bg-amber-500 transition-all duration-500"></span>
                         </div>
 
-                        {/* 150 Estudiantes Totales */}
+                        {/* Alumnos */}
                         <div className="group relative rounded-2xl border border-neutral-200/90 bg-[#FBFBFA] hover:bg-white py-9 px-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-ricardo-red/40">
                             <div className="w-14 h-14 mx-auto rounded-2xl bg-red-50 text-ricardo-red flex items-center justify-center border border-red-100/60 mb-4 transition-transform duration-300 group-hover:scale-110">
                                 <GraduationCap className="w-7 h-7" />
@@ -416,7 +416,7 @@ export default function Home({ noticias = [], galeria = [], docentesCount = 51 }
                                 150
                             </span>
                             <span className="font-mate text-xs uppercase tracking-widest text-neutral-600 font-semibold block mt-3">
-                                Estudiantes Totales
+                                Alumnos
                             </span>
                             <span className="mx-auto mt-4 block h-0.5 w-8 rounded-full bg-ricardo-red/40 group-hover:w-16 group-hover:bg-ricardo-red transition-all duration-500"></span>
                         </div>

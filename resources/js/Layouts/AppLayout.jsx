@@ -136,7 +136,7 @@ export default function AppLayout({ children }) {
                                 “Ricardo Palma”
                             </p>
                             <p className="text-xs text-neutral-300 font-literata max-w-sm leading-relaxed">
-                                Formando estudiantes competentes, autónomos y comprometidos con su comunidad en Cerro de Pasco.
+                                Educación Inicial, Primaria y Secundaria al servicio de las familias de Chaupimarca y Cerro de Pasco.
                             </p>
                         </div>
 

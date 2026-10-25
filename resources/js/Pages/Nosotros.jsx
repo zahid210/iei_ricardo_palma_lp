@@ -133,29 +133,29 @@ export default function Nosotros() {
             <Head title="Nosotros | I.E.I. N° 31756 Ricardo Palma" />
 
             {/* =========================================================================
-                1. HERO EDITORIAL MODERNO Y MINIMALISTA (SIN BLOQUES GENÉRICOS)
+                1. HERO MODERNO Y CERCANO AL COLEGIO
                ========================================================================= */}
             <section className="relative bg-[#FBFBFA] border-b border-neutral-200/80 pt-10 sm:pt-14 pb-16 sm:pb-20">
                 <div className="mx-auto max-w-7xl px-5 sm:px-8 space-y-10">
                     
-                    {/* Migas de pan institucionales limpias */}
+                    {/* Migas de pan */}
                     <div className="flex items-center gap-2 font-mate text-xs text-neutral-400 uppercase tracking-wider font-semibold">
                         <Link href="/" className="hover:text-ricardo-teal transition-colors">Inicio</Link>
                         <span>/</span>
-                        <span className="text-neutral-700">Nuestra Institución</span>
+                        <span className="text-neutral-700">Sobre Nosotros</span>
                     </div>
 
-                    {/* Cabecera Asimétrica */}
+                    {/* Cabecera */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
                         
-                        {/* Columna Izquierda: Manifiesto Principal */}
+                        {/* Columna Izquierda */}
                         <div className="lg:col-span-7 space-y-6">
                             <div className="space-y-3">
                                 <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-bold block">
-                                    Identidad & Trayectoria Educativa
+                                    Sobre Nuestro Colegio
                                 </span>
                                 <h1 className="font-mate text-3xl sm:text-5xl lg:text-[48px] text-neutral-900 uppercase font-bold tracking-tight leading-[1.14]">
-                                    Educación con propósito, carácter y valores en las alturas de Pasco
+                                    Educando con valores y dedicación en Cerro de Pasco
                                 </h1>
                                 <div className="flex h-1 w-24">
                                     <span className="w-2/3 bg-ricardo-teal"></span>
@@ -164,7 +164,7 @@ export default function Nosotros() {
                             </div>
 
                             <p className="font-literata text-base sm:text-lg text-neutral-700 leading-relaxed font-light max-w-2xl">
-                                La <strong className="font-semibold text-neutral-900">Institución Educativa Integrada N.° 31756 “Ricardo Palma”</strong> lidera la formación pedagógica y humana en los niveles Inicial, Primaria y Secundaria, forjando estudiantes reflexivos, éticos y comprometidos con el desarrollo integral de Cerro de Pasco.
+                                La <strong className="font-semibold text-neutral-900">Institución Educativa Integrada N.° 31756 “Ricardo Palma”</strong> brinda educación en los niveles Inicial, Primaria y Secundaria, formando niños y jóvenes con valores, respeto y ganas de superación en Chaupimarca.
                             </p>
 
                             <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -180,7 +180,7 @@ export default function Nosotros() {
                                     href="#equipo"
                                     className="bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-200/90 px-6 py-3 rounded-xl font-mate text-xs uppercase tracking-wider font-semibold transition-all shadow-2xs"
                                 >
-                                    <span>Plana Directiva</span>
+                                    <span>Equipo del Colegio</span>
                                 </a>
                             </div>
                         </div>
@@ -224,7 +224,7 @@ export default function Nosotros() {
                         <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
                             <div className="space-y-3">
                                 <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                                    Nuestra Esencia
+                                    Nuestra Historia
                                 </span>
                                 <h2 className="font-mate text-3xl sm:text-4xl text-neutral-900 uppercase font-bold tracking-tight">
                                     ¿Quiénes Somos?
@@ -237,18 +237,14 @@ export default function Nosotros() {
 
                             <div className="space-y-4 font-literata text-base text-neutral-700 leading-relaxed font-light">
                                 <p>
-                                    Somos una comunidad educativa con profunda vocación de servicio, orientada a brindar una formación rigurosa y a la vez afectiva, que atiende las particularidades cognitivas y emocionales de cada etapa del estudiante.
+                                    Somos una comunidad educativa donde profesores y familias trabajamos de la mano por el aprendizaje, el cuidado y el bienestar de los estudiantes.
                                 </p>
                                 <p>
-                                    Ubicados en el histórico distrito de Chaupimarca, nuestro colegio conjuga la tradición y disciplina de sus fundadores con herramientas pedagógicas de vanguardia, promoviendo el pensamiento crítico, la indagación científica y el arte.
+                                    Ubicados en el histórico distrito de Chaupimarca, nuestro colegio brinda una formación cercana y responsable, orientada a que cada alumno desarrolle sus habilidades, conocimientos y valores para la vida.
                                 </p>
                                 <p>
-                                    La estrecha alianza entre directivos, docentes y padres de familia garantiza un clima de convivencia democrática, donde el respeto y la superación personal son el sello distintivo de cada Ricardino.
+                                    El trabajo conjunto entre la dirección, los docentes y los padres de familia fortalece una convivencia de respeto, compañerismo y superación personal.
                                 </p>
-                            </div>
-
-                            <div className="pt-2 border-l-2 border-ricardo-teal pl-4 italic font-literata text-sm text-neutral-600 leading-relaxed">
-                                “Educar en el Ricardo Palma es cultivar mentes críticas con corazones generosos, capaces de forjar su propio destino en cualquier rincón del país.”
                             </div>
                         </div>
 
@@ -276,7 +272,7 @@ export default function Nosotros() {
                     
                     <div className="text-center max-w-2xl mx-auto space-y-3">
                         <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                            Direccionamiento Estratégico
+                            Propósito Educativo
                         </span>
                         <h2 className="font-mate text-3xl sm:text-4xl text-neutral-900 uppercase font-bold tracking-tight">
                             Misión y Visión
@@ -351,10 +347,10 @@ export default function Nosotros() {
                     
                     <div className="max-w-2xl space-y-4">
                         <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                            Pilares Éticos
+                            Convivencia Escolar
                         </span>
                         <h2 className="font-mate text-3xl sm:text-4xl text-neutral-900 uppercase font-bold tracking-tight">
-                            Valores Institucionales
+                            Nuestros Valores
                         </h2>
                         <div className="flex h-1 w-20">
                             <span className="w-2/3 bg-ricardo-teal"></span>
@@ -403,7 +399,7 @@ export default function Nosotros() {
                     
                     <div className="max-w-2xl space-y-4">
                         <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-semibold">
-                            Liderazgo y Gestión
+                            Dirección y Coordinación
                         </span>
                         <h2 className="font-mate text-3xl sm:text-4xl text-neutral-900 uppercase font-bold tracking-tight">
                             Equipo Directivo
