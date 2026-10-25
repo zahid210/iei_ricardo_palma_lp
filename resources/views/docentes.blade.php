@@ -191,7 +191,7 @@
                     'Secundaria' => [
                         'color' => 'bg-sky-50 text-sky-800 border-sky-200',
                         'accent' => 'text-sky-700',
-                        'desc' => 'Jornada Escolar Completa (JEC), pensamiento crítico y formación preuniversitaria.',
+                        'desc' => 'Educación Secundaria, pensamiento crítico y formación preuniversitaria.',
                     ],
                 ];
             @endphp

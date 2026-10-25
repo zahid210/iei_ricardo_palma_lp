@@ -14,7 +14,14 @@ class PageController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $noticias = Noticia::orderBy('orden')
+            ->orderByDesc('fecha_publicacion')
+            ->take(3)
+            ->get();
+
+        return inertia('Home', [
+            'noticias' => $noticias,
+        ]);
     }
 
     public function nosotros()

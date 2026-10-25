@@ -56,8 +56,7 @@
             </h1>
 
             <p class="mb-8 mt-5 max-w-[620px] text-[17px] leading-[1.5] text-[#e7e5e0] sm:text-[19px]">
-                Educación Inicial, Primaria y Secundaria basada en valores, innovación y Jornada Escolar
-                Completa para un futuro brillante.
+                Educación Inicial, Primaria y Secundaria basada en valores, innovación y compromiso social para un futuro brillante.
             </p>
 
             <div class="flex flex-wrap items-center gap-3.5 max-[420px]:flex-col max-[420px]:items-stretch">
@@ -168,8 +167,7 @@
                     </p>
                     <p>
                         A lo largo de su trayectoria, ha impulsado proyectos de innovación educativa, fortaleciendo el
-                        aprendizaje mediante la
-                        Jornada Escolar Completa (JEC) y promoviendo una educación basada en valores, el respeto y la
+                        aprendizaje integral y promoviendo una educación basada en valores, el respeto y la
                         mejora continua.
                     </p>
                     <p>
