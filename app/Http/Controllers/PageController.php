@@ -19,8 +19,13 @@ class PageController extends Controller
             ->take(3)
             ->get();
 
+        $galeria = Galeria::latest()->get();
+        $docentesCount = Docente::where('activo', true)->count();
+
         return inertia('Home', [
             'noticias' => $noticias,
+            'galeria' => $galeria,
+            'docentesCount' => $docentesCount,
         ]);
     }
 

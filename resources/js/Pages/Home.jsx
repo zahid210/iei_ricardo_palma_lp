@@ -4,7 +4,7 @@ import AppLayout from '../Layouts/AppLayout';
 import GeometricCoverflow from '../Components/GeometricCoverflow';
 import { ArrowRight, Users, GraduationCap } from 'lucide-react';
 
-export default function Home() {
+export default function Home({ noticias = [], galeria = [], docentesCount = 51 }) {
     // 1. Fotografías reales del Hero (transición suave automática cada 6 segundos)
     const heroSlides = [
         {
@@ -46,13 +46,18 @@ export default function Home() {
         { src: '/images/institucional/ricardinos_formados.jpg', fallback: '/images/ricardinos_formados.jpg', alt: 'Formación cívica escolar' }
     ];
 
-    // 4. Fotografías reales de la Galería
-    const galeriaPhotos = [
-        { src: '/images/galeria_1.jpg', fallback: '/images/galeria_1.jpg', alt: 'Reconocimiento escolar a estudiante' },
-        { src: '/images/galeria_2.jpg', fallback: '/images/galeria_2.jpg', alt: 'Equipo femenino campeón de futsal' },
-        { src: '/images/galeria_3.jpg', fallback: '/images/galeria_3.jpg', alt: 'Equipo masculino campeón de futsal' },
-        { src: '/images/galeria_4.jpg', fallback: '/images/galeria_4.jpg', alt: 'Actividades de la comunidad ricardina' }
-    ];
+    // 4. Fotografías dinámicas sincronizadas con la Base de Datos (tabla galerias)
+    const galeriaPhotos = (galeria && galeria.length > 0)
+        ? galeria.map((g) => ({
+            src: g.url || (g.imagen_path?.startsWith('images/') ? `/${g.imagen_path}` : `/storage/${g.imagen_path}`),
+            fallback: '/images/galeria_1.jpg',
+            alt: g.titulo || 'Fotografía institucional de la galería'
+        }))
+        : [
+            { src: '/images/galeria_1.jpg', fallback: '/images/galeria_1.jpg', alt: 'Reconocimiento escolar a estudiante' },
+            { src: '/images/galeria_2.jpg', fallback: '/images/galeria_2.jpg', alt: 'Equipo femenino campeón de futsal' },
+            { src: '/images/galeria_3.jpg', fallback: '/images/galeria_3.jpg', alt: 'Equipo masculino campeón de futsal' }
+        ];
 
     // 5. Estructura Pedagógica Oficial por Niveles
     const niveles = [
@@ -375,7 +380,7 @@ export default function Home() {
                                 <Users className="w-7 h-7" />
                             </div>
                             <span className="font-mate text-5xl sm:text-6xl font-bold text-neutral-900 block leading-none tracking-tight">
-                                10
+                                {docentesCount}
                             </span>
                             <span className="font-mate text-xs uppercase tracking-widest text-neutral-600 font-semibold block mt-3">
                                 Docentes Titulares

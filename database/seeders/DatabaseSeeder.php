@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             NoticiaSeeder::class,
             DocenteSeeder::class,
+            GaleriaSeeder::class,
         ]);
     }
 }

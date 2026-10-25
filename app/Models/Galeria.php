@@ -9,6 +9,8 @@ class Galeria extends Model
 {
     protected $fillable = ['titulo', 'imagen_path'];
 
+    protected $appends = ['url'];
+
     /**
      * URL pública de la imagen, contemplando rutas con 'images/', 'storage/' o archivos sueltos.
      */
