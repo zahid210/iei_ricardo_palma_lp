@@ -13,12 +13,13 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate(
-            ['email' => 'admin@rpalma.edu.pe'],
-            [
-                'name' => 'Administrador',
-                'password' => Hash::make('palma2026'),
-            ]
-        );
+        $email = env('ADMIN_EMAIL', 'admin@rpalma.edu.pe');
+        $password = env('ADMIN_PASSWORD', 'palma2026');
+        $name = env('ADMIN_NAME', 'Administrador');
+
+        $user = User::firstOrNew(['email' => $email]);
+        $user->name = $name;
+        $user->password = Hash::make($password);
+        $user->save();
     }
 }
