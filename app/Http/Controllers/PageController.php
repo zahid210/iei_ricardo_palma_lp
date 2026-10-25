@@ -24,12 +24,20 @@ class PageController extends Controller
 
     public function docentes()
     {
-        $docentes = Cache::remember('docentes:todos', now()->addHours(12), function () {
-            return Docente::where('activo', true)
+        // Guardamos arrays simples en la caché para evitar que serialize()/unserialize()
+        // devuelvan una __PHP_Incomplete_Class (política de seguridad de Laravel 13).
+        $datos = Cache::get('docentes:todos');
+
+        if (! is_array($datos)) {
+            $datos = Docente::where('activo', true)
                 ->orderBy('orden')
                 ->orderBy('nombres_apellidos')
-                ->get();
-        });
+                ->get()
+                ->toArray();
+            Cache::put('docentes:todos', $datos, now()->addHours(12));
+        }
+
+        $docentes = Docente::hydrate($datos);
 
         $porNivel = [
             'Inicial' => $docentes->where('nivel', 'Inicial')->values(),
