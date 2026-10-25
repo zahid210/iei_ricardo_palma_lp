@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\ContactoController as AdminContactoController;
+use App\Http\Controllers\Admin\DocenteController as AdminDocenteController;
+use App\Http\Controllers\Admin\NoticiaController as AdminNoticiaController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +31,32 @@ Route::get('/contacto', [PageController::class, 'contacto'])->name('contacto');
 Route::post('/contacto', [ContactController::class, 'store'])
     ->middleware('throttle:3,5')
     ->name('contacto.store');
+
+// ==========================================
+// PANEL DE ADMINISTRACIÓN (Ruta Oculta)
+// ==========================================
+Route::prefix('admin')->group(function () {
+    // Autenticación
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+    // Módulos protegidos por autenticación
+    Route::middleware('auth')->name('admin.')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('admin.noticias.index');
+        })->name('dashboard');
+
+        // Noticias
+        Route::resource('noticias', AdminNoticiaController::class)->except(['show']);
+
+        // Mensajes de contacto
+        Route::get('/mensajes', [AdminContactoController::class, 'index'])->name('mensajes.index');
+        Route::get('/mensajes/{contacto}', [AdminContactoController::class, 'show'])->name('mensajes.show');
+        Route::delete('/mensajes/{contacto}', [AdminContactoController::class, 'destroy'])->name('mensajes.destroy');
+
+        // Docentes
+        Route::get('/docentes', [AdminDocenteController::class, 'index'])->name('docentes.index');
+    });
+});
+
