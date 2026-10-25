@@ -144,7 +144,7 @@
                             <a href="{{ route('admin.mensajes.show', $msg->id) }}" class="btn-action-sm">
                                 Ver
                             </a>
-                            <form action="{{ route('admin.mensajes.destroy', $msg->id) }}" method="POST" onsubmit="return confirm('¿Eliminar este mensaje permanentemente?');" style="display:inline;">
+                            <form action="{{ route('admin.mensajes.destroy', $msg->id) }}" method="POST" data-confirm="¿Eliminar este mensaje permanentemente?" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-action-sm danger">

@@ -249,7 +249,7 @@
                         <span style="font-size: 11px; color: var(--text-secondary);">
                             ID: #{{ $foto->id }}
                         </span>
-                        <form action="{{ route('admin.galeria.destroy', $foto->id) }}" method="POST" onsubmit="return confirm('¿Eliminar esta fotografía permanentemente?');">
+                        <form action="{{ route('admin.galeria.destroy', $foto->id) }}" method="POST" data-confirm="¿Eliminar permanentemente la fotografía &quot;{{ $foto->titulo }}&quot;?">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn-delete-icon">

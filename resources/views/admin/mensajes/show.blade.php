@@ -105,7 +105,7 @@
                 Responder por correo
             </a>
 
-            <form action="{{ route('admin.mensajes.destroy', $contacto->id) }}" method="POST" onsubmit="return confirm('¿Eliminar este mensaje definitivamente?');">
+            <form action="{{ route('admin.mensajes.destroy', $contacto->id) }}" method="POST" data-confirm="¿Eliminar este mensaje definitivamente?">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn-outline" style="color: var(--danger-btn); border-color: #fee2e2;">

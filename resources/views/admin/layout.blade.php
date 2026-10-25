@@ -323,6 +323,97 @@
                 padding: 20px 16px;
             }
         }
+
+        /* MODAL GLOBAL DE CONFIRMACIÓN RECTANGULAR */
+        .confirm-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 24, 39, 0.65);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .confirm-modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .confirm-modal-box {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+            padding: 24px;
+        }
+
+        .confirm-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .confirm-modal-icon {
+            width: 38px;
+            height: 38px;
+            background: #fee2e2;
+            color: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid #fecaca;
+        }
+
+        .confirm-modal-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+        }
+
+        .confirm-modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .confirm-modal-message {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 22px;
+        }
+
+        .confirm-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-confirm-delete {
+            background-color: var(--danger-btn);
+            color: white;
+            border: 1px solid var(--danger-btn);
+            padding: 9px 16px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-confirm-delete:hover {
+            background-color: var(--danger-btn-hover);
+            border-color: var(--danger-btn-hover);
+        }
     </style>
     @stack('styles')
 </head>
@@ -406,6 +497,84 @@
             @yield('content')
         </main>
     </div>
+
+    <!-- MODAL DE CONFIRMACIÓN EN PANTALLA -->
+    <div id="adminConfirmModal" class="confirm-modal-backdrop" aria-hidden="true">
+        <div class="confirm-modal-box" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+            <div class="confirm-modal-header">
+                <div class="confirm-modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
+                <div class="confirm-modal-title" id="confirmModalTitle">Confirmar eliminación</div>
+            </div>
+            <div class="confirm-modal-message" id="confirmModalMessage">
+                ¿Estás seguro de realizar esta acción? Esta operación no se puede deshacer.
+            </div>
+            <div class="confirm-modal-actions">
+                <button type="button" class="btn-outline" id="confirmModalCancelBtn">Cancelar</button>
+                <button type="button" class="btn-confirm-delete" id="confirmModalAcceptBtn">Sí, eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            let formToSubmit = null;
+            const confirmModal = document.getElementById('adminConfirmModal');
+            const confirmMsg = document.getElementById('confirmModalMessage');
+            const cancelBtn = document.getElementById('confirmModalCancelBtn');
+            const acceptBtn = document.getElementById('confirmModalAcceptBtn');
+
+            function showConfirmModal(form, message) {
+                formToSubmit = form;
+                if (message) confirmMsg.textContent = message;
+                confirmModal.classList.add('active');
+                confirmModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideConfirmModal() {
+                confirmModal.classList.remove('active');
+                confirmModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                formToSubmit = null;
+            }
+
+            if (cancelBtn) cancelBtn.addEventListener('click', hideConfirmModal);
+
+            if (acceptBtn) {
+                acceptBtn.addEventListener('click', function() {
+                    if (formToSubmit) {
+                        formToSubmit.submit();
+                    }
+                });
+            }
+
+            confirmModal.addEventListener('click', function(e) {
+                if (e.target === confirmModal) hideConfirmModal();
+            });
+
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && confirmModal.classList.contains('active')) {
+                    hideConfirmModal();
+                }
+            });
+
+            // Intercepta cualquier formulario con data-confirm o submit con confirmación
+            document.addEventListener('submit', function(e) {
+                const form = e.target;
+                const confirmText = form.getAttribute('data-confirm');
+                if (confirmText) {
+                    e.preventDefault();
+                    showConfirmModal(form, confirmText);
+                }
+            });
+        })();
+    </script>
 
     @stack('scripts')
 </body>
