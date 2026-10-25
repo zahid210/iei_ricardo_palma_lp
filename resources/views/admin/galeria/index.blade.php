@@ -308,7 +308,7 @@
             </a>
             <button type="button" class="btn-primary" id="btnOpenUploadModal">
                 <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                + Nueva Fotografía
+                Nueva Fotografía
             </button>
         </div>
     </div>
@@ -344,7 +344,7 @@
             </div>
         @empty
             <div class="empty-gallery" style="grid-column: 1 / -1;">
-                No hay fotografías registradas aún. Haz clic en <strong>+ Nueva Fotografía</strong> para agregar la primera.
+                No hay fotografías registradas aún. Haz clic en <strong>Nueva Fotografía</strong> para agregar la primera.
             </div>
         @endforelse
     </div>
@@ -353,7 +353,7 @@
     <div id="uploadGaleriaModal" class="admin-modal-backdrop" aria-hidden="true">
         <div class="admin-modal">
             <div class="modal-header">
-                <h3>+ Subir Nueva Fotografía</h3>
+                <h3>Subir Nueva Fotografía</h3>
                 <button type="button" class="btn-close-modal" id="closeUploadModalBtn" aria-label="Cerrar modal">✕</button>
             </div>
 

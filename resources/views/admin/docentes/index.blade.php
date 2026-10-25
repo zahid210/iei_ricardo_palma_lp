@@ -239,7 +239,7 @@
             </a>
             <button type="button" class="btn-primary" id="btnOpenCreateDocente">
                 <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                + Nuevo Docente
+                Nuevo Docente
             </button>
         </div>
     </div>
@@ -328,7 +328,7 @@
                 @empty
                     <tr>
                         <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                            No hay docentes registrados. Haz clic en "+ Nuevo Docente" para agregar el primero.
+                            No hay docentes registrados. Haz clic en "Nuevo Docente" para agregar el primero.
                         </td>
                     </tr>
                 @endforelse
@@ -340,7 +340,7 @@
     <div id="createDocenteModal" class="admin-modal-backdrop" aria-hidden="true">
         <div class="admin-modal">
             <div class="modal-header">
-                <h3>+ Nuevo Docente o Personal</h3>
+                <h3>Nuevo Docente o Personal</h3>
                 <button type="button" class="btn-close-modal" id="closeCreateDocenteBtn" aria-label="Cerrar modal">✕</button>
             </div>
 
