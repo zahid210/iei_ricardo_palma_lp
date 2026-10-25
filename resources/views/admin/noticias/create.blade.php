@@ -20,10 +20,6 @@
         margin-bottom: 20px;
     }
 
-    .form-group.full {
-        grid-column: 1 / -1;
-    }
-
     .form-label {
         display: block;
         font-size: 13px;
@@ -56,7 +52,61 @@
 
     textarea.form-control {
         resize: vertical;
-        min-height: 120px;
+    }
+
+    /* ZONA DROPZONE */
+    .dropzone-box {
+        border: 2px dashed var(--border-color);
+        background: #f8fafc;
+        padding: 24px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.15s, background-color 0.15s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .dropzone-box:hover,
+    .dropzone-box.dragover {
+        border-color: var(--brand-green);
+        background: #f0fdf4;
+    }
+
+    .dropzone-icon {
+        width: 36px;
+        height: 36px;
+        color: var(--brand-green);
+    }
+
+    .dropzone-text {
+        font-size: 14px;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .dropzone-subtext {
+        font-size: 12px;
+        color: var(--text-secondary);
+    }
+
+    .file-preview-strip {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 12px;
+        padding: 10px 14px;
+        background: #f1f5f9;
+        border: 1px solid var(--border-color);
+    }
+
+    .file-preview-strip img {
+        width: 75px;
+        height: 50px;
+        object-fit: cover;
+        border: 1px solid var(--border-color);
     }
 
     .form-checkbox-label {
@@ -167,31 +217,30 @@
                 @error('contenido') <div class="form-error">{{ $message }}</div> @enderror
             </div>
 
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="imagen_file" class="form-label">Subir imagen <span>(JPG, PNG, WebP)</span></label>
-                    <input
-                        type="file"
-                        name="imagen_file"
-                        id="imagen_file"
-                        class="form-control"
-                        accept="image/*"
-                    >
-                    @error('imagen_file') <div class="form-error">{{ $message }}</div> @enderror
+            <!-- CARGA DE IMAGEN CON DROPZONE -->
+            <div class="form-group">
+                <label class="form-label">Imagen de la noticia <span>(JPG, PNG, WebP)</span></label>
+                
+                <div id="createDropzone" class="dropzone-box" onclick="document.getElementById('imagen_file').click();">
+                    <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <div class="dropzone-text">Arrastra una imagen aquí o haz clic para seleccionarla</div>
+                    <div class="dropzone-subtext">Formatos recomendados: JPG, PNG, WEBP (hasta 5 MB)</div>
                 </div>
 
-                <div class="form-group">
-                    <label for="imagen" class="form-label">O ruta relativa de imagen existente</label>
-                    <input
-                        type="text"
-                        name="imagen"
-                        id="imagen"
-                        class="form-control"
-                        value="{{ old('imagen', 'images/galeria_1.jpg') }}"
-                        placeholder="images/galeria_1.jpg"
-                    >
-                    @error('imagen') <div class="form-error">{{ $message }}</div> @enderror
+                <input type="file" name="imagen_file" id="imagen_file" style="display: none;" accept="image/*">
+
+                <div id="createPreviewStrip" class="file-preview-strip" style="display: none;">
+                    <img id="createPreviewImg" src="" alt="Vista previa">
+                    <div style="font-size: 13px; color: var(--text-secondary); flex-grow: 1;">
+                        <strong id="createPreviewName" style="color: var(--text-primary); display: block;"></strong>
+                        <span id="createPreviewSize"></span>
+                    </div>
                 </div>
+                @error('imagen_file') <div class="form-error">{{ $message }}</div> @enderror
             </div>
 
             <div class="form-grid">
@@ -226,3 +275,59 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    (function() {
+        const dropzone = document.getElementById('createDropzone');
+        const fileInput = document.getElementById('imagen_file');
+        const previewStrip = document.getElementById('createPreviewStrip');
+        const previewImg = document.getElementById('createPreviewImg');
+        const previewName = document.getElementById('createPreviewName');
+        const previewSize = document.getElementById('createPreviewSize');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('dragover');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('dragover');
+            });
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                fileInput.files = files;
+                handleSelectedFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files && fileInput.files.length > 0) {
+                handleSelectedFile(fileInput.files[0]);
+            }
+        });
+
+        function handleSelectedFile(file) {
+            if (!file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewName.textContent = file.name;
+                previewSize.textContent = 'Tamaño: ' + (file.size / 1024).toFixed(1) + ' KB';
+                previewStrip.style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        }
+    })();
+</script>
+@endpush

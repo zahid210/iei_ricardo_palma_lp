@@ -20,18 +20,13 @@ class GaleriaController extends Controller
     {
         $validated = $request->validate([
             'titulo' => ['required', 'string', 'max:255'],
-            'imagen_file' => ['nullable', 'image', 'max:5120'],
-            'imagen_path' => ['nullable', 'string', 'max:255'],
+            'imagen_file' => ['required', 'image', 'max:5120'],
         ]);
 
-        $path = $validated['imagen_path'] ?? 'images/galeria_1.jpg';
-
-        if ($request->hasFile('imagen_file')) {
-            $file = $request->file('imagen_file');
-            $fileName = 'galeria_' . time() . '_' . Str::random(5) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $fileName);
-            $path = 'images/' . $fileName;
-        }
+        $file = $request->file('imagen_file');
+        $fileName = 'galeria_' . time() . '_' . Str::random(5) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images'), $fileName);
+        $path = 'images/' . $fileName;
 
         Galeria::create([
             'titulo' => $validated['titulo'],

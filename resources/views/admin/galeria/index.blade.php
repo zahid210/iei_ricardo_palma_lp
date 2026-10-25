@@ -64,13 +64,6 @@
         margin-bottom: 24px;
     }
 
-    .form-grid-inline {
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        gap: 14px;
-        align-items: end;
-    }
-
     .form-control {
         width: 100%;
         padding: 9px 12px;
@@ -93,6 +86,61 @@
         font-weight: 600;
         margin-bottom: 6px;
         color: var(--text-primary);
+    }
+
+    /* ÁREA DROPZONE */
+    .dropzone-box {
+        border: 2px dashed var(--border-color);
+        background: #f8fafc;
+        padding: 22px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.15s, background-color 0.15s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .dropzone-box:hover,
+    .dropzone-box.dragover {
+        border-color: var(--brand-green);
+        background: #f0fdf4;
+    }
+
+    .dropzone-icon {
+        width: 32px;
+        height: 32px;
+        color: var(--brand-green);
+    }
+
+    .dropzone-text {
+        font-size: 13px;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .dropzone-subtext {
+        font-size: 11.5px;
+        color: var(--text-secondary);
+    }
+
+    .file-preview-strip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+        padding: 8px 12px;
+        background: #f1f5f9;
+        border: 1px solid var(--border-color);
+    }
+
+    .file-preview-strip img {
+        width: 60px;
+        height: 40px;
+        object-fit: cover;
+        border: 1px solid var(--border-color);
     }
 
     .btn-delete-icon {
@@ -120,12 +168,6 @@
         color: var(--text-secondary);
         font-size: 14px;
     }
-
-    @media (max-width: 768px) {
-        .form-grid-inline {
-            grid-template-columns: 1fr;
-        }
-    }
 </style>
 @endpush
 
@@ -140,7 +182,7 @@
         </a>
     </div>
 
-    <!-- PANEL DE SUBIDA RÁPIDA -->
+    <!-- PANEL DE SUBIDA CON ARRASTRE -->
     <div class="upload-card">
         <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary);">
             + Subir nueva fotografía a la galería
@@ -148,38 +190,46 @@
 
         <form action="{{ route('admin.galeria.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="form-grid-inline">
-                <div>
-                    <label class="form-label" for="titulo">Título o descripción del evento *</label>
-                    <input
-                        type="text"
-                        name="titulo"
-                        id="titulo"
-                        class="form-control"
-                        required
-                        placeholder="Ej: Ceremonia de Clausura 2026"
-                    >
+            
+            <div style="margin-bottom: 16px;">
+                <label class="form-label" for="titulo">Título o descripción del evento *</label>
+                <input
+                    type="text"
+                    name="titulo"
+                    id="titulo"
+                    class="form-control"
+                    required
+                    placeholder="Ej: Ceremonia de Clausura 2026"
+                >
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label class="form-label">Archivo de imagen *</label>
+                <div id="galeriaDropzone" class="dropzone-box" onclick="document.getElementById('galeria_file').click();">
+                    <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <div class="dropzone-text">Arrastra una imagen aquí o haz clic para seleccionarla</div>
+                    <div class="dropzone-subtext">Formatos permitidos: JPG, PNG, WEBP (hasta 5 MB)</div>
                 </div>
 
-                <div>
-                    <label class="form-label" for="imagen_file">Archivo de imagen (JPG, PNG, WebP) *</label>
-                    <input
-                        type="file"
-                        name="imagen_file"
-                        id="imagen_file"
-                        class="form-control"
-                        accept="image/*"
-                        required
-                    >
-                </div>
+                <input type="file" name="imagen_file" id="galeria_file" style="display: none;" accept="image/*" required>
 
-                <div>
-                    <button type="submit" class="btn-primary" style="height: 38px;">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        Guardar Foto
-                    </button>
+                <div id="galeriaPreviewStrip" class="file-preview-strip" style="display: none;">
+                    <img id="galeriaPreviewImg" src="" alt="Vista previa">
+                    <div style="font-size: 12px; color: var(--text-secondary); flex-grow: 1;">
+                        <strong id="galeriaPreviewName" style="color: var(--text-primary); display: block;"></strong>
+                        <span id="galeriaPreviewSize"></span>
+                    </div>
                 </div>
             </div>
+
+            <button type="submit" class="btn-primary">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Guardar en Galería
+            </button>
         </form>
     </div>
 
@@ -217,3 +267,59 @@
         @endforelse
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    (function() {
+        const dropzone = document.getElementById('galeriaDropzone');
+        const fileInput = document.getElementById('galeria_file');
+        const previewStrip = document.getElementById('galeriaPreviewStrip');
+        const previewImg = document.getElementById('galeriaPreviewImg');
+        const previewName = document.getElementById('galeriaPreviewName');
+        const previewSize = document.getElementById('galeriaPreviewSize');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('dragover');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('dragover');
+            });
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                fileInput.files = files;
+                handleSelectedFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files && fileInput.files.length > 0) {
+                handleSelectedFile(fileInput.files[0]);
+            }
+        });
+
+        function handleSelectedFile(file) {
+            if (!file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewName.textContent = file.name;
+                previewSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
+                previewStrip.style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        }
+    })();
+</script>
+@endpush

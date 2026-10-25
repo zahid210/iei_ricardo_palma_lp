@@ -26,8 +26,7 @@ class NoticiaController extends Controller
             'titulo' => ['required', 'string', 'max:255'],
             'extracto' => ['required', 'string'],
             'contenido' => ['required', 'string'],
-            'imagen' => ['nullable', 'string', 'max:255'],
-            'imagen_file' => ['nullable', 'image', 'max:4096'],
+            'imagen_file' => ['nullable', 'image', 'max:5120'],
             'autor' => ['nullable', 'string', 'max:120'],
             'fecha_publicacion' => ['required', 'date'],
             'destacada' => ['nullable', 'boolean'],
@@ -42,7 +41,7 @@ class NoticiaController extends Controller
             $counter++;
         }
 
-        $imagenPath = $validated['imagen'] ?? 'images/galeria_1.jpg';
+        $imagenPath = 'images/galeria_1.jpg';
         if ($request->hasFile('imagen_file')) {
             $file = $request->file('imagen_file');
             $fileName = 'noticia_' . time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
@@ -76,15 +75,14 @@ class NoticiaController extends Controller
             'titulo' => ['required', 'string', 'max:255'],
             'extracto' => ['required', 'string'],
             'contenido' => ['required', 'string'],
-            'imagen' => ['nullable', 'string', 'max:255'],
-            'imagen_file' => ['nullable', 'image', 'max:4096'],
+            'imagen_file' => ['nullable', 'image', 'max:5120'],
             'autor' => ['nullable', 'string', 'max:120'],
             'fecha_publicacion' => ['required', 'date'],
             'destacada' => ['nullable', 'boolean'],
             'orden' => ['nullable', 'integer'],
         ]);
 
-        $imagenPath = $validated['imagen'] ?? $noticia->imagen;
+        $imagenPath = $noticia->imagen;
         if ($request->hasFile('imagen_file')) {
             $file = $request->file('imagen_file');
             $fileName = 'noticia_' . time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
