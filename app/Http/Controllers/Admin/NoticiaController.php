@@ -12,6 +12,40 @@ use Illuminate\Support\Str;
 
 class NoticiaController extends Controller
 {
+    private function mirrorToDocroot(string $fileName): void
+    {
+        $fullSource = Storage::disk('public')->path($fileName);
+        $targetDirs = [
+            base_path('../public_html/storage'),
+            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+            public_path('storage'),
+        ];
+        foreach ($targetDirs as $targetDir) {
+            if ($targetDir) {
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                if (is_dir($targetDir) && is_writable($targetDir)) {
+                    @copy($fullSource, $targetDir . '/' . $fileName);
+                }
+            }
+        }
+    }
+
+    private function removeFromDocroot(string $fileName): void
+    {
+        $targetDirs = [
+            base_path('../public_html/storage'),
+            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+            public_path('storage'),
+        ];
+        foreach ($targetDirs as $targetDir) {
+            if ($targetDir && file_exists($targetDir . '/' . $fileName)) {
+                @unlink($targetDir . '/' . $fileName);
+            }
+        }
+    }
+
     public function index()
     {
         // Migración defensiva: Si existen noticias guardadas previamente con images/noticia_upload_,
@@ -23,6 +57,7 @@ class NoticiaController extends Controller
             if (File::exists($localPhysical) && !Storage::disk('public')->exists($fileName)) {
                 Storage::disk('public')->put($fileName, File::get($localPhysical));
             }
+            $this->mirrorToDocroot($fileName);
             $noticia->update(['imagen' => 'storage/' . $fileName]);
         }
 
@@ -53,8 +88,9 @@ class NoticiaController extends Controller
             $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
             $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
 
-            // Almacenar en disco 'public' (storage/app/public) accesible vía /storage/...
+            // Almacenar en disco 'public' (storage/app/public)
             Storage::disk('public')->putFileAs('', $file, $fileName);
+            $this->mirrorToDocroot($fileName);
             $imagenPath = 'storage/' . $fileName;
         }
 
@@ -88,16 +124,19 @@ class NoticiaController extends Controller
             $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
             $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
 
-            // Almacenar en disco 'public'
+            // Almacenar en disco 'public' y espejo en docroot
             Storage::disk('public')->putFileAs('', $file, $fileName);
+            $this->mirrorToDocroot($fileName);
             $newPath = 'storage/' . $fileName;
 
             // Limpieza del archivo anterior
             if ($noticia->imagen) {
+                $oldFileName = basename($noticia->imagen);
                 $cleanOld = str_replace('storage/', '', $noticia->imagen);
                 if (Storage::disk('public')->exists($cleanOld)) {
                     Storage::disk('public')->delete($cleanOld);
                 }
+                $this->removeFromDocroot($oldFileName);
                 if (str_starts_with($noticia->imagen, 'images/noticia_upload_')) {
                     $oldFile = public_path($noticia->imagen);
                     if (File::exists($oldFile)) {
@@ -140,10 +179,12 @@ class NoticiaController extends Controller
     public function destroy(Noticia $noticia)
     {
         if ($noticia->imagen) {
+            $fileName = basename($noticia->imagen);
             $cleanStoragePath = str_replace('storage/', '', $noticia->imagen);
             if (Storage::disk('public')->exists($cleanStoragePath)) {
                 Storage::disk('public')->delete($cleanStoragePath);
             }
+            $this->removeFromDocroot($fileName);
 
             if (str_starts_with($noticia->imagen, 'images/noticia_upload_')) {
                 $file = public_path($noticia->imagen);

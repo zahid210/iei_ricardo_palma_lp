@@ -38,9 +38,27 @@ class GaleriaController extends Controller
         $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
         $fileName = 'galeria_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
 
-        // Almacenar en el disco 'public' (storage/app/public) accesible vía /storage/...
+        // 1. Almacenar en disco 'public' (storage/app/public)
         Storage::disk('public')->putFileAs('', $file, $fileName);
         $path = 'storage/' . $fileName;
+
+        // 2. Espejo defensivo directo en docroot público (/public_html/storage y /public/storage)
+        $fullSource = Storage::disk('public')->path($fileName);
+        $targetDirs = [
+            base_path('../public_html/storage'),
+            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+            public_path('storage'),
+        ];
+        foreach ($targetDirs as $targetDir) {
+            if ($targetDir) {
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                if (is_dir($targetDir) && is_writable($targetDir)) {
+                    @copy($fullSource, $targetDir . '/' . $fileName);
+                }
+            }
+        }
 
         Galeria::create([
             'titulo' => $validated['titulo'],
@@ -56,9 +74,23 @@ class GaleriaController extends Controller
     public function destroy(Galeria $galeria)
     {
         if ($galeria->imagen_path) {
+            $fileName = basename($galeria->imagen_path);
             $cleanStoragePath = str_replace('storage/', '', $galeria->imagen_path);
+
             if (Storage::disk('public')->exists($cleanStoragePath)) {
                 Storage::disk('public')->delete($cleanStoragePath);
+            }
+
+            // Limpieza en carpetas espejo
+            $targetDirs = [
+                base_path('../public_html/storage'),
+                isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+                public_path('storage'),
+            ];
+            foreach ($targetDirs as $targetDir) {
+                if ($targetDir && file_exists($targetDir . '/' . $fileName)) {
+                    @unlink($targetDir . '/' . $fileName);
+                }
             }
 
             if (str_starts_with($galeria->imagen_path, 'images/galeria_upload_')) {

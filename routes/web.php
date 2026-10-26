@@ -33,6 +33,50 @@ Route::post('/contacto', [ContactController::class, 'store'])
     ->middleware('throttle:3,5')
     ->name('contacto.store');
 
+// Ruta de respaldo: sirve archivos de storage cuando el servidor web (LiteSpeed/Apache)
+// delega a index.php por no tener enlace simbólico físico o permisos en docroot
+Route::get('/storage/{path}', function (string $path) {
+    $cleanPath = ltrim(str_replace(['../', '..\\'], '', $path), '/');
+
+    // 1. Buscar en Storage::disk('public')
+    $disk = \Illuminate\Support\Facades\Storage::disk('public');
+    if ($disk->exists($cleanPath)) {
+        $fullPath = $disk->path($cleanPath);
+
+        // Copia de respaldo defensiva al document root de cPanel si existe
+        $targetDirs = [
+            base_path('../public_html/storage'),
+            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+            public_path('storage'),
+        ];
+        foreach ($targetDirs as $targetDir) {
+            if ($targetDir) {
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                $destFile = $targetDir . '/' . basename($cleanPath);
+                if (is_dir($targetDir) && is_writable($targetDir) && !file_exists($destFile)) {
+                    @copy($fullPath, $destFile);
+                }
+            }
+        }
+
+        return response()->file($fullPath, [
+            'Cache-Control' => 'public, max-age=2592000',
+        ]);
+    }
+
+    // 2. Buscar en public/storage local
+    $localPublicStorage = public_path('storage/' . $cleanPath);
+    if (file_exists($localPublicStorage)) {
+        return response()->file($localPublicStorage, [
+            'Cache-Control' => 'public, max-age=2592000',
+        ]);
+    }
+
+    abort(404);
+})->where('path', '.*');
+
 // ==========================================
 // PANEL DE ADMINISTRACIÓN (Ruta Oculta)
 // ==========================================
