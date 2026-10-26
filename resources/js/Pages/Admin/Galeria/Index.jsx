@@ -69,8 +69,12 @@ export default function Index({ fotos = [] }) {
             URL.revokeObjectURL(previewImage);
         }
 
-        const objectUrl = URL.createObjectURL(file);
-        setPreviewImage(objectUrl);
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            setPreviewImage(event.target?.result);
+        };
+        reader.readAsDataURL(file);
+
         setFileDetails({
             name: file.name,
             size: formatFileSize(file.size),

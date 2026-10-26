@@ -68,8 +68,12 @@ export default function Edit({ noticia }) {
             URL.revokeObjectURL(previewUrl);
         }
 
-        const objectUrl = URL.createObjectURL(file);
-        setPreviewUrl(objectUrl);
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            setPreviewUrl(event.target?.result);
+        };
+        reader.readAsDataURL(file);
+
         setFileDetails({
             name: file.name,
             size: formatFileSize(file.size),
