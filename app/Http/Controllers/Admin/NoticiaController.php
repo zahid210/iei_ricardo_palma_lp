@@ -7,12 +7,25 @@ use App\Http\Requests\Admin\StoreNoticiaRequest;
 use App\Http\Requests\Admin\UpdateNoticiaRequest;
 use App\Models\Noticia;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class NoticiaController extends Controller
 {
     public function index()
     {
+        // Migración defensiva: Si existen noticias guardadas previamente con images/noticia_upload_,
+        // copiamos su archivo a Storage público y normalizamos la ruta a storage/
+        $legacyUploads = Noticia::where('imagen', 'like', 'images/noticia_upload_%')->get();
+        foreach ($legacyUploads as $noticia) {
+            $fileName = basename($noticia->imagen);
+            $localPhysical = public_path($noticia->imagen);
+            if (File::exists($localPhysical) && !Storage::disk('public')->exists($fileName)) {
+                Storage::disk('public')->put($fileName, File::get($localPhysical));
+            }
+            $noticia->update(['imagen' => 'storage/' . $fileName]);
+        }
+
         $noticias = Noticia::orderBy('orden')->orderByDesc('fecha_publicacion')->get();
         return inertia('Admin/Noticias/Index', compact('noticias'));
     }
@@ -39,8 +52,10 @@ class NoticiaController extends Controller
             $file = $request->file('imagen_file');
             $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
             $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
-            $file->move(public_path('images'), $fileName);
-            $imagenPath = 'images/' . $fileName;
+
+            // Almacenar en disco 'public' (storage/app/public) accesible vía /storage/...
+            Storage::disk('public')->putFileAs('', $file, $fileName);
+            $imagenPath = 'storage/' . $fileName;
         }
 
         Noticia::create([
@@ -72,14 +87,22 @@ class NoticiaController extends Controller
             $file = $request->file('imagen_file');
             $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
             $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
-            $file->move(public_path('images'), $fileName);
-            $newPath = 'images/' . $fileName;
 
-            // Limpieza del archivo anterior si era una imagen subida por el gestor de noticias
-            if ($noticia->imagen && str_starts_with($noticia->imagen, 'images/noticia_upload_')) {
-                $oldFile = public_path($noticia->imagen);
-                if (File::exists($oldFile)) {
-                    File::delete($oldFile);
+            // Almacenar en disco 'public'
+            Storage::disk('public')->putFileAs('', $file, $fileName);
+            $newPath = 'storage/' . $fileName;
+
+            // Limpieza del archivo anterior
+            if ($noticia->imagen) {
+                $cleanOld = str_replace('storage/', '', $noticia->imagen);
+                if (Storage::disk('public')->exists($cleanOld)) {
+                    Storage::disk('public')->delete($cleanOld);
+                }
+                if (str_starts_with($noticia->imagen, 'images/noticia_upload_')) {
+                    $oldFile = public_path($noticia->imagen);
+                    if (File::exists($oldFile)) {
+                        File::delete($oldFile);
+                    }
                 }
             }
 
@@ -116,10 +139,17 @@ class NoticiaController extends Controller
 
     public function destroy(Noticia $noticia)
     {
-        if ($noticia->imagen && str_starts_with($noticia->imagen, 'images/noticia_upload_')) {
-            $file = public_path($noticia->imagen);
-            if (File::exists($file)) {
-                File::delete($file);
+        if ($noticia->imagen) {
+            $cleanStoragePath = str_replace('storage/', '', $noticia->imagen);
+            if (Storage::disk('public')->exists($cleanStoragePath)) {
+                Storage::disk('public')->delete($cleanStoragePath);
+            }
+
+            if (str_starts_with($noticia->imagen, 'images/noticia_upload_')) {
+                $file = public_path($noticia->imagen);
+                if (File::exists($file)) {
+                    File::delete($file);
+                }
             }
         }
 

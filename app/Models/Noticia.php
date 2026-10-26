@@ -69,7 +69,13 @@ class Noticia extends Model
                 if (str_starts_with($path, '/')) {
                     return $path;
                 }
-                return '/' . $path;
+                if (str_starts_with($path, 'images/noticia_upload_')) {
+                    return '/storage/' . basename($path);
+                }
+                if (str_starts_with($path, 'storage/') || str_starts_with($path, 'images/')) {
+                    return '/' . $path;
+                }
+                return '/storage/' . $path;
             }
         );
     }

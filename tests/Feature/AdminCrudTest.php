@@ -66,14 +66,14 @@ class AdminCrudTest extends TestCase
 
         $noticia = Noticia::where('titulo', 'Inicio de Clases 2026')->first();
         $this->assertNotNull($noticia);
-        $this->assertStringStartsWith('images/noticia_upload_', $noticia->imagen);
+        $this->assertStringStartsWith('storage/noticia_upload_', $noticia->imagen);
         $this->assertEquals('/' . $noticia->imagen, $noticia->imagen_url);
-        $this->assertTrue(file_exists(public_path($noticia->imagen)));
+        $this->assertTrue(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $noticia->imagen)));
 
         // Eliminar y comprobar limpieza física del archivo
         $delResponse = $this->actingAs($this->admin)->delete(route('admin.noticias.destroy', $noticia->id));
         $delResponse->assertRedirect(route('admin.noticias.index'));
-        $this->assertFalse(file_exists(public_path($noticia->imagen)));
+        $this->assertFalse(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $noticia->imagen)));
     }
 
     public function test_admin_can_create_and_delete_docente(): void
@@ -126,12 +126,13 @@ class AdminCrudTest extends TestCase
 
         $galeria = Galeria::where('titulo', 'Escolta Escolar 2026')->first();
         $this->assertNotNull($galeria);
-        $this->assertStringStartsWith('images/galeria_upload_', $galeria->imagen_path);
+        $this->assertStringStartsWith('storage/galeria_upload_', $galeria->imagen_path);
         $this->assertEquals('/' . $galeria->imagen_path, $galeria->url);
+        $this->assertTrue(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $galeria->imagen_path)));
 
         // Limpieza física mediante destroy
         $delResponse = $this->actingAs($this->admin)->delete(route('admin.galeria.destroy', $galeria->id));
         $delResponse->assertRedirect(route('admin.galeria.index'));
-        $this->assertFalse(file_exists(public_path($galeria->imagen_path)));
+        $this->assertFalse(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $galeria->imagen_path)));
     }
 }

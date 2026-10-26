@@ -7,12 +7,25 @@ use App\Http\Requests\Admin\StoreGaleriaRequest;
 use App\Models\Galeria;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class GaleriaController extends Controller
 {
     public function index()
     {
+        // Migración defensiva: Si existen fotos guardadas previamente con images/galeria_upload_,
+        // copiamos su archivo a Storage público y normalizamos la ruta a storage/
+        $legacyUploads = Galeria::where('imagen_path', 'like', 'images/galeria_upload_%')->get();
+        foreach ($legacyUploads as $foto) {
+            $fileName = basename($foto->imagen_path);
+            $localPhysical = public_path($foto->imagen_path);
+            if (File::exists($localPhysical) && !Storage::disk('public')->exists($fileName)) {
+                Storage::disk('public')->put($fileName, File::get($localPhysical));
+            }
+            $foto->update(['imagen_path' => 'storage/' . $fileName]);
+        }
+
         $fotos = Galeria::orderByDesc('id')->get();
         return inertia('Admin/Galeria/Index', compact('fotos'));
     }
@@ -24,8 +37,10 @@ class GaleriaController extends Controller
         $file = $request->file('imagen_file');
         $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
         $fileName = 'galeria_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
-        $file->move(public_path('images'), $fileName);
-        $path = 'images/' . $fileName;
+
+        // Almacenar en el disco 'public' (storage/app/public) accesible vía /storage/...
+        Storage::disk('public')->putFileAs('', $file, $fileName);
+        $path = 'storage/' . $fileName;
 
         Galeria::create([
             'titulo' => $validated['titulo'],
@@ -40,11 +55,17 @@ class GaleriaController extends Controller
 
     public function destroy(Galeria $galeria)
     {
-        // Limpieza de archivo físico solo si es una imagen subida por el panel administrativo
-        if ($galeria->imagen_path && str_starts_with($galeria->imagen_path, 'images/galeria_upload_')) {
-            $fullPath = public_path($galeria->imagen_path);
-            if (File::exists($fullPath)) {
-                File::delete($fullPath);
+        if ($galeria->imagen_path) {
+            $cleanStoragePath = str_replace('storage/', '', $galeria->imagen_path);
+            if (Storage::disk('public')->exists($cleanStoragePath)) {
+                Storage::disk('public')->delete($cleanStoragePath);
+            }
+
+            if (str_starts_with($galeria->imagen_path, 'images/galeria_upload_')) {
+                $fullPath = public_path($galeria->imagen_path);
+                if (File::exists($fullPath)) {
+                    File::delete($fullPath);
+                }
             }
         }
 
