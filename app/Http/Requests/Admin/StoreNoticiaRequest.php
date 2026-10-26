@@ -17,7 +17,7 @@ class StoreNoticiaRequest extends FormRequest
             'titulo' => ['required', 'string', 'max:255'],
             'extracto' => ['required', 'string', 'max:500'],
             'contenido' => ['required', 'string'],
-            'imagen_file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'imagen_file' => ['nullable', 'file', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'autor' => ['nullable', 'string', 'max:120'],
             'fecha_publicacion' => ['required', 'date'],
             'destacada' => ['nullable', 'boolean'],
@@ -29,10 +29,13 @@ class StoreNoticiaRequest extends FormRequest
     {
         return [
             'titulo.required' => 'El título de la noticia es obligatorio.',
+            'titulo.max' => 'El título no debe exceder los 255 caracteres.',
             'extracto.required' => 'El resumen o extracto es obligatorio.',
+            'extracto.max' => 'El extracto no debe exceder los 500 caracteres.',
             'contenido.required' => 'El contenido de la noticia es obligatorio.',
-            'imagen_file.image' => 'El archivo seleccionado debe ser una imagen válida.',
-            'imagen_file.max' => 'La imagen no debe pesar más de 5 MB.',
+            'imagen_file.file' => 'El archivo seleccionado no es válido.',
+            'imagen_file.mimes' => 'La imagen debe tener formato JPG, JPEG, PNG o WebP.',
+            'imagen_file.max' => 'La imagen no debe superar los 10 MB.',
             'fecha_publicacion.required' => 'La fecha de publicación es obligatoria.',
         ];
     }

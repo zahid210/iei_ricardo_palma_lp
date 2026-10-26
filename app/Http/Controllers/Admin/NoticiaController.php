@@ -34,10 +34,11 @@ class NoticiaController extends Controller
             $counter++;
         }
 
-        $imagenPath = 'images/galeria_1.jpg';
+        $imagenPath = 'images/fachada_colegio.jpg';
         if ($request->hasFile('imagen_file')) {
             $file = $request->file('imagen_file');
-            $fileName = 'noticia_upload_' . time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
+            $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
+            $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
             $file->move(public_path('images'), $fileName);
             $imagenPath = 'images/' . $fileName;
         }
@@ -69,11 +70,12 @@ class NoticiaController extends Controller
         $imagenPath = $noticia->imagen;
         if ($request->hasFile('imagen_file')) {
             $file = $request->file('imagen_file');
-            $fileName = 'noticia_upload_' . time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
+            $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
+            $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
             $file->move(public_path('images'), $fileName);
             $newPath = 'images/' . $fileName;
 
-            // Limpieza del archivo anterior si era una imagen subida por noticia
+            // Limpieza del archivo anterior si era una imagen subida por el gestor de noticias
             if ($noticia->imagen && str_starts_with($noticia->imagen, 'images/noticia_upload_')) {
                 $oldFile = public_path($noticia->imagen);
                 if (File::exists($oldFile)) {

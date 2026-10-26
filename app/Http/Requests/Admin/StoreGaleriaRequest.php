@@ -15,7 +15,7 @@ class StoreGaleriaRequest extends FormRequest
     {
         return [
             'titulo' => ['required', 'string', 'max:255'],
-            'imagen_file' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'imagen_file' => ['required', 'file', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
         ];
     }
 
@@ -23,9 +23,11 @@ class StoreGaleriaRequest extends FormRequest
     {
         return [
             'titulo.required' => 'El título o descripción de la fotografía es obligatorio.',
+            'titulo.max' => 'El título no debe exceder los 255 caracteres.',
             'imagen_file.required' => 'Debes seleccionar un archivo de imagen para subir.',
-            'imagen_file.image' => 'El archivo debe ser una imagen válida (JPG, PNG o WebP).',
-            'imagen_file.max' => 'La imagen no debe superar los 5 MB.',
+            'imagen_file.file' => 'El archivo subido no es válido.',
+            'imagen_file.mimes' => 'El archivo debe tener formato JPG, JPEG, PNG o WebP.',
+            'imagen_file.max' => 'La imagen no debe superar los 10 MB.',
         ];
     }
 }

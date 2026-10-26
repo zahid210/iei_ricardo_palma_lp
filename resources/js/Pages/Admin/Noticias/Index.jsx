@@ -119,9 +119,10 @@ export default function Index({ noticias = [] }) {
                     {filteredNoticias.length > 0 ? (
                         <div className="divide-y divide-neutral-200/70">
                             {filteredNoticias.map((noticia) => {
-                                const imgSrc = noticia.imagen
-                                    ? (noticia.imagen.startsWith('http') || noticia.imagen.startsWith('/') ? noticia.imagen : `/${noticia.imagen}`)
-                                    : '/images/galeria_1.jpg';
+                                const rawPath = noticia.imagen || '';
+                                const imgSrc = noticia.imagen_url || (rawPath.startsWith('http') || rawPath.startsWith('/')
+                                    ? rawPath
+                                    : (rawPath ? `/${rawPath}` : '/images/fachada_colegio.jpg'));
 
                                 return (
                                     <div 
@@ -135,7 +136,6 @@ export default function Index({ noticias = [] }) {
                                                     src={imgSrc} 
                                                     alt={noticia.titulo} 
                                                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                                    onError={(e) => { e.currentTarget.src = '/images/galeria_1.jpg'; }}
                                                 />
                                                 {noticia.destacada && (
                                                     <span className="absolute top-1.5 left-1.5 bg-amber-400 text-neutral-950 p-1 rounded-md shadow-xs" title="Noticia destacada">

@@ -12,7 +12,7 @@ class Galeria extends Model
     protected $appends = ['url'];
 
     /**
-     * URL pública de la imagen, contemplando rutas con 'images/', 'storage/' o archivos sueltos.
+     * URL pública de la imagen (ruta raíz relativa o URL externa)
      */
     protected function url(): Attribute
     {
@@ -20,15 +20,18 @@ class Galeria extends Model
             get: function () {
                 $path = $this->imagen_path;
                 if (! $path) {
-                    return asset('images/logo_color.png');
+                    return '/images/logo_color.png';
                 }
                 if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
                     return $path;
                 }
-                if (str_starts_with($path, 'images/') || str_starts_with($path, 'storage/')) {
-                    return asset($path);
+                if (str_starts_with($path, '/')) {
+                    return $path;
                 }
-                return asset('storage/' . $path);
+                if (str_starts_with($path, 'images/') || str_starts_with($path, 'storage/')) {
+                    return '/' . $path;
+                }
+                return '/storage/' . $path;
             }
         );
     }

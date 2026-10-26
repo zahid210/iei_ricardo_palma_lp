@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import AdminLayout from '../../../Layouts/AdminLayout';
-import { ArrowLeft, Save, Upload, Star, Calendar, User, FileText, Image as ImageIcon, ExternalLink, X } from 'lucide-react';
+import { ArrowLeft, Save, Upload, Star, Calendar, User, FileText, Image as ImageIcon, ExternalLink, X, RefreshCw, FileCheck } from 'lucide-react';
 
 export default function Edit({ noticia }) {
     const formattedDate = noticia.fecha_publicacion 
@@ -19,22 +19,110 @@ export default function Edit({ noticia }) {
         imagen_file: null,
     });
 
-    const [previewUrl, setPreviewUrl] = useState(
+    const initialImg = noticia.imagen_url || (
         noticia.imagen
             ? (noticia.imagen.startsWith('http') || noticia.imagen.startsWith('/') ? noticia.imagen : `/${noticia.imagen}`)
             : null
     );
 
+    const [previewUrl, setPreviewUrl] = useState(initialImg);
+    const [fileDetails, setFileDetails] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [clientError, setClientError] = useState('');
+    const fileInputRef = useRef(null);
+
+    // Limpiar URLs blob temporales
+    useEffect(() => {
+        return () => {
+            if (previewUrl && previewUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]);
+
+    const formatFileSize = (bytes) => {
+        if (!bytes || bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
+    const processSelectedFile = (file) => {
+        setClientError('');
+        if (!file) return;
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+        if (!validTypes.includes(file.type) && !file.name.match(/\.(jpe?g|png|webp)$/i)) {
+            setClientError('El archivo debe ser una imagen válida (JPG, PNG o WebP).');
+            return;
+        }
+
+        const maxBytes = 10 * 1024 * 1024;
+        if (file.size > maxBytes) {
+            setClientError('La imagen no debe superar los 10 MB.');
+            return;
+        }
+
+        if (previewUrl && previewUrl.startsWith('blob:')) {
+            URL.revokeObjectURL(previewUrl);
+        }
+
+        const objectUrl = URL.createObjectURL(file);
+        setPreviewUrl(objectUrl);
+        setFileDetails({
+            name: file.name,
+            size: formatFileSize(file.size),
+        });
+        setData('imagen_file', file);
+    };
+
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if (file) {
-            setData('imagen_file', file);
-            setPreviewUrl(URL.createObjectURL(file));
+            processSelectedFile(file);
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        const file = e.dataTransfer.files?.[0];
+        if (file) {
+            processSelectedFile(file);
+        }
+    };
+
+    const handleRemoveSelectedFile = () => {
+        if (previewUrl && previewUrl.startsWith('blob:')) {
+            URL.revokeObjectURL(previewUrl);
+        }
+        setData('imagen_file', null);
+        setPreviewUrl(initialImg);
+        setFileDetails(null);
+        setClientError('');
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setClientError('');
         
         // Laravel Inertia multipart PUT requiere usar router.post con _method: 'PUT'
         const formData = new FormData();
@@ -50,7 +138,10 @@ export default function Edit({ noticia }) {
             formData.append('imagen_file', data.imagen_file);
         }
 
-        router.post(`/admin/noticias/${noticia.id}`, formData);
+        router.post(`/admin/noticias/${noticia.id}`, formData, {
+            forceFormData: true,
+            preserveScroll: true,
+        });
     };
 
     return (
@@ -106,7 +197,7 @@ export default function Edit({ noticia }) {
                                     required
                                     className="admin-input text-base font-medium"
                                 />
-                                {errors.titulo && <span className="text-xs text-ricardo-red">{errors.titulo}</span>}
+                                {errors.titulo && <p className="text-xs text-ricardo-red font-medium">{errors.titulo}</p>}
                             </div>
 
                             {/* Extracto / Resumen */}
@@ -127,7 +218,7 @@ export default function Edit({ noticia }) {
                                     maxLength={500}
                                     className="admin-input resize-y"
                                 />
-                                {errors.extracto && <span className="text-xs text-ricardo-red">{errors.extracto}</span>}
+                                {errors.extracto && <p className="text-xs text-ricardo-red font-medium">{errors.extracto}</p>}
                             </div>
 
                             {/* Contenido Completo */}
@@ -142,7 +233,7 @@ export default function Edit({ noticia }) {
                                     required
                                     className="admin-input resize-y"
                                 />
-                                {errors.contenido && <span className="text-xs text-ricardo-red">{errors.contenido}</span>}
+                                {errors.contenido && <p className="text-xs text-ricardo-red font-medium">{errors.contenido}</p>}
                             </div>
                         </div>
 
@@ -155,35 +246,106 @@ export default function Edit({ noticia }) {
                                     Fotografía de Portada
                                 </label>
 
-                                {previewUrl && (
-                                    <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-100 group">
-                                        <img 
-                                            src={previewUrl} 
-                                            alt="Vista previa" 
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => { e.currentTarget.src = '/images/galeria_1.jpg'; }}
-                                        />
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp,image/jpg"
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
+
+                                {previewUrl ? (
+                                    <div className="space-y-3">
+                                        <div className="relative rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-950/5 flex items-center justify-center min-h-[180px] max-h-[240px]">
+                                            <img 
+                                                src={previewUrl} 
+                                                alt="Vista previa" 
+                                                className="w-full max-h-[240px] object-contain rounded-2xl"
+                                            />
+                                            {data.imagen_file && (
+                                                <button
+                                                    type="button"
+                                                    onClick={handleRemoveSelectedFile}
+                                                    className="absolute top-2.5 right-2.5 p-1.5 rounded-xl bg-neutral-900/70 text-white hover:bg-neutral-950 transition-colors shadow-sm cursor-pointer"
+                                                    title="Revertir cambio de imagen"
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </button>
+                                            )}
+                                        </div>
+
+                                        {fileDetails ? (
+                                            <div className="flex items-center justify-between p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 text-xs">
+                                                <div className="flex items-center gap-2 overflow-hidden mr-2">
+                                                    <div className="w-8 h-8 rounded-xl bg-teal-50 text-ricardo-teal flex items-center justify-center shrink-0 border border-teal-100">
+                                                        <FileCheck className="w-4 h-4" />
+                                                    </div>
+                                                    <div className="overflow-hidden">
+                                                        <p className="font-mate font-bold text-neutral-800 truncate" title={fileDetails?.name}>
+                                                            {fileDetails?.name}
+                                                        </p>
+                                                        <p className="text-neutral-400 font-literata text-[11px]">
+                                                            {fileDetails?.size}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => fileInputRef.current?.click()}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-100 text-neutral-700 font-mate text-xs font-semibold shrink-0 transition-colors cursor-pointer"
+                                                >
+                                                    <RefreshCw className="w-3.5 h-3.5" />
+                                                    <span>Cambiar</span>
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                onDragOver={handleDragOver}
+                                                onDragLeave={handleDragLeave}
+                                                onDrop={handleDrop}
+                                                onClick={() => fileInputRef.current?.click()}
+                                                className={`flex items-center justify-center gap-2 p-3 border border-dashed rounded-2xl cursor-pointer transition-all ${
+                                                    isDragging
+                                                        ? 'border-ricardo-teal bg-teal-50/50'
+                                                        : 'border-neutral-200 hover:border-ricardo-teal hover:bg-neutral-50/60 bg-[#FBFBFA]'
+                                                }`}
+                                            >
+                                                <Upload className="w-4 h-4 text-neutral-400" />
+                                                <span className="text-xs font-mate font-bold text-neutral-700">
+                                                    {isDragging ? 'Suelta la nueva fotografía' : 'Cambiar Fotografía'}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div
+                                        onDragOver={handleDragOver}
+                                        onDragLeave={handleDragLeave}
+                                        onDrop={handleDrop}
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${
+                                            isDragging 
+                                                ? 'border-ricardo-teal bg-teal-50/50 scale-[0.99]' 
+                                                : 'border-neutral-200 hover:border-ricardo-teal hover:bg-neutral-50/60 bg-[#FBFBFA]'
+                                        }`}
+                                    >
+                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2 transition-colors ${
+                                            isDragging ? 'bg-teal-100 text-ricardo-teal' : 'bg-neutral-100 text-neutral-400'
+                                        }`}>
+                                            <Upload className="w-5 h-5" />
+                                        </div>
+                                        <span className="text-xs font-mate uppercase tracking-wider font-bold text-neutral-700 text-center">
+                                            {isDragging ? 'Suelta la fotografía aquí' : 'Subir Fotografía'}
+                                        </span>
+                                        <span className="text-[11px] text-neutral-400 font-literata text-center mt-1">
+                                            PNG, JPG o WebP hasta 10 MB
+                                        </span>
                                     </div>
                                 )}
 
-                                <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-neutral-200 hover:border-ricardo-teal rounded-2xl cursor-pointer bg-[#FBFBFA] transition-colors group">
-                                    <div className="w-8 h-8 rounded-xl bg-neutral-100 text-neutral-400 group-hover:text-ricardo-teal group-hover:bg-teal-50 flex items-center justify-center mb-1.5 transition-colors">
-                                        <Upload className="w-4 h-4" />
-                                    </div>
-                                    <span className="text-xs font-mate uppercase tracking-wider font-bold text-neutral-700 text-center">
-                                        {previewUrl ? 'Cambiar Fotografía' : 'Subir Fotografía'}
-                                    </span>
-                                    <span className="text-[10px] text-neutral-400 font-literata text-center">
-                                        PNG, JPG o WebP hasta 5 MB
-                                    </span>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleFileChange}
-                                        className="hidden"
-                                    />
-                                </label>
-                                {errors.imagen_file && <span className="text-xs text-ricardo-red">{errors.imagen_file}</span>}
+                                {clientError && <p className="text-xs text-ricardo-red font-medium mt-1">{clientError}</p>}
+                                {errors.imagen_file && <p className="text-xs text-ricardo-red font-medium mt-1">{errors.imagen_file}</p>}
                             </div>
 
                             {/* Metadatos y Publicación */}
@@ -201,7 +363,7 @@ export default function Edit({ noticia }) {
                                         required
                                         className="admin-input"
                                     />
-                                    {errors.fecha_publicacion && <span className="text-xs text-ricardo-red">{errors.fecha_publicacion}</span>}
+                                    {errors.fecha_publicacion && <p className="text-xs text-ricardo-red font-medium">{errors.fecha_publicacion}</p>}
                                 </div>
 
                                 {/* Autor */}
@@ -251,21 +413,21 @@ export default function Edit({ noticia }) {
                                 </div>
                             </div>
 
-                            {/* Botones de Acción (Únicos) */}
+                            {/* Botones de Acción */}
                             <div className="flex items-center gap-3">
                                 <Link
                                     href="/admin/noticias"
-                                    className="btn-admin-secondary flex-1"
+                                    className="btn-admin-secondary flex-1 cursor-pointer"
                                 >
                                     Cancelar
                                 </Link>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="btn-admin-primary flex-1 disabled:opacity-60"
+                                    className="btn-admin-primary flex-1 disabled:opacity-60 cursor-pointer"
                                 >
                                     <Save className="w-4 h-4" />
-                                    <span>{processing ? 'Guardando...' : 'Actualizar Noticia'}</span>
+                                    <span>{processing ? 'Guardando...' : 'Guardar Cambios'}</span>
                                 </button>
                             </div>
 

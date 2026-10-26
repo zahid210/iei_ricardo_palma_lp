@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useForm, router } from '@inertiajs/react';
 import AdminLayout from '../../../Layouts/AdminLayout';
 import { 
@@ -9,35 +9,140 @@ import {
     Image as ImageIcon, 
     Calendar,
     AlertTriangle,
-    Eye
+    Eye,
+    RefreshCw,
+    FileCheck
 } from 'lucide-react';
 
 export default function Index({ fotos = [] }) {
     const [uploadModalOpen, setUploadModalOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
+    const [fileDetails, setFileDetails] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [clientError, setClientError] = useState('');
     const [deleteModal, setDeleteModal] = useState({ open: false, id: null, title: '' });
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const fileInputRef = useRef(null);
+
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         titulo: '',
         imagen_file: null,
     });
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setData('imagen_file', file);
-            setPreviewImage(URL.createObjectURL(file));
+    // Limpiar blob URLs para evitar fugas de memoria
+    useEffect(() => {
+        return () => {
+            if (previewImage && previewImage.startsWith('blob:')) {
+                URL.revokeObjectURL(previewImage);
+            }
+        };
+    }, [previewImage]);
+
+    const formatFileSize = (bytes) => {
+        if (!bytes || bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
+    const processSelectedFile = (file) => {
+        setClientError('');
+
+        if (!file) return;
+
+        // Validar tipo de archivo
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+        if (!validTypes.includes(file.type) && !file.name.match(/\.(jpe?g|png|webp)$/i)) {
+            setClientError('El archivo debe ser una imagen válida (JPG, PNG o WebP).');
+            return;
         }
+
+        // Validar tamaño máximo (10 MB)
+        const maxBytes = 10 * 1024 * 1024;
+        if (file.size > maxBytes) {
+            setClientError('La imagen no debe superar los 10 MB.');
+            return;
+        }
+
+        if (previewImage && previewImage.startsWith('blob:')) {
+            URL.revokeObjectURL(previewImage);
+        }
+
+        const objectUrl = URL.createObjectURL(file);
+        setPreviewImage(objectUrl);
+        setFileDetails({
+            name: file.name,
+            size: formatFileSize(file.size),
+        });
+        setData('imagen_file', file);
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            processSelectedFile(file);
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        const file = e.dataTransfer.files?.[0];
+        if (file) {
+            processSelectedFile(file);
+        }
+    };
+
+    const handleClearFile = () => {
+        if (previewImage && previewImage.startsWith('blob:')) {
+            URL.revokeObjectURL(previewImage);
+        }
+        setPreviewImage(null);
+        setFileDetails(null);
+        setClientError('');
+        setData('imagen_file', null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
+    const closeModal = () => {
+        handleClearFile();
+        reset();
+        clearErrors();
+        setUploadModalOpen(false);
     };
 
     const handleUploadSubmit = (e) => {
         e.preventDefault();
+        setClientError('');
+
+        if (!data.imagen_file) {
+            setClientError('Por favor selecciona una imagen para subir.');
+            return;
+        }
+
         post('/admin/galeria', {
+            forceFormData: true,
+            preserveScroll: true,
             onSuccess: () => {
-                setUploadModalOpen(false);
-                setPreviewImage(null);
-                reset();
-            }
+                closeModal();
+            },
         });
     };
 
@@ -72,8 +177,11 @@ export default function Index({ fotos = [] }) {
 
                     <button
                         type="button"
-                        onClick={() => setUploadModalOpen(true)}
-                        className="btn-admin-primary shrink-0 self-start sm:self-auto"
+                        onClick={() => {
+                            clearErrors();
+                            setUploadModalOpen(true);
+                        }}
+                        className="btn-admin-primary shrink-0 self-start sm:self-auto cursor-pointer"
                     >
                         <Plus className="w-4 h-4" />
                         <span>Subir Foto</span>
@@ -84,7 +192,9 @@ export default function Index({ fotos = [] }) {
                 {fotos.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {fotos.map((foto) => {
-                            const imgSrc = foto.url || (foto.imagen_path?.startsWith('images/') ? `/${foto.imagen_path}` : `/storage/${foto.imagen_path}`);
+                            // Resolver ruta de imagen correctamente evitando dominios hardcodeados
+                            const rawPath = foto.imagen_path || '';
+                            const imgSrc = foto.url || (rawPath.startsWith('/') ? rawPath : (rawPath.startsWith('images/') || rawPath.startsWith('storage/') ? `/${rawPath}` : `/storage/${rawPath}`));
 
                             return (
                                 <div
@@ -97,9 +207,8 @@ export default function Index({ fotos = [] }) {
                                             src={imgSrc}
                                             alt={foto.titulo}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                            onError={(e) => { e.currentTarget.src = '/images/galeria_1.jpg'; }}
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
                                             <a
                                                 href={imgSrc}
                                                 target="_blank"
@@ -113,7 +222,7 @@ export default function Index({ fotos = [] }) {
                                         </div>
                                     </div>
 
-                                    {/* Pie con Título, Fecha y ÚNICO Botón de Eliminar */}
+                                    {/* Pie con Título, Fecha y Único Botón de Eliminar */}
                                     <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                                         <h3 className="font-mate text-sm font-bold text-neutral-900 line-clamp-2 leading-snug">
                                             {foto.titulo}
@@ -125,7 +234,6 @@ export default function Index({ fotos = [] }) {
                                                 {foto.created_at ? new Date(foto.created_at).toLocaleDateString('es-PE') : '-'}
                                             </span>
 
-                                            {/* Único botón de eliminar (sin duplicidad en el overlay) */}
                                             <button
                                                 type="button"
                                                 onClick={() => handleDelete(foto.id, foto.titulo)}
@@ -159,8 +267,8 @@ export default function Index({ fotos = [] }) {
 
             {/* Modal para Subir Nueva Fotografía */}
             {uploadModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/40 backdrop-blur-xs">
-                    <div className="bg-white rounded-3xl border border-neutral-200/90 shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/50 backdrop-blur-xs">
+                    <div className="bg-white rounded-3xl border border-neutral-200/90 shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
                         
                         <div className="flex items-center justify-between border-b border-neutral-200/80 pb-4">
                             <div>
@@ -173,8 +281,8 @@ export default function Index({ fotos = [] }) {
                             </div>
                             <button
                                 type="button"
-                                onClick={() => { setUploadModalOpen(false); setPreviewImage(null); reset(); }}
-                                className="text-neutral-400 hover:text-neutral-700 p-1.5 rounded-xl hover:bg-neutral-100"
+                                onClick={closeModal}
+                                className="text-neutral-400 hover:text-neutral-700 p-1.5 rounded-xl hover:bg-neutral-100 transition-colors cursor-pointer"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -194,7 +302,7 @@ export default function Index({ fotos = [] }) {
                                     required
                                     className="admin-input"
                                 />
-                                {errors.titulo && <span className="text-xs text-ricardo-red">{errors.titulo}</span>}
+                                {errors.titulo && <p className="text-xs text-ricardo-red font-medium">{errors.titulo}</p>}
                             </div>
 
                             {/* Dropzone Archivo */}
@@ -203,60 +311,112 @@ export default function Index({ fotos = [] }) {
                                     Archivo de Imagen *
                                 </label>
 
+                                {/* Input file siempre disponible vía ref */}
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp,image/jpg"
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
+
                                 {previewImage ? (
-                                    <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-100">
-                                        <img 
-                                            src={previewImage} 
-                                            alt="Vista previa" 
-                                            className="w-full h-full object-cover" 
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => { setData('imagen_file', null); setPreviewImage(null); }}
-                                            className="absolute top-2 right-2 p-1.5 rounded-xl bg-black/60 text-white hover:bg-black transition-colors"
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </button>
+                                    <div className="space-y-3">
+                                        {/* Contenedor de Vista Previa */}
+                                        <div className="relative rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-950/5 flex items-center justify-center min-h-[220px] max-h-[300px]">
+                                            <img 
+                                                src={previewImage} 
+                                                alt="Vista previa" 
+                                                className="w-full max-h-[300px] object-contain rounded-2xl" 
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={handleClearFile}
+                                                className="absolute top-3 right-3 p-1.5 rounded-xl bg-neutral-900/70 text-white hover:bg-neutral-950 transition-colors shadow-sm cursor-pointer"
+                                                title="Quitar imagen"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </div>
+
+                                        {/* Barra de información del archivo con acción de cambiar */}
+                                        <div className="flex items-center justify-between p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 text-xs">
+                                            <div className="flex items-center gap-2 overflow-hidden mr-2">
+                                                <div className="w-8 h-8 rounded-xl bg-teal-50 text-ricardo-teal flex items-center justify-center shrink-0 border border-teal-100">
+                                                    <FileCheck className="w-4 h-4" />
+                                                </div>
+                                                <div className="overflow-hidden">
+                                                    <p className="font-mate font-bold text-neutral-800 truncate" title={fileDetails?.name}>
+                                                        {fileDetails?.name || 'Imagen seleccionada'}
+                                                    </p>
+                                                    <p className="text-neutral-400 font-literata text-[11px]">
+                                                        {fileDetails?.size || ''}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => fileInputRef.current?.click()}
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-100 text-neutral-700 font-mate text-xs font-semibold shrink-0 transition-colors cursor-pointer"
+                                            >
+                                                <RefreshCw className="w-3.5 h-3.5" />
+                                                <span>Cambiar</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (
-                                    <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-neutral-200 hover:border-ricardo-teal rounded-2xl cursor-pointer bg-[#FBFBFA] transition-colors group">
-                                        <div className="w-12 h-12 rounded-2xl bg-neutral-100 text-neutral-400 group-hover:text-ricardo-teal group-hover:bg-teal-50 flex items-center justify-center mb-3 transition-colors">
+                                    <div
+                                        onDragOver={handleDragOver}
+                                        onDragLeave={handleDragLeave}
+                                        onDrop={handleDrop}
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className={`flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${
+                                            isDragging 
+                                                ? 'border-ricardo-teal bg-teal-50/50 scale-[0.99]' 
+                                                : 'border-neutral-200 hover:border-ricardo-teal hover:bg-neutral-50/60 bg-[#FBFBFA]'
+                                        }`}
+                                    >
+                                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-3 transition-colors ${
+                                            isDragging
+                                                ? 'bg-teal-100 text-ricardo-teal'
+                                                : 'bg-neutral-100 text-neutral-400 group-hover:text-ricardo-teal group-hover:bg-teal-50'
+                                        }`}>
                                             <Upload className="w-6 h-6" />
                                         </div>
                                         <span className="text-xs font-mate uppercase tracking-wider font-bold text-neutral-700 text-center">
-                                            Seleccionar Fotografía
+                                            {isDragging ? 'Suelta la fotografía aquí' : 'Haz clic o arrastra una fotografía'}
                                         </span>
                                         <span className="text-[11px] text-neutral-400 font-literata text-center mt-1">
-                                            PNG, JPG o WebP hasta 5 MB
+                                            PNG, JPG o WebP hasta 10 MB
                                         </span>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            required
-                                            onChange={handleFileChange}
-                                            className="hidden"
-                                        />
-                                    </label>
+                                    </div>
                                 )}
-                                {errors.imagen_file && <span className="text-xs text-ricardo-red">{errors.imagen_file}</span>}
+
+                                {clientError && (
+                                    <p className="text-xs text-ricardo-red font-medium mt-1">{clientError}</p>
+                                )}
+                                {errors.imagen_file && (
+                                    <p className="text-xs text-ricardo-red font-medium mt-1">{errors.imagen_file}</p>
+                                )}
                             </div>
 
                             {/* Botones */}
                             <div className="pt-2 flex items-center justify-end gap-3 border-t border-neutral-200/80">
                                 <button
                                     type="button"
-                                    onClick={() => { setUploadModalOpen(false); setPreviewImage(null); reset(); }}
-                                    className="btn-admin-secondary"
+                                    onClick={closeModal}
+                                    className="btn-admin-secondary cursor-pointer"
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="btn-admin-primary disabled:opacity-60"
+                                    className="btn-admin-primary disabled:opacity-60 cursor-pointer"
                                 >
                                     <Upload className="w-4 h-4" />
-                                    <span>{processing ? 'Subiendo...' : 'Publicar Fotografía'}</span>
+                                    <span>{processing ? 'Subiendo fotografía...' : 'Publicar Fotografía'}</span>
                                 </button>
                             </div>
                         </form>
@@ -267,7 +427,7 @@ export default function Index({ fotos = [] }) {
 
             {/* Modal de Confirmación de Eliminación */}
             {deleteModal.open && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/40 backdrop-blur-xs">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/50 backdrop-blur-xs">
                     <div className="bg-white rounded-3xl border border-neutral-200/90 shadow-2xl max-w-md w-full p-6 sm:p-7 space-y-5">
                         <div className="flex items-center gap-3.5">
                             <div className="w-11 h-11 rounded-2xl bg-red-50 text-ricardo-red border border-red-100 flex items-center justify-center shrink-0">
@@ -289,14 +449,14 @@ export default function Index({ fotos = [] }) {
                             <button
                                 type="button"
                                 onClick={() => setDeleteModal({ open: false, id: null, title: '' })}
-                                className="btn-admin-secondary"
+                                className="btn-admin-secondary cursor-pointer"
                             >
                                 Cancelar
                             </button>
                             <button
                                 type="button"
                                 onClick={confirmDelete}
-                                className="btn-admin-danger"
+                                className="btn-admin-danger cursor-pointer"
                             >
                                 Sí, Eliminar
                             </button>

@@ -22,7 +22,8 @@ class GaleriaController extends Controller
         $validated = $request->validated();
 
         $file = $request->file('imagen_file');
-        $fileName = 'galeria_upload_' . time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
+        $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
+        $fileName = 'galeria_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
         $file->move(public_path('images'), $fileName);
         $path = 'images/' . $fileName;
 

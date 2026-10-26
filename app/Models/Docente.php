@@ -33,7 +33,10 @@ class Docente extends Model
                     if (str_starts_with($this->foto, 'http://') || str_starts_with($this->foto, 'https://')) {
                         return $this->foto;
                     }
-                    return asset($this->foto);
+                    if (str_starts_with($this->foto, '/')) {
+                        return $this->foto;
+                    }
+                    return '/' . $this->foto;
                 }
                 return null;
             }

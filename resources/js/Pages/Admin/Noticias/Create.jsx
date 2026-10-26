@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AdminLayout from '../../../Layouts/AdminLayout';
-import { ArrowLeft, Save, Upload, Star, Calendar, User, FileText, Image as ImageIcon, X } from 'lucide-react';
+import { ArrowLeft, Save, Upload, Star, Calendar, User, FileText, Image as ImageIcon, X, RefreshCw, FileCheck } from 'lucide-react';
 
 export default function Create() {
     const today = new Date().toISOString().split('T')[0];
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, clearErrors } = useForm({
         titulo: '',
         extracto: '',
         contenido: '',
@@ -18,23 +18,107 @@ export default function Create() {
     });
 
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [fileDetails, setFileDetails] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [clientError, setClientError] = useState('');
+    const fileInputRef = useRef(null);
+
+    // Limpiar URLs blob
+    useEffect(() => {
+        return () => {
+            if (previewUrl && previewUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]);
+
+    const formatFileSize = (bytes) => {
+        if (!bytes || bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
+    const processSelectedFile = (file) => {
+        setClientError('');
+        if (!file) return;
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+        if (!validTypes.includes(file.type) && !file.name.match(/\.(jpe?g|png|webp)$/i)) {
+            setClientError('El archivo debe ser una imagen válida (JPG, PNG o WebP).');
+            return;
+        }
+
+        const maxBytes = 10 * 1024 * 1024;
+        if (file.size > maxBytes) {
+            setClientError('La imagen no debe superar los 10 MB.');
+            return;
+        }
+
+        if (previewUrl && previewUrl.startsWith('blob:')) {
+            URL.revokeObjectURL(previewUrl);
+        }
+
+        const objectUrl = URL.createObjectURL(file);
+        setPreviewUrl(objectUrl);
+        setFileDetails({
+            name: file.name,
+            size: formatFileSize(file.size),
+        });
+        setData('imagen_file', file);
+    };
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if (file) {
-            setData('imagen_file', file);
-            setPreviewUrl(URL.createObjectURL(file));
+            processSelectedFile(file);
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        const file = e.dataTransfer.files?.[0];
+        if (file) {
+            processSelectedFile(file);
         }
     };
 
     const handleRemoveImage = () => {
+        if (previewUrl && previewUrl.startsWith('blob:')) {
+            URL.revokeObjectURL(previewUrl);
+        }
         setData('imagen_file', null);
         setPreviewUrl(null);
+        setFileDetails(null);
+        setClientError('');
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/admin/noticias');
+        setClientError('');
+        post('/admin/noticias', {
+            forceFormData: true,
+            preserveScroll: true,
+        });
     };
 
     return (
@@ -79,7 +163,7 @@ export default function Create() {
                                     required
                                     className="admin-input text-base font-medium"
                                 />
-                                {errors.titulo && <span className="text-xs text-ricardo-red">{errors.titulo}</span>}
+                                {errors.titulo && <p className="text-xs text-ricardo-red font-medium">{errors.titulo}</p>}
                             </div>
 
                             {/* Extracto / Resumen */}
@@ -101,7 +185,7 @@ export default function Create() {
                                     placeholder="Breve resumen visible en el listado y tarjetas de noticias..."
                                     className="admin-input resize-y"
                                 />
-                                {errors.extracto && <span className="text-xs text-ricardo-red">{errors.extracto}</span>}
+                                {errors.extracto && <p className="text-xs text-ricardo-red font-medium">{errors.extracto}</p>}
                             </div>
 
                             {/* Contenido Completo */}
@@ -117,7 +201,7 @@ export default function Create() {
                                     placeholder="Escribe aquí el relato completo de la noticia, actividades o comunicado escolar..."
                                     className="admin-input resize-y"
                                 />
-                                {errors.contenido && <span className="text-xs text-ricardo-red">{errors.contenido}</span>}
+                                {errors.contenido && <p className="text-xs text-ricardo-red font-medium">{errors.contenido}</p>}
                             </div>
                         </div>
 
@@ -130,42 +214,85 @@ export default function Create() {
                                     Fotografía de Portada
                                 </label>
 
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp,image/jpg"
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
+
                                 {previewUrl ? (
-                                    <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-100 group">
-                                        <img 
-                                            src={previewUrl} 
-                                            alt="Vista previa" 
-                                            className="w-full h-full object-cover"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={handleRemoveImage}
-                                            className="absolute top-2 right-2 p-1.5 rounded-xl bg-black/60 text-white hover:bg-black transition-colors"
-                                            title="Quitar imagen"
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </button>
+                                    <div className="space-y-3">
+                                        <div className="relative rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-950/5 flex items-center justify-center min-h-[180px] max-h-[240px]">
+                                            <img 
+                                                src={previewUrl} 
+                                                alt="Vista previa" 
+                                                className="w-full max-h-[240px] object-contain rounded-2xl"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={handleRemoveImage}
+                                                className="absolute top-2.5 right-2.5 p-1.5 rounded-xl bg-neutral-900/70 text-white hover:bg-neutral-950 transition-colors shadow-sm cursor-pointer"
+                                                title="Quitar imagen"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </div>
+
+                                        <div className="flex items-center justify-between p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 text-xs">
+                                            <div className="flex items-center gap-2 overflow-hidden mr-2">
+                                                <div className="w-8 h-8 rounded-xl bg-teal-50 text-ricardo-teal flex items-center justify-center shrink-0 border border-teal-100">
+                                                    <FileCheck className="w-4 h-4" />
+                                                </div>
+                                                <div className="overflow-hidden">
+                                                    <p className="font-mate font-bold text-neutral-800 truncate" title={fileDetails?.name}>
+                                                        {fileDetails?.name || 'Imagen seleccionada'}
+                                                    </p>
+                                                    <p className="text-neutral-400 font-literata text-[11px]">
+                                                        {fileDetails?.size || ''}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => fileInputRef.current?.click()}
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-100 text-neutral-700 font-mate text-xs font-semibold shrink-0 transition-colors cursor-pointer"
+                                            >
+                                                <RefreshCw className="w-3.5 h-3.5" />
+                                                <span>Cambiar</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (
-                                    <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-neutral-200 hover:border-ricardo-teal rounded-2xl cursor-pointer bg-[#FBFBFA] transition-colors group">
-                                        <div className="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-400 group-hover:text-ricardo-teal group-hover:bg-teal-50 flex items-center justify-center mb-2 transition-colors">
+                                    <div
+                                        onDragOver={handleDragOver}
+                                        onDragLeave={handleDragLeave}
+                                        onDrop={handleDrop}
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${
+                                            isDragging 
+                                                ? 'border-ricardo-teal bg-teal-50/50 scale-[0.99]' 
+                                                : 'border-neutral-200 hover:border-ricardo-teal hover:bg-neutral-50/60 bg-[#FBFBFA]'
+                                        }`}
+                                    >
+                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2 transition-colors ${
+                                            isDragging ? 'bg-teal-100 text-ricardo-teal' : 'bg-neutral-100 text-neutral-400'
+                                        }`}>
                                             <Upload className="w-5 h-5" />
                                         </div>
                                         <span className="text-xs font-mate uppercase tracking-wider font-bold text-neutral-700 text-center">
-                                            Subir Fotografía
+                                            {isDragging ? 'Suelta la fotografía aquí' : 'Subir Fotografía'}
                                         </span>
                                         <span className="text-[11px] text-neutral-400 font-literata text-center mt-1">
-                                            PNG, JPG o WebP hasta 5 MB
+                                            PNG, JPG o WebP hasta 10 MB
                                         </span>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleFileChange}
-                                            className="hidden"
-                                        />
-                                    </label>
+                                    </div>
                                 )}
-                                {errors.imagen_file && <span className="text-xs text-ricardo-red">{errors.imagen_file}</span>}
+
+                                {clientError && <p className="text-xs text-ricardo-red font-medium mt-1">{clientError}</p>}
+                                {errors.imagen_file && <p className="text-xs text-ricardo-red font-medium mt-1">{errors.imagen_file}</p>}
                             </div>
 
                             {/* Metadatos y Publicación */}
@@ -183,7 +310,7 @@ export default function Create() {
                                         required
                                         className="admin-input"
                                     />
-                                    {errors.fecha_publicacion && <span className="text-xs text-ricardo-red">{errors.fecha_publicacion}</span>}
+                                    {errors.fecha_publicacion && <p className="text-xs text-ricardo-red font-medium">{errors.fecha_publicacion}</p>}
                                 </div>
 
                                 {/* Autor */}
@@ -234,18 +361,18 @@ export default function Create() {
                                 </div>
                             </div>
 
-                            {/* Botones de Acción (Únicos) */}
+                            {/* Botones de Acción */}
                             <div className="flex items-center gap-3">
                                 <Link
                                     href="/admin/noticias"
-                                    className="btn-admin-secondary flex-1"
+                                    className="btn-admin-secondary flex-1 cursor-pointer"
                                 >
                                     Cancelar
                                 </Link>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="btn-admin-primary flex-1 disabled:opacity-60"
+                                    className="btn-admin-primary flex-1 disabled:opacity-60 cursor-pointer"
                                 >
                                     <Save className="w-4 h-4" />
                                     <span>{processing ? 'Publicando...' : 'Publicar Noticia'}</span>

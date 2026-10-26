@@ -46,6 +46,36 @@ class AdminCrudTest extends TestCase
         $this->assertDatabaseMissing('noticias', ['id' => $noticia->id]);
     }
 
+    public function test_admin_can_create_and_update_noticia_with_image_upload(): void
+    {
+        $file = UploadedFile::fake()->create('noticia_foto.jpg', 300, 'image/jpeg');
+
+        $response = $this->actingAs($this->admin)->post(route('admin.noticias.store'), [
+            'titulo' => 'Inicio de Clases 2026',
+            'extracto' => 'Todo listo para el inicio del nuevo año escolar.',
+            'contenido' => 'Los docentes y directivos del colegio Ricardo Palma dan la bienvenida a los estudiantes.',
+            'fecha_publicacion' => '2026-03-01',
+            'autor' => 'Dirección',
+            'destacada' => true,
+            'orden' => 1,
+            'imagen_file' => $file,
+        ]);
+
+        $response->assertRedirect(route('admin.noticias.index'));
+        $this->assertDatabaseHas('noticias', ['titulo' => 'Inicio de Clases 2026']);
+
+        $noticia = Noticia::where('titulo', 'Inicio de Clases 2026')->first();
+        $this->assertNotNull($noticia);
+        $this->assertStringStartsWith('images/noticia_upload_', $noticia->imagen);
+        $this->assertEquals('/' . $noticia->imagen, $noticia->imagen_url);
+        $this->assertTrue(file_exists(public_path($noticia->imagen)));
+
+        // Eliminar y comprobar limpieza física del archivo
+        $delResponse = $this->actingAs($this->admin)->delete(route('admin.noticias.destroy', $noticia->id));
+        $delResponse->assertRedirect(route('admin.noticias.index'));
+        $this->assertFalse(file_exists(public_path($noticia->imagen)));
+    }
+
     public function test_admin_can_create_and_delete_docente(): void
     {
         $response = $this->actingAs($this->admin)->post(route('admin.docentes.store'), [
@@ -78,5 +108,30 @@ class AdminCrudTest extends TestCase
         $delResponse = $this->actingAs($this->admin)->delete(route('admin.galeria.destroy', $foto->id));
         $delResponse->assertRedirect(route('admin.galeria.index'));
         $this->assertDatabaseMissing('galerias', ['id' => $foto->id]);
+    }
+
+    public function test_admin_can_upload_foto_to_galeria(): void
+    {
+        $file = UploadedFile::fake()->create('mi_foto_escolar.jpg', 200, 'image/jpeg');
+
+        $response = $this->actingAs($this->admin)->post(route('admin.galeria.store'), [
+            'titulo' => 'Escolta Escolar 2026',
+            'imagen_file' => $file,
+        ]);
+
+        $response->assertRedirect(route('admin.galeria.index'));
+        $this->assertDatabaseHas('galerias', [
+            'titulo' => 'Escolta Escolar 2026',
+        ]);
+
+        $galeria = Galeria::where('titulo', 'Escolta Escolar 2026')->first();
+        $this->assertNotNull($galeria);
+        $this->assertStringStartsWith('images/galeria_upload_', $galeria->imagen_path);
+        $this->assertEquals('/' . $galeria->imagen_path, $galeria->url);
+
+        // Limpieza física mediante destroy
+        $delResponse = $this->actingAs($this->admin)->delete(route('admin.galeria.destroy', $galeria->id));
+        $delResponse->assertRedirect(route('admin.galeria.index'));
+        $this->assertFalse(file_exists(public_path($galeria->imagen_path)));
     }
 }

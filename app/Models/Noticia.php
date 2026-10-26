@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Noticia extends Model
@@ -23,6 +24,8 @@ class Noticia extends Model
         'destacada' => 'boolean',
         'orden' => 'integer',
     ];
+
+    protected $appends = ['imagen_url'];
 
     public function getRouteKeyName(): string
     {
@@ -47,5 +50,27 @@ class Noticia extends Model
         }
 
         return $this->where('slug', $value)->orWhere('id', $value)->first();
+    }
+
+    /**
+     * URL raíz-relativa accesible desde cualquier host/puerto sin hardcodear localhost.
+     */
+    protected function imagenUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $path = $this->imagen;
+                if (! $path) {
+                    return '/images/fachada_colegio.jpg';
+                }
+                if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+                    return $path;
+                }
+                if (str_starts_with($path, '/')) {
+                    return $path;
+                }
+                return '/' . $path;
+            }
+        );
     }
 }
