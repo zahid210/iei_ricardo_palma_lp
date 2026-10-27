@@ -48,7 +48,7 @@ final class EntradaSegura
 
             // Un navegador nunca manda comillas ni barras invertidas en "Accept"
             // (eso es la firma del payload que dispara el backtracking).
-            if (strlen($valor) > self::LONGITUD_MAXIMA || strpbrk($valor, "\"\\") !== false) {
+            if (strlen($valor) > self::LONGITUD_MAXIMA || strpbrk($valor, '"\\') !== false) {
                 unset($_SERVER[$cabecera]);
             }
         }

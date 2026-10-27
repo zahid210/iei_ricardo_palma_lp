@@ -18,10 +18,11 @@ import {
 
 export default function AdminLayout({ title, children }) {
     const { auth, flash, pendientesContacto } = usePage().props;
+    const { url } = usePage();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [flashVisible, setFlashVisible] = useState(true);
 
-    const currentUrl = typeof window !== 'undefined' ? window.location.pathname : '';
+    const currentUrl = (url || '').split('?')[0];
 
     const navItems = [
         { name: 'Noticias', href: '/admin/noticias', icon: Newspaper, active: currentUrl.startsWith('/admin/noticias') },

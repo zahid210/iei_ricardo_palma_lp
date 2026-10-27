@@ -22,6 +22,8 @@ class Docente extends Model
         'orden' => 'integer',
     ];
 
+    protected $appends = ['foto_url'];
+
     /**
      * URL o ruta de imagen para el docente.
      */
@@ -36,8 +38,10 @@ class Docente extends Model
                     if (str_starts_with($this->foto, '/')) {
                         return $this->foto;
                     }
-                    return '/' . $this->foto;
+
+                    return '/'.$this->foto;
                 }
+
                 return null;
             }
         );

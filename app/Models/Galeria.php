@@ -30,12 +30,13 @@ class Galeria extends Model
                 }
                 // Si proviene de una subida previa con ruta images/galeria_upload_, redirigir a /storage/
                 if (str_starts_with($path, 'images/galeria_upload_')) {
-                    return '/storage/' . basename($path);
+                    return '/storage/'.basename($path);
                 }
                 if (str_starts_with($path, 'images/') || str_starts_with($path, 'storage/')) {
-                    return '/' . $path;
+                    return '/'.$path;
                 }
-                return '/storage/' . $path;
+
+                return '/storage/'.$path;
             }
         );
     }

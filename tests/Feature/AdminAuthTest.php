@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AdminAuthTest extends TestCase
@@ -54,5 +55,21 @@ class AdminAuthTest extends TestCase
         ]);
 
         $response->assertStatus(429);
+    }
+
+    public function test_existing_database_user_can_login(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'docente.editor@rpalma.edu.pe',
+            'password' => Hash::make('secreto123'),
+        ]);
+
+        $response = $this->post(route('admin.login.submit'), [
+            'email' => 'docente.editor@rpalma.edu.pe',
+            'password' => 'secreto123',
+        ]);
+
+        $this->assertAuthenticatedAs($user);
+        $response->assertRedirect(route('admin.noticias.index'));
     }
 }

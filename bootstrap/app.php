@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CacheResponse;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Support\EntradaSegura;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,11 +23,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            HandleInertiaRequests::class,
         ]);
         $middleware->redirectGuestsTo(fn () => route('admin.login'));
         $middleware->alias([
-            'cache.response' => \App\Http\Middleware\CacheResponse::class,
+            'cache.response' => CacheResponse::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

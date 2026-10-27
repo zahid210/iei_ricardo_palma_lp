@@ -20,13 +20,14 @@ class GaleriaController extends Controller
         foreach ($legacyUploads as $foto) {
             $fileName = basename($foto->imagen_path);
             $localPhysical = public_path($foto->imagen_path);
-            if (File::exists($localPhysical) && !Storage::disk('public')->exists($fileName)) {
+            if (File::exists($localPhysical) && ! Storage::disk('public')->exists($fileName)) {
                 Storage::disk('public')->put($fileName, File::get($localPhysical));
             }
-            $foto->update(['imagen_path' => 'storage/' . $fileName]);
+            $foto->update(['imagen_path' => 'storage/'.$fileName]);
         }
 
         $fotos = Galeria::orderByDesc('id')->get();
+
         return inertia('Admin/Galeria/Index', compact('fotos'));
     }
 
@@ -36,26 +37,26 @@ class GaleriaController extends Controller
 
         $file = $request->file('imagen_file');
         $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
-        $fileName = 'galeria_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
+        $fileName = 'galeria_upload_'.time().'_'.Str::random(8).'.'.$extension;
 
         // 1. Almacenar en disco 'public' (storage/app/public)
         Storage::disk('public')->putFileAs('', $file, $fileName);
-        $path = 'storage/' . $fileName;
+        $path = 'storage/'.$fileName;
 
         // 2. Espejo defensivo directo en docroot público (/public_html/storage y /public/storage)
         $fullSource = Storage::disk('public')->path($fileName);
         $targetDirs = [
             base_path('../public_html/storage'),
-            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'].'/storage' : null,
             public_path('storage'),
         ];
         foreach ($targetDirs as $targetDir) {
             if ($targetDir) {
-                if (!is_dir($targetDir)) {
+                if (! is_dir($targetDir)) {
                     @mkdir($targetDir, 0755, true);
                 }
                 if (is_dir($targetDir) && is_writable($targetDir)) {
-                    @copy($fullSource, $targetDir . '/' . $fileName);
+                    @copy($fullSource, $targetDir.'/'.$fileName);
                 }
             }
         }
@@ -67,6 +68,7 @@ class GaleriaController extends Controller
 
         Cache::forget('galeria:todas');
         Cache::forget('galeria_items');
+        Cache::put('app:content_version', time());
 
         return redirect()->route('admin.galeria.index')->with('success', 'Fotografía publicada en la galería.');
     }
@@ -86,12 +88,12 @@ class GaleriaController extends Controller
             // Limpieza en carpetas espejo
             $targetDirs = [
                 base_path('../public_html/storage'),
-                isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+                isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'].'/storage' : null,
                 public_path('storage'),
             ];
             foreach ($targetDirs as $targetDir) {
-                if ($targetDir && file_exists($targetDir . '/' . $fileName)) {
-                    @unlink($targetDir . '/' . $fileName);
+                if ($targetDir && file_exists($targetDir.'/'.$fileName)) {
+                    @unlink($targetDir.'/'.$fileName);
                 }
             }
 
@@ -107,6 +109,7 @@ class GaleriaController extends Controller
 
         Cache::forget('galeria:todas');
         Cache::forget('galeria_items');
+        Cache::put('app:content_version', time());
 
         return redirect()->route('admin.galeria.index')->with('success', 'Fotografía eliminada correctamente.');
     }

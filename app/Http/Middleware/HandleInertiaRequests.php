@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -48,7 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
-            'pendientesContacto' => fn () => $request->user() ? \App\Models\Contact::where('leido', false)->count() : 0,
+            'pendientesContacto' => fn () => $request->user() ? Contact::where('leido', false)->count() : 0,
         ];
     }
 }

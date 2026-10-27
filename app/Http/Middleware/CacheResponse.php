@@ -106,11 +106,10 @@ class CacheResponse
     {
         // La "version" la escribe deploy/deploy.sh en cada despliegue: escribe el
         // SHA del commit en deploy-version.txt (raiz de la app) y lo sube siempre.
-        // Asi las respuestas cacheadas se invalidan solas tras cada push. Si el
-        // archivo aun no existe (primer despliegue), version = 0 (caché igualmente
-        // válida; simplemente no se invalida hasta el primer deploy con marcador).
+        // Asi las respuestas cacheadas se invalidan solas tras cada push.
         $version = @file_get_contents(base_path('deploy-version.txt')) ?: 0;
+        $contentVer = Cache::get('app:content_version', 1);
 
-        return 'response:' . sha1($version . '|' . $request->fullUrl());
+        return 'response:'.sha1($version.'|'.$contentVer.'|'.$request->fullUrl());
     }
 }

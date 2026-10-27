@@ -6,6 +6,7 @@ use App\Models\Docente;
 use App\Models\Galeria;
 use App\Models\Noticia;
 use App\Services\FacebookFeed;
+use Database\Seeders\DocenteSeeder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
@@ -43,7 +44,7 @@ class PageController extends Controller
         if (! is_array($datos)) {
             // Si la tabla estuviera vacía en el servidor, autoseed desde el json
             if (Docente::count() === 0 && file_exists(database_path('data/docentes.json'))) {
-                (new \Database\Seeders\DocenteSeeder())->run();
+                (new DocenteSeeder)->run();
             }
 
             $datos = Docente::where('activo', true)
@@ -81,7 +82,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function noticiaDetalle(string $slug, FacebookFeed $facebook)
+    public function noticiaDetalle(string $slug)
     {
         $noticia = Noticia::where('slug', $slug)->firstOrFail();
 
@@ -98,7 +99,6 @@ class PageController extends Controller
             'noticia' => $noticia,
             'anterior' => $anterior,
             'relacionadas' => $relacionadas,
-            'facebookPosts' => $facebook->posts(4),
         ]);
     }
 

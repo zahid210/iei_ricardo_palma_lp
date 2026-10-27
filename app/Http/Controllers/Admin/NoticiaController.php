@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreNoticiaRequest;
 use App\Http\Requests\Admin\UpdateNoticiaRequest;
 use App\Models\Noticia;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,16 +18,16 @@ class NoticiaController extends Controller
         $fullSource = Storage::disk('public')->path($fileName);
         $targetDirs = [
             base_path('../public_html/storage'),
-            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'].'/storage' : null,
             public_path('storage'),
         ];
         foreach ($targetDirs as $targetDir) {
             if ($targetDir) {
-                if (!is_dir($targetDir)) {
+                if (! is_dir($targetDir)) {
                     @mkdir($targetDir, 0755, true);
                 }
                 if (is_dir($targetDir) && is_writable($targetDir)) {
-                    @copy($fullSource, $targetDir . '/' . $fileName);
+                    @copy($fullSource, $targetDir.'/'.$fileName);
                 }
             }
         }
@@ -36,12 +37,12 @@ class NoticiaController extends Controller
     {
         $targetDirs = [
             base_path('../public_html/storage'),
-            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'].'/storage' : null,
             public_path('storage'),
         ];
         foreach ($targetDirs as $targetDir) {
-            if ($targetDir && file_exists($targetDir . '/' . $fileName)) {
-                @unlink($targetDir . '/' . $fileName);
+            if ($targetDir && file_exists($targetDir.'/'.$fileName)) {
+                @unlink($targetDir.'/'.$fileName);
             }
         }
     }
@@ -54,14 +55,15 @@ class NoticiaController extends Controller
         foreach ($legacyUploads as $noticia) {
             $fileName = basename($noticia->imagen);
             $localPhysical = public_path($noticia->imagen);
-            if (File::exists($localPhysical) && !Storage::disk('public')->exists($fileName)) {
+            if (File::exists($localPhysical) && ! Storage::disk('public')->exists($fileName)) {
                 Storage::disk('public')->put($fileName, File::get($localPhysical));
             }
             $this->mirrorToDocroot($fileName);
-            $noticia->update(['imagen' => 'storage/' . $fileName]);
+            $noticia->update(['imagen' => 'storage/'.$fileName]);
         }
 
         $noticias = Noticia::orderBy('orden')->orderByDesc('fecha_publicacion')->get();
+
         return inertia('Admin/Noticias/Index', compact('noticias'));
     }
 
@@ -86,12 +88,12 @@ class NoticiaController extends Controller
         if ($request->hasFile('imagen_file')) {
             $file = $request->file('imagen_file');
             $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
-            $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
+            $fileName = 'noticia_upload_'.time().'_'.Str::random(8).'.'.$extension;
 
             // Almacenar en disco 'public' (storage/app/public)
             Storage::disk('public')->putFileAs('', $file, $fileName);
             $this->mirrorToDocroot($fileName);
-            $imagenPath = 'storage/' . $fileName;
+            $imagenPath = 'storage/'.$fileName;
         }
 
         Noticia::create([
@@ -105,6 +107,8 @@ class NoticiaController extends Controller
             'destacada' => $request->boolean('destacada'),
             'orden' => $validated['orden'] ?? 0,
         ]);
+
+        Cache::put('app:content_version', time());
 
         return redirect()->route('admin.noticias.index')->with('success', 'Noticia publicada con éxito.');
     }
@@ -122,12 +126,12 @@ class NoticiaController extends Controller
         if ($request->hasFile('imagen_file')) {
             $file = $request->file('imagen_file');
             $extension = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'jpg');
-            $fileName = 'noticia_upload_' . time() . '_' . Str::random(8) . '.' . $extension;
+            $fileName = 'noticia_upload_'.time().'_'.Str::random(8).'.'.$extension;
 
             // Almacenar en disco 'public' y espejo en docroot
             Storage::disk('public')->putFileAs('', $file, $fileName);
             $this->mirrorToDocroot($fileName);
-            $newPath = 'storage/' . $fileName;
+            $newPath = 'storage/'.$fileName;
 
             // Limpieza del archivo anterior (únicamente si fue un archivo subido por el usuario)
             if ($noticia->imagen && str_contains(basename($noticia->imagen), 'noticia_upload_')) {
@@ -173,6 +177,8 @@ class NoticiaController extends Controller
             'orden' => $validated['orden'] ?? 0,
         ]);
 
+        Cache::put('app:content_version', time());
+
         return redirect()->route('admin.noticias.index')->with('success', 'Noticia actualizada correctamente.');
     }
 
@@ -195,6 +201,8 @@ class NoticiaController extends Controller
         }
 
         $noticia->delete();
+        Cache::put('app:content_version', time());
+
         return redirect()->route('admin.noticias.index')->with('success', 'Noticia eliminada correctamente.');
     }
 }

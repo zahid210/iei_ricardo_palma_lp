@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Docente;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 
 return new class extends Migration
 {
@@ -11,11 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+        Artisan::call('db:seed', [
             '--class' => 'Database\\Seeders\\DocenteSeeder',
             '--force' => true,
         ]);
-        \Illuminate\Support\Facades\Cache::forget('docentes:todos');
+        Cache::forget('docentes:todos');
     }
 
     /**
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        \App\Models\Docente::truncate();
+        Docente::truncate();
     }
 };

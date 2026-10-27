@@ -9,6 +9,7 @@ use Tests\TestCase;
 class CacheTest extends TestCase
 {
     use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();

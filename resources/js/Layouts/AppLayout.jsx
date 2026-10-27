@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 
 export default function AppLayout({ children }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const { url } = usePage();
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 24);
@@ -16,11 +17,12 @@ export default function AppLayout({ children }) {
         { name: 'Inicio', href: '/' },
         { name: 'Nosotros', href: '/nosotros' },
         { name: 'Docentes', href: '/docentes' },
+        { name: 'Galería', href: '/galeria' },
         { name: 'Noticias', href: '/noticias' },
         { name: 'Contacto', href: '/contacto' },
     ];
 
-    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+    const currentPath = (url || '/').split('?')[0];
 
     return (
         <div className="min-h-screen bg-[#FBFBFA] text-neutral-900 flex flex-col font-literata selection:bg-ricardo-teal selection:text-white">

@@ -23,7 +23,7 @@ class ContactNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Consulta Web - I.E.I. Ricardo Palma: ' . $this->contact->nombre,
+            subject: 'Consulta Web - I.E.I. Ricardo Palma: '.$this->contact->nombre,
         );
     }
 

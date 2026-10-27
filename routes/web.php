@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\NoticiaController as AdminNoticiaController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 // Páginas públicas de solo lectura: se cachea la respuesta HTML completa (TTL 1 h).
 Route::middleware('cache.response:3600')->group(function () {
@@ -39,24 +40,24 @@ Route::get('/storage/{path}', function (string $path) {
     $cleanPath = ltrim(str_replace(['../', '..\\'], '', $path), '/');
 
     // 1. Buscar en Storage::disk('public')
-    $disk = \Illuminate\Support\Facades\Storage::disk('public');
+    $disk = Storage::disk('public');
     if ($disk->exists($cleanPath)) {
         $fullPath = $disk->path($cleanPath);
 
         // Copia de respaldo defensiva al document root de cPanel si existe (solo en entorno web)
-        if (!app()->runningUnitTests()) {
+        if (! app()->runningUnitTests()) {
             $targetDirs = [
                 base_path('../public_html/storage'),
-                isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+                isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'].'/storage' : null,
                 public_path('storage'),
             ];
             foreach ($targetDirs as $targetDir) {
                 if ($targetDir) {
-                    if (!is_dir($targetDir)) {
+                    if (! is_dir($targetDir)) {
                         @mkdir($targetDir, 0755, true);
                     }
-                    $destFile = $targetDir . '/' . basename($cleanPath);
-                    if (is_dir($targetDir) && is_writable($targetDir) && !file_exists($destFile)) {
+                    $destFile = $targetDir.'/'.basename($cleanPath);
+                    if (is_dir($targetDir) && is_writable($targetDir) && ! file_exists($destFile)) {
                         @copy($fullPath, $destFile);
                     }
                 }
@@ -69,7 +70,7 @@ Route::get('/storage/{path}', function (string $path) {
     }
 
     // 2. Buscar en public/storage local
-    $localPublicStorage = public_path('storage/' . $cleanPath);
+    $localPublicStorage = public_path('storage/'.$cleanPath);
     if (file_exists($localPublicStorage)) {
         return response()->file($localPublicStorage, [
             'Cache-Control' => 'public, max-age=2592000',
@@ -117,4 +118,3 @@ Route::prefix('admin')->group(function () {
         Route::patch('/mensajes/{contacto}/toggle-leido', [AdminContactoController::class, 'toggleLeido'])->name('mensajes.toggle');
     });
 });
-

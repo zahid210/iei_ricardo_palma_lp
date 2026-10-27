@@ -40,6 +40,7 @@ class DocenteController extends Controller
         ]);
 
         Cache::forget('docentes:todos');
+        Cache::put('app:content_version', time());
 
         return redirect()->route('admin.docentes.index')->with('success', 'Profesor registrado con éxito.');
     }
@@ -57,6 +58,7 @@ class DocenteController extends Controller
         ]);
 
         Cache::forget('docentes:todos');
+        Cache::put('app:content_version', time());
 
         return redirect()->route('admin.docentes.index')->with('success', 'Datos del profesor actualizados.');
     }
@@ -65,6 +67,7 @@ class DocenteController extends Controller
     {
         $docente->delete();
         Cache::forget('docentes:todos');
+        Cache::put('app:content_version', time());
 
         return redirect()->route('admin.docentes.index')->with('success', 'Profesor retirado de la lista.');
     }

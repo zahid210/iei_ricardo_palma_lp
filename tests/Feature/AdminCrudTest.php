@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\Contact;
 use App\Models\Docente;
 use App\Models\Galeria;
 use App\Models\Noticia;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AdminCrudTest extends TestCase
@@ -67,13 +67,13 @@ class AdminCrudTest extends TestCase
         $noticia = Noticia::where('titulo', 'Inicio de Clases 2026')->first();
         $this->assertNotNull($noticia);
         $this->assertStringStartsWith('storage/noticia_upload_', $noticia->imagen);
-        $this->assertEquals('/' . $noticia->imagen, $noticia->imagen_url);
-        $this->assertTrue(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $noticia->imagen)));
+        $this->assertEquals('/'.$noticia->imagen, $noticia->imagen_url);
+        $this->assertTrue(Storage::disk('public')->exists(str_replace('storage/', '', $noticia->imagen)));
 
         // Eliminar y comprobar limpieza física del archivo
         $delResponse = $this->actingAs($this->admin)->delete(route('admin.noticias.destroy', $noticia->id));
         $delResponse->assertRedirect(route('admin.noticias.index'));
-        $this->assertFalse(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $noticia->imagen)));
+        $this->assertFalse(Storage::disk('public')->exists(str_replace('storage/', '', $noticia->imagen)));
     }
 
     public function test_admin_can_create_and_delete_docente(): void
@@ -127,12 +127,12 @@ class AdminCrudTest extends TestCase
         $galeria = Galeria::where('titulo', 'Escolta Escolar 2026')->first();
         $this->assertNotNull($galeria);
         $this->assertStringStartsWith('storage/galeria_upload_', $galeria->imagen_path);
-        $this->assertEquals('/' . $galeria->imagen_path, $galeria->url);
-        $this->assertTrue(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $galeria->imagen_path)));
+        $this->assertEquals('/'.$galeria->imagen_path, $galeria->url);
+        $this->assertTrue(Storage::disk('public')->exists(str_replace('storage/', '', $galeria->imagen_path)));
 
         // Limpieza física mediante destroy
         $delResponse = $this->actingAs($this->admin)->delete(route('admin.galeria.destroy', $galeria->id));
         $delResponse->assertRedirect(route('admin.galeria.index'));
-        $this->assertFalse(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('storage/', '', $galeria->imagen_path)));
+        $this->assertFalse(Storage::disk('public')->exists(str_replace('storage/', '', $galeria->imagen_path)));
     }
 }
