@@ -118,17 +118,17 @@ class PageController extends Controller
         // simples evitamos el problema y mantenemos la caché.
         $datos = Cache::get('galeria:todas');
 
-        // Si no hay dato o quedo un valor viejo/invalido, lo regeneramos.
+        // Si no hay dato o quedo un valor viejo/invalido, lo regeneramos ordenado del más reciente al más antiguo.
         if (! is_array($datos)) {
-            $datos = Galeria::latest()->get()->toArray();
+            $datos = Galeria::orderByDesc('id')->get()->toArray();
             Cache::put('galeria:todas', $datos, now()->addHours(12));
         }
 
         // Reconstruimos los modelos en memoria (sin volver a consultar la BD).
         $todas = Galeria::hydrate($datos);
 
-        // Paginamos en memoria (4 por página) para no golpear la base de datos.
-        $perPage = 4;
+        // Paginamos en memoria (12 por página, armónico en 1, 2, 3 y 4 columnas).
+        $perPage = 12;
         $page = Paginator::resolveCurrentPage();
 
         $imagenes = new LengthAwarePaginator(

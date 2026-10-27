@@ -129,8 +129,8 @@ class NoticiaController extends Controller
             $this->mirrorToDocroot($fileName);
             $newPath = 'storage/' . $fileName;
 
-            // Limpieza del archivo anterior
-            if ($noticia->imagen) {
+            // Limpieza del archivo anterior (únicamente si fue un archivo subido por el usuario)
+            if ($noticia->imagen && str_contains(basename($noticia->imagen), 'noticia_upload_')) {
                 $oldFileName = basename($noticia->imagen);
                 $cleanOld = str_replace('storage/', '', $noticia->imagen);
                 if (Storage::disk('public')->exists($cleanOld)) {
@@ -178,7 +178,7 @@ class NoticiaController extends Controller
 
     public function destroy(Noticia $noticia)
     {
-        if ($noticia->imagen) {
+        if ($noticia->imagen && str_contains(basename($noticia->imagen), 'noticia_upload_')) {
             $fileName = basename($noticia->imagen);
             $cleanStoragePath = str_replace('storage/', '', $noticia->imagen);
             if (Storage::disk('public')->exists($cleanStoragePath)) {

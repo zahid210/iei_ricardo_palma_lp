@@ -43,20 +43,22 @@ Route::get('/storage/{path}', function (string $path) {
     if ($disk->exists($cleanPath)) {
         $fullPath = $disk->path($cleanPath);
 
-        // Copia de respaldo defensiva al document root de cPanel si existe
-        $targetDirs = [
-            base_path('../public_html/storage'),
-            isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
-            public_path('storage'),
-        ];
-        foreach ($targetDirs as $targetDir) {
-            if ($targetDir) {
-                if (!is_dir($targetDir)) {
-                    @mkdir($targetDir, 0755, true);
-                }
-                $destFile = $targetDir . '/' . basename($cleanPath);
-                if (is_dir($targetDir) && is_writable($targetDir) && !file_exists($destFile)) {
-                    @copy($fullPath, $destFile);
+        // Copia de respaldo defensiva al document root de cPanel si existe (solo en entorno web)
+        if (!app()->runningUnitTests()) {
+            $targetDirs = [
+                base_path('../public_html/storage'),
+                isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/storage' : null,
+                public_path('storage'),
+            ];
+            foreach ($targetDirs as $targetDir) {
+                if ($targetDir) {
+                    if (!is_dir($targetDir)) {
+                        @mkdir($targetDir, 0755, true);
+                    }
+                    $destFile = $targetDir . '/' . basename($cleanPath);
+                    if (is_dir($targetDir) && is_writable($targetDir) && !file_exists($destFile)) {
+                        @copy($fullPath, $destFile);
+                    }
                 }
             }
         }

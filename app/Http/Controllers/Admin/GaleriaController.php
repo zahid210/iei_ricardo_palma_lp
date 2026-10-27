@@ -73,7 +73,9 @@ class GaleriaController extends Controller
 
     public function destroy(Galeria $galeria)
     {
-        if ($galeria->imagen_path) {
+        $isUploadedFile = $galeria->imagen_path && str_contains(basename($galeria->imagen_path), 'galeria_upload_');
+
+        if ($isUploadedFile) {
             $fileName = basename($galeria->imagen_path);
             $cleanStoragePath = str_replace('storage/', '', $galeria->imagen_path);
 

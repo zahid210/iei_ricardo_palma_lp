@@ -25,8 +25,12 @@ class SincronizarGaleria extends Command
             $existe = Galeria::where('imagen_path', $filename)->exists();
 
             if (!$existe) {
+                $cleanTitle = preg_match('/^galeria_(\d+)/i', $filename, $m)
+                    ? 'Momento Institucional ' . $m[1]
+                    : 'Actividad Institucional';
+
                 Galeria::create([
-                    'titulo' => 'Foto: ' . $filename,
+                    'titulo' => $cleanTitle,
                     'imagen_path' => $filename
                 ]);
                 $this->info("Agregado: " . $filename);
