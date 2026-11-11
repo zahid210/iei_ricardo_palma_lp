@@ -11,7 +11,6 @@ class Docente extends Model
         'nivel',
         'nombres_apellidos',
         'cargo',
-        'dni',
         'foto',
         'orden',
         'activo',

@@ -17,7 +17,6 @@ class UpdateDocenteRequest extends FormRequest
             'nivel' => ['required', 'string', 'in:Inicial,Primaria,Secundaria'],
             'nombres_apellidos' => ['required', 'string', 'max:255'],
             'cargo' => ['required', 'string', 'max:255'],
-            'dni' => ['nullable', 'string', 'max:20'],
             'orden' => ['nullable', 'integer', 'min:0', 'max:9999'],
         ];
     }

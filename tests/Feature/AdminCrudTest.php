@@ -82,14 +82,13 @@ class AdminCrudTest extends TestCase
             'nivel' => 'Primaria',
             'nombres_apellidos' => 'PEREZ LOPEZ, Juan',
             'cargo' => 'PROFESOR DE MATEMATICA',
-            'dni' => '04012345',
             'orden' => 2,
         ]);
 
         $response->assertRedirect(route('admin.docentes.index'));
-        $this->assertDatabaseHas('docentes', ['dni' => '04012345']);
+        $this->assertDatabaseHas('docentes', ['nombres_apellidos' => 'PEREZ LOPEZ, Juan']);
 
-        $docente = Docente::where('dni', '04012345')->first();
+        $docente = Docente::where('nombres_apellidos', 'PEREZ LOPEZ, Juan')->first();
         $delResponse = $this->actingAs($this->admin)->delete(route('admin.docentes.destroy', $docente->id));
         $delResponse->assertRedirect(route('admin.docentes.index'));
         $this->assertDatabaseMissing('docentes', ['id' => $docente->id]);

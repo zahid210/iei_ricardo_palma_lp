@@ -34,7 +34,6 @@ class DocenteController extends Controller
             'nivel' => $validated['nivel'],
             'nombres_apellidos' => $validated['nombres_apellidos'],
             'cargo' => $validated['cargo'],
-            'dni' => $validated['dni'] ?? null,
             'orden' => $validated['orden'] ?? 0,
             'activo' => true,
         ]);
@@ -53,7 +52,6 @@ class DocenteController extends Controller
             'nivel' => $validated['nivel'],
             'nombres_apellidos' => $validated['nombres_apellidos'],
             'cargo' => $validated['cargo'],
-            'dni' => $validated['dni'] ?? null,
             'orden' => $validated['orden'] ?? 0,
         ]);
 

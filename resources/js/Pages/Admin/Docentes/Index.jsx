@@ -26,7 +26,6 @@ export default function Index({ docentes = [], porNivel = {} }) {
         nivel: 'Primaria',
         nombres_apellidos: '',
         cargo: '',
-        dni: '',
         orden: 0,
     });
 
@@ -37,7 +36,6 @@ export default function Index({ docentes = [], porNivel = {} }) {
             nivel: activeTab === 'Todos' ? 'Primaria' : activeTab,
             nombres_apellidos: '',
             cargo: '',
-            dni: '',
             orden: 0,
         });
         setFormModalOpen(true);
@@ -49,7 +47,6 @@ export default function Index({ docentes = [], porNivel = {} }) {
             nivel: docente.nivel,
             nombres_apellidos: docente.nombres_apellidos,
             cargo: docente.cargo,
-            dni: docente.dni || '',
             orden: docente.orden || 0,
         });
         setFormModalOpen(true);
@@ -89,8 +86,7 @@ export default function Index({ docentes = [], porNivel = {} }) {
         const matchesTab = activeTab === 'Todos' || d.nivel === activeTab;
         const matchesSearch = 
             d.nombres_apellidos.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            d.cargo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (d.dni && d.dni.includes(searchTerm));
+            d.cargo.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesTab && matchesSearch;
     });
 
@@ -190,7 +186,6 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                     <th className="py-3.5 px-5 font-bold">Nombres y Apellidos</th>
                                     <th className="py-3.5 px-5 font-bold">Cargo / Especialidad</th>
                                     <th className="py-3.5 px-5 font-bold">Nivel</th>
-                                    <th className="py-3.5 px-5 font-bold">DNI</th>
                                     <th className="py-3.5 px-5 font-bold text-center">Orden</th>
                                     <th className="py-3.5 px-5 font-bold text-right">Acciones</th>
                                 </tr>
@@ -214,9 +209,6 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                                 <span className={`inline-block font-mate text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${levelBadgeClass(docente.nivel)}`}>
                                                     {docente.nivel}
                                                 </span>
-                                            </td>
-                                            <td className="py-4 px-5 text-neutral-500 font-mono text-xs">
-                                                {docente.dni || '-'}
                                             </td>
                                             <td className="py-4 px-5 text-center text-neutral-400 font-mono text-xs">
                                                 {docente.orden || 0}
@@ -245,7 +237,7 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={6} className="py-12 text-center text-neutral-400">
+                                        <td colSpan={5} className="py-12 text-center text-neutral-400">
                                             No se encontraron profesores con los criterios seleccionados.
                                         </td>
                                     </tr>
@@ -313,7 +305,7 @@ export default function Index({ docentes = [], porNivel = {} }) {
                                 {errors.cargo && <span className="text-xs text-ricardo-red">{errors.cargo}</span>}
                             </div>
 
-                            {/* Nivel y DNI */}
+                            {/* Nivel y Orden */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
                                     <label className="block font-mate text-xs uppercase tracking-wider font-semibold text-neutral-700">
@@ -334,31 +326,16 @@ export default function Index({ docentes = [], porNivel = {} }) {
 
                                 <div className="space-y-1.5">
                                     <label className="block font-mate text-xs uppercase tracking-wider font-semibold text-neutral-700">
-                                        DNI (Opcional)
+                                        Orden de Visualización
                                     </label>
                                     <input
-                                        type="text"
-                                        value={data.dni}
-                                        onChange={(e) => setData('dni', e.target.value)}
-                                        placeholder="04021234"
+                                        type="number"
+                                        value={data.orden}
+                                        onChange={(e) => setData('orden', parseInt(e.target.value) || 0)}
                                         className="admin-input"
                                     />
-                                    {errors.dni && <span className="text-xs text-ricardo-red">{errors.dni}</span>}
+                                    {errors.orden && <span className="text-xs text-ricardo-red">{errors.orden}</span>}
                                 </div>
-                            </div>
-
-                            {/* Orden */}
-                            <div className="space-y-1.5">
-                                <label className="block font-mate text-xs uppercase tracking-wider font-semibold text-neutral-700">
-                                    Orden de Visualización
-                                </label>
-                                <input
-                                    type="number"
-                                    value={data.orden}
-                                    onChange={(e) => setData('orden', parseInt(e.target.value) || 0)}
-                                    className="admin-input"
-                                />
-                                {errors.orden && <span className="text-xs text-ricardo-red">{errors.orden}</span>}
                             </div>
 
                             {/* Botones Únicos */}
