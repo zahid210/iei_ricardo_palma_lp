@@ -10,12 +10,30 @@ import {
     GraduationCap, 
     CheckCircle2, 
     Send,
-    MessageSquare
+    MessageSquare,
+    Archive,
+    ArchiveRestore,
+    Trash2,
+    AlertTriangle
 } from 'lucide-react';
 
 export default function Show({ contacto }) {
+    const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+
     const handleToggleLeido = () => {
         router.patch(`/admin/mensajes/${contacto.id}/toggle-leido`);
+    };
+
+    const handleToggleArchivado = () => {
+        router.patch(`/admin/mensajes/${contacto.id}/toggle-archivado`);
+    };
+
+    const handleDelete = () => {
+        router.delete(`/admin/mensajes/${contacto.id}`, {
+            onSuccess: () => {
+                router.visit('/admin/mensajes?filtro=archivados');
+            }
+        });
     };
 
     const cleanPhone = contacto.telefono ? contacto.telefono.replace(/\D/g, '') : null;
@@ -44,7 +62,7 @@ export default function Show({ contacto }) {
             <div className="max-w-4xl mx-auto space-y-6">
                 
                 {/* Cabecera y Volver */}
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                     <Link
                         href="/admin/mensajes"
                         className="inline-flex items-center gap-2 text-xs font-mate uppercase tracking-wider text-neutral-500 hover:text-neutral-900 transition-colors font-semibold"
@@ -53,13 +71,48 @@ export default function Show({ contacto }) {
                         <span>Volver a la bandeja</span>
                     </Link>
 
-                    <button
-                        type="button"
-                        onClick={handleToggleLeido}
-                        className="btn-admin-secondary text-xs"
-                    >
-                        {contacto.leido ? 'Marcar como no leído' : 'Marcar como leído'}
-                    </button>
+                    <div className="flex items-center gap-2">
+                        {!contacto.archivado && (
+                            <button
+                                type="button"
+                                onClick={handleToggleLeido}
+                                className="btn-admin-secondary text-xs"
+                            >
+                                {contacto.leido ? 'Marcar como no leído' : 'Marcar como leído'}
+                            </button>
+                        )}
+
+                        <button
+                            type="button"
+                            onClick={handleToggleArchivado}
+                            className={`btn-admin-secondary text-xs flex items-center gap-1.5 ${
+                                contacto.archivado ? 'text-amber-800 border-amber-300' : ''
+                            }`}
+                        >
+                            {contacto.archivado ? (
+                                <>
+                                    <ArchiveRestore className="w-3.5 h-3.5" />
+                                    <span>Desarchivar</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Archive className="w-3.5 h-3.5" />
+                                    <span>Archivar</span>
+                                </>
+                            )}
+                        </button>
+
+                        {contacto.archivado && (
+                            <button
+                                type="button"
+                                onClick={() => setDeleteModalOpen(true)}
+                                className="btn-admin-danger text-xs flex items-center gap-1.5"
+                            >
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>Eliminar</span>
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 {/* Tarjeta del Mensaje */}
@@ -165,6 +218,46 @@ export default function Show({ contacto }) {
                 </div>
 
             </div>
+
+            {/* Modal de Confirmación de Eliminación */}
+            {deleteModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/40 backdrop-blur-xs">
+                    <div className="bg-white rounded-3xl border border-neutral-200/90 shadow-2xl max-w-md w-full p-6 sm:p-7 space-y-5">
+                        <div className="flex items-center gap-3.5">
+                            <div className="w-11 h-11 rounded-2xl bg-red-50 text-ricardo-red border border-red-100 flex items-center justify-center shrink-0">
+                                <AlertTriangle className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h3 className="font-mate text-base font-bold text-neutral-900 uppercase tracking-tight">
+                                    Eliminar Consulta
+                                </h3>
+                                <span className="text-xs text-neutral-400 font-literata">Esta acción no se puede deshacer</span>
+                            </div>
+                        </div>
+
+                        <p className="text-sm text-neutral-600 font-literata leading-relaxed">
+                            ¿Estás seguro de que deseas eliminar permanentemente la consulta archivada de <strong className="text-neutral-900 font-semibold">"{contacto.nombre}"</strong>?
+                        </p>
+
+                        <div className="pt-2 flex items-center justify-end gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setDeleteModalOpen(false)}
+                                className="btn-admin-secondary"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleDelete}
+                                className="btn-admin-danger"
+                            >
+                                Sí, Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 }

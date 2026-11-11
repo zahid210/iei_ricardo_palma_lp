@@ -5,11 +5,12 @@ import {
     Mail, 
     MailOpen, 
     Eye, 
-    CheckCircle, 
-    Clock, 
     Search, 
     Phone, 
-    Inbox,
+    Archive,
+    ArchiveRestore,
+    Trash2,
+    AlertTriangle,
     X
 } from 'lucide-react';
 
@@ -17,10 +18,12 @@ export default function Index({
     mensajes = { data: [], links: [] }, 
     noLeidos = 0, 
     leidos = 0, 
+    archivados = 0,
     totalCount = 0,
     filters = { filtro: 'todos', q: '' }
 }) {
     const [searchTerm, setSearchTerm] = useState(filters.q || '');
+    const [deleteModal, setDeleteModal] = useState({ open: false, id: null, name: '' });
     const currentFiltro = filters.filtro || 'todos';
 
     const handleFilterChange = (nuevoFiltro) => {
@@ -58,6 +61,30 @@ export default function Index({
     const handleToggleLeido = (id) => {
         router.patch(`/admin/mensajes/${id}/toggle-leido`, {}, {
             preserveScroll: true,
+        });
+    };
+
+    const handleToggleArchivado = (id) => {
+        router.patch(`/admin/mensajes/${id}/toggle-archivado`, {}, {
+            preserveScroll: true,
+        });
+    };
+
+    const openDeleteModal = (msg) => {
+        setDeleteModal({
+            open: true,
+            id: msg.id,
+            name: msg.nombre
+        });
+    };
+
+    const confirmDelete = () => {
+        if (!deleteModal.id) return;
+        router.delete(`/admin/mensajes/${deleteModal.id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setDeleteModal({ open: false, id: null, name: '' });
+            }
         });
     };
 
@@ -111,7 +138,7 @@ export default function Index({
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                     
                     {/* Tabs con conteos reales de la base de datos */}
-                    <div className="flex items-center gap-1.5 p-1 bg-white rounded-2xl border border-neutral-200/80 shadow-2xs">
+                    <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white rounded-2xl border border-neutral-200/80 shadow-2xs">
                         <button
                             type="button"
                             onClick={() => handleFilterChange('todos')}
@@ -121,7 +148,7 @@ export default function Index({
                                     : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
                             }`}
                         >
-                            Todos ({totalCount})
+                            Bandeja ({totalCount})
                         </button>
 
                         <button
@@ -151,6 +178,18 @@ export default function Index({
                             }`}
                         >
                             Leídos ({leidos})
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => handleFilterChange('archivados')}
+                            className={`px-4 py-2 rounded-xl text-xs font-mate uppercase tracking-wider font-bold transition-all cursor-pointer ${
+                                currentFiltro === 'archivados'
+                                    ? 'bg-amber-700 text-white shadow-xs'
+                                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
+                            }`}
+                        >
+                            Archivados ({archivados})
                         </button>
                     </div>
 
@@ -197,7 +236,9 @@ export default function Index({
                                             }`}
                                         >
                                             <td className="py-4 px-5 text-center">
-                                                {!msg.leido ? (
+                                                {msg.archivado ? (
+                                                    <span className="inline-block w-2.5 h-2.5 rounded-full bg-amber-500" title="Mensaje archivado" />
+                                                ) : !msg.leido ? (
                                                     <span className="inline-block w-2.5 h-2.5 rounded-full bg-ricardo-red" title="Mensaje no leído" />
                                                 ) : (
                                                     <span className="inline-block w-2 h-2 rounded-full bg-neutral-300" title="Mensaje leído" />
@@ -253,18 +294,47 @@ export default function Index({
                                                         <span>Ver</span>
                                                     </Link>
 
+                                                    {/* Botón Marcar leído/no leído: solo si NO está archivado */}
+                                                    {!msg.archivado && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleToggleLeido(msg.id)}
+                                                            className={`p-1.5 rounded-xl border transition-colors cursor-pointer ${
+                                                                msg.leido
+                                                                    ? 'text-neutral-400 hover:text-neutral-700 border-neutral-200 hover:bg-neutral-100'
+                                                                    : 'text-ricardo-teal hover:bg-teal-50 border-teal-200'
+                                                            }`}
+                                                            title={msg.leido ? 'Marcar como no leído' : 'Marcar como leído'}
+                                                        >
+                                                            {msg.leido ? <Mail className="w-3.5 h-3.5" /> : <MailOpen className="w-3.5 h-3.5" />}
+                                                        </button>
+                                                    )}
+
+                                                    {/* Botón Archivar / Desarchivar */}
                                                     <button
                                                         type="button"
-                                                        onClick={() => handleToggleLeido(msg.id)}
+                                                        onClick={() => handleToggleArchivado(msg.id)}
                                                         className={`p-1.5 rounded-xl border transition-colors cursor-pointer ${
-                                                            msg.leido
-                                                                ? 'text-neutral-400 hover:text-neutral-700 border-neutral-200 hover:bg-neutral-100'
-                                                                : 'text-ricardo-teal hover:bg-teal-50 border-teal-200'
+                                                            msg.archivado
+                                                                ? 'text-amber-700 hover:bg-amber-50 border-amber-300'
+                                                                : 'text-neutral-400 hover:text-neutral-700 border-neutral-200 hover:bg-neutral-100'
                                                         }`}
-                                                        title={msg.leido ? 'Marcar como no leído' : 'Marcar como leído'}
+                                                        title={msg.archivado ? 'Desarchivar (devolver a bandeja)' : 'Archivar consulta'}
                                                     >
-                                                        {msg.leido ? <Mail className="w-3.5 h-3.5" /> : <MailOpen className="w-3.5 h-3.5" />}
+                                                        {msg.archivado ? <ArchiveRestore className="w-3.5 h-3.5" /> : <Archive className="w-3.5 h-3.5" />}
                                                     </button>
+
+                                                    {/* Botón Eliminar: solo visible cuando el mensaje está archivado */}
+                                                    {msg.archivado && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => openDeleteModal(msg)}
+                                                            className="p-1.5 rounded-xl border border-red-200 text-ricardo-red hover:bg-red-50 transition-colors cursor-pointer"
+                                                            title="Eliminar mensaje permanentemente"
+                                                        >
+                                                            <Trash2 className="w-3.5 h-3.5" />
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </td>
                                         </tr>
@@ -272,7 +342,9 @@ export default function Index({
                                 ) : (
                                     <tr>
                                         <td colSpan={7} className="py-12 text-center text-neutral-400">
-                                            No se encontraron mensajes en esta vista.
+                                            {currentFiltro === 'archivados'
+                                                ? 'No hay consultas archivadas.'
+                                                : 'No se encontraron mensajes en esta vista.'}
                                         </td>
                                     </tr>
                                 )}
@@ -281,7 +353,7 @@ export default function Index({
                     </div>
                 </div>
 
-                {/* Paginación Segura (Sin links '#' que disparan 404) */}
+                {/* Paginación Segura */}
                 {mensajes.links && mensajes.links.length > 3 && (
                     <div className="flex items-center justify-center gap-1.5 pt-2">
                         {mensajes.links.map((link, idx) => {
@@ -312,6 +384,46 @@ export default function Index({
                 )}
 
             </div>
+
+            {/* Modal de Confirmación de Eliminación en Pantalla */}
+            {deleteModal.open && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/40 backdrop-blur-xs">
+                    <div className="bg-white rounded-3xl border border-neutral-200/90 shadow-2xl max-w-md w-full p-6 sm:p-7 space-y-5">
+                        <div className="flex items-center gap-3.5">
+                            <div className="w-11 h-11 rounded-2xl bg-red-50 text-ricardo-red border border-red-100 flex items-center justify-center shrink-0">
+                                <AlertTriangle className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h3 className="font-mate text-base font-bold text-neutral-900 uppercase tracking-tight">
+                                    Eliminar Consulta
+                                </h3>
+                                <span className="text-xs text-neutral-400 font-literata">Esta acción no se puede deshacer</span>
+                            </div>
+                        </div>
+
+                        <p className="text-sm text-neutral-600 font-literata leading-relaxed">
+                            ¿Estás seguro de que deseas eliminar permanentemente la consulta de <strong className="text-neutral-900 font-semibold">"{deleteModal.name}"</strong>?
+                        </p>
+
+                        <div className="pt-2 flex items-center justify-end gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setDeleteModal({ open: false, id: null, name: '' })}
+                                className="btn-admin-secondary"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                type="button"
+                                onClick={confirmDelete}
+                                className="btn-admin-danger"
+                            >
+                                Sí, Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 }

@@ -16,9 +16,14 @@ class ContactoController extends Controller
         $query = Contact::query();
 
         if ($filtro === 'no_leidos') {
-            $query->where('leido', false);
+            $query->where('archivado', false)->where('leido', false);
         } elseif ($filtro === 'leidos') {
-            $query->where('leido', true);
+            $query->where('archivado', false)->where('leido', true);
+        } elseif ($filtro === 'archivados') {
+            $query->where('archivado', true);
+        } else {
+            // 'todos': muestra todos los mensajes activos (no archivados)
+            $query->where('archivado', false);
         }
 
         if (! empty($search)) {
@@ -35,14 +40,16 @@ class ContactoController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        $totalCount = Contact::count();
-        $noLeidos = Contact::where('leido', false)->count();
-        $leidos = Contact::where('leido', true)->count();
+        $totalCount = Contact::where('archivado', false)->count();
+        $noLeidos = Contact::where('archivado', false)->where('leido', false)->count();
+        $leidos = Contact::where('archivado', false)->where('leido', true)->count();
+        $archivados = Contact::where('archivado', true)->count();
 
         return inertia('Admin/Mensajes/Index', [
             'mensajes' => $mensajes,
             'noLeidos' => $noLeidos,
             'leidos' => $leidos,
+            'archivados' => $archivados,
             'totalCount' => $totalCount,
             'filters' => [
                 'filtro' => $filtro,
@@ -62,6 +69,10 @@ class ContactoController extends Controller
 
     public function toggleLeido(Contact $contacto)
     {
+        if ($contacto->archivado) {
+            return back()->with('error', 'No se puede cambiar el estado de lectura de un mensaje archivado. Debe desarchivarlo primero.');
+        }
+
         $contacto->update([
             'leido' => ! $contacto->leido,
         ]);
@@ -69,5 +80,29 @@ class ContactoController extends Controller
         $estado = $contacto->leido ? 'marcado como leído' : 'marcado como no leído';
 
         return back()->with('success', "Mensaje de {$contacto->nombre} {$estado}.");
+    }
+
+    public function toggleArchivado(Contact $contacto)
+    {
+        $contacto->update([
+            'archivado' => ! $contacto->archivado,
+        ]);
+
+        $estado = $contacto->archivado ? 'archivado' : 'desarchivado y devuelto a la bandeja';
+
+        return back()->with('success', "Mensaje de {$contacto->nombre} {$estado}.");
+    }
+
+    public function destroy(Contact $contacto)
+    {
+        // Solo permitir eliminar si está archivado
+        if (! $contacto->archivado) {
+            return back()->with('error', 'Solo se pueden eliminar mensajes que estén en la sección de archivados.');
+        }
+
+        $nombre = $contacto->nombre;
+        $contacto->delete();
+
+        return back()->with('success', "Mensaje archivado de {$nombre} eliminado permanentemente.");
     }
 }

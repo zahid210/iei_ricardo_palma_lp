@@ -16,12 +16,14 @@ class Contact extends Model
         'nivel',
         'mensaje',
         'leido',
+        'archivado',
     ];
 
     protected function casts(): array
     {
         return [
             'leido' => 'boolean',
+            'archivado' => 'boolean',
         ];
     }
 }

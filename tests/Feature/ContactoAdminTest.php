@@ -84,4 +84,90 @@ class ContactoAdminTest extends TestCase
             'leido' => false,
         ]);
     }
+
+    public function test_admin_can_toggle_archive_status(): void
+    {
+        $contact = Contact::create([
+            'nombre' => 'Ana Torres',
+            'telefono' => '987654324',
+            'correo' => 'ana@example.com',
+            'nivel' => 'Primaria',
+            'mensaje' => 'Duda sobre pensiones',
+            'leido' => true,
+            'archivado' => false,
+        ]);
+
+        $response = $this->patch(route('admin.mensajes.toggle-archivado', $contact->id));
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('contacts', [
+            'id' => $contact->id,
+            'archivado' => true,
+        ]);
+    }
+
+    public function test_admin_cannot_delete_unarchived_message(): void
+    {
+        $contact = Contact::create([
+            'nombre' => 'Luis Gomez',
+            'telefono' => '987654325',
+            'correo' => 'luis@example.com',
+            'nivel' => 'Secundaria',
+            'mensaje' => 'Consulta no archivada',
+            'leido' => true,
+            'archivado' => false,
+        ]);
+
+        $response = $this->delete(route('admin.mensajes.destroy', $contact->id));
+        $response->assertRedirect();
+
+        // El mensaje NO debe haberse borrado
+        $this->assertDatabaseHas('contacts', [
+            'id' => $contact->id,
+        ]);
+    }
+
+    public function test_admin_can_delete_archived_message(): void
+    {
+        $contact = Contact::create([
+            'nombre' => 'Elena Vega',
+            'telefono' => '987654326',
+            'correo' => 'elena@example.com',
+            'nivel' => 'Inicial',
+            'mensaje' => 'Consulta archivada a eliminar',
+            'leido' => true,
+            'archivado' => true,
+        ]);
+
+        $response = $this->delete(route('admin.mensajes.destroy', $contact->id));
+        $response->assertRedirect();
+
+        // El mensaje debe haber sido eliminado
+        $this->assertDatabaseMissing('contacts', [
+            'id' => $contact->id,
+        ]);
+    }
+
+    public function test_admin_cannot_toggle_read_status_on_archived_message(): void
+    {
+        $contact = Contact::create([
+            'nombre' => 'Roberto Diaz',
+            'telefono' => '987654327',
+            'correo' => 'roberto@example.com',
+            'nivel' => 'Primaria',
+            'mensaje' => 'Consulta archivada',
+            'leido' => true,
+            'archivado' => true,
+        ]);
+
+        $response = $this->patch(route('admin.mensajes.toggle', $contact->id));
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+
+        // El estado de lectura no debe haber cambiado
+        $this->assertDatabaseHas('contacts', [
+            'id' => $contact->id,
+            'leido' => true,
+        ]);
+    }
 }

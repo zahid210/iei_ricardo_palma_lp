@@ -112,9 +112,11 @@ Route::prefix('admin')->group(function () {
             ->parameters(['docentes' => 'docente'])
             ->only(['index', 'store', 'update', 'destroy']);
 
-        // Mensajes de contacto (solo lectura y cambio de estado, sin eliminación física para auditoría)
+        // Mensajes de contacto (gestión de bandeja, archivado y eliminación desde archivados)
         Route::get('/mensajes', [AdminContactoController::class, 'index'])->name('mensajes.index');
         Route::get('/mensajes/{contacto}', [AdminContactoController::class, 'show'])->name('mensajes.show');
         Route::patch('/mensajes/{contacto}/toggle-leido', [AdminContactoController::class, 'toggleLeido'])->name('mensajes.toggle');
+        Route::patch('/mensajes/{contacto}/toggle-archivado', [AdminContactoController::class, 'toggleArchivado'])->name('mensajes.toggle-archivado');
+        Route::delete('/mensajes/{contacto}', [AdminContactoController::class, 'destroy'])->name('mensajes.destroy');
     });
 });
