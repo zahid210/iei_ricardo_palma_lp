@@ -5,7 +5,8 @@ import { Menu, X, ArrowUpRight } from 'lucide-react';
 export default function AppLayout({ children }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const { url, ajustes } = usePage().props;
+    const { url } = usePage();
+    const { ajustes } = usePage().props;
 
     const facebookLink = ajustes?.facebook_url || 'https://www.facebook.com/ricardinosemprendeores';
     const whatsappLink = ajustes?.whatsapp ? `https://wa.me/${ajustes.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/51921896330';
