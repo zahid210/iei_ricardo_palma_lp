@@ -173,39 +173,50 @@ export default function Galeria({
                             </p>
                         </div>
 
-                        {/* Mosaico de Portadas de Etiquetas */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {categorias.map((cat) => (
-                                <Link
-                                    key={cat.id}
-                                    href={`/galeria?etiqueta=${cat.slug}`}
-                                    className="group relative aspect-[4/3] rounded-3xl overflow-hidden border border-neutral-200/90 shadow-2xs hover:shadow-2xl transition-all duration-500 select-none block bg-neutral-900"
-                                >
-                                    {/* Imagen de Portada de la Etiqueta */}
-                                    <img
-                                        src={cat.portada_url}
-                                        alt={cat.nombre}
-                                        className="w-full h-full object-cover opacity-85 transition-transform duration-700 ease-out group-hover:scale-110 group-hover:opacity-100"
-                                        loading="lazy"
-                                    />
+                        {/* Mosaico Asimétrico Dinámico de Portadas de Etiquetas */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-[240px]">
+                            {categorias.map((cat, idx) => {
+                                // Patrón de mosaico asimétrico tipo Pinterest / Editorial
+                                const isFeatured = idx === 0 || (idx % 5 === 0);
+                                const isWide = idx === 1 || (idx % 7 === 0);
+                                const tileClass = isFeatured 
+                                    ? 'sm:col-span-2 sm:row-span-2' 
+                                    : isWide 
+                                        ? 'lg:col-span-2 sm:row-span-1' 
+                                        : 'col-span-1 row-span-1';
 
-                                    {/* Capa de Opacidad Negra para contraste */}
-                                    <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30 transition-colors duration-500" />
+                                return (
+                                    <Link
+                                        key={cat.id}
+                                        href={`/galeria?etiqueta=${cat.slug}`}
+                                        className={`group relative h-full w-full rounded-3xl overflow-hidden border border-neutral-200/90 shadow-2xs hover:shadow-2xl transition-all duration-500 select-none block bg-neutral-900 ${tileClass}`}
+                                    >
+                                        {/* Imagen de Portada de la Etiqueta */}
+                                        <img
+                                            src={cat.portada_url}
+                                            alt={cat.nombre}
+                                            className="w-full h-full object-cover opacity-85 transition-transform duration-700 ease-out group-hover:scale-110 group-hover:opacity-100"
+                                            loading="lazy"
+                                        />
 
-                                    {/* Título en Blanco al Centro: se hace más grande y notorio en hover */}
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-2 z-10">
-                                        <h3 className="font-mate text-2xl sm:text-3xl font-bold uppercase tracking-wider text-white drop-shadow-md transition-all duration-300 transform group-hover:scale-115 group-hover:tracking-widest">
-                                            {cat.nombre}
-                                        </h3>
-                                        <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-mate font-bold uppercase tracking-wider text-white shadow-xs transition-opacity duration-300">
-                                            {cat.total_fotos} {cat.total_fotos === 1 ? 'Foto' : 'Fotos'}
-                                        </span>
-                                    </div>
+                                        {/* Capa de Opacidad Negra para contraste */}
+                                        <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30 transition-colors duration-500" />
 
-                                    {/* Borde sutil animado al hover */}
-                                    <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 rounded-3xl transition-colors duration-300 pointer-events-none" />
-                                </Link>
-                            ))}
+                                        {/* Título en Blanco al Centro: se hace más grande y notorio en hover */}
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-2 z-10">
+                                            <h3 className="font-mate text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-wider text-white drop-shadow-md transition-all duration-300 transform group-hover:scale-115 group-hover:tracking-widest">
+                                                {cat.nombre}
+                                            </h3>
+                                            <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-mate font-bold uppercase tracking-wider text-white shadow-xs transition-opacity duration-300">
+                                                {cat.total_fotos} {cat.total_fotos === 1 ? 'Foto' : 'Fotos'}
+                                            </span>
+                                        </div>
+
+                                        {/* Borde sutil animado al hover */}
+                                        <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 rounded-3xl transition-colors duration-300 pointer-events-none" />
+                                    </Link>
+                                );
+                            })}
                         </div>
 
                     </div>
@@ -286,50 +297,63 @@ export default function Galeria({
                             )}
                         </div>
                     ) : (
-                        /* Mosaico de Fotos Armónico */
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fadeIn">
+                        /* Mosaico Asimétrico Editorial de Fotografías */
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-[280px] animate-fadeIn">
                             {items.map((item, index) => {
                                 const cleanTitle = getCleanTitle(item.titulo);
                                 const etiqueta = item.etiqueta?.nombre;
+
+                                // Variación de altura y ancho para el efecto mosaico
+                                const isTall = index % 5 === 1;
+                                const isWide = index % 5 === 3;
+                                const spanClass = isTall 
+                                    ? 'sm:row-span-2' 
+                                    : isWide 
+                                        ? 'lg:col-span-2 sm:row-span-1' 
+                                        : 'col-span-1 row-span-1';
 
                                 return (
                                     <article
                                         key={item.id}
                                         onClick={() => openLightbox(index)}
-                                        className="group relative flex flex-col overflow-hidden rounded-3xl border border-neutral-200/90 bg-white shadow-2xs hover:shadow-xl transition-all duration-300 cursor-pointer select-none"
+                                        className={`group relative flex flex-col justify-end overflow-hidden rounded-3xl border border-neutral-200/90 bg-neutral-900 shadow-2xs hover:shadow-2xl transition-all duration-500 cursor-pointer select-none ${spanClass}`}
                                     >
-                                        {/* Imagen */}
-                                        <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
-                                            <img
-                                                src={item.url}
-                                                alt={cleanTitle || 'Fotografía de la Galería'}
-                                                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-                                                loading="lazy"
-                                            />
+                                        {/* Imagen de fondo */}
+                                        <img
+                                            src={item.url}
+                                            alt={cleanTitle || 'Fotografía de la Galería'}
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                                            loading="lazy"
+                                        />
 
-                                            {/* Etiqueta flotante */}
-                                            {etiqueta && (
-                                                <div className="absolute top-3 left-3 z-10">
-                                                    <span className="font-mate text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-md">
-                                                        {etiqueta}
-                                                    </span>
-                                                </div>
-                                            )}
+                                        {/* Degradado para legibilidad del texto */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10 group-hover:from-black/90 group-hover:via-black/40 transition-colors duration-300" />
 
-                                            {/* Icono de zoom en esquina */}
-                                            <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <span className="w-8 h-8 rounded-xl bg-white/80 hover:bg-white backdrop-blur-md text-neutral-800 flex items-center justify-center shadow-xs">
-                                                    <ZoomIn className="w-4 h-4" />
+                                        {/* Etiqueta flotante */}
+                                        {etiqueta && (
+                                            <div className="absolute top-4 left-4 z-10">
+                                                <span className="font-mate text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white/20 text-white backdrop-blur-md shadow-xs">
+                                                    {etiqueta}
                                                 </span>
                                             </div>
+                                        )}
+
+                                        {/* Icono de zoom en esquina */}
+                                        <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                                            <span className="w-9 h-9 rounded-2xl bg-white/25 hover:bg-white text-white hover:text-neutral-900 backdrop-blur-md flex items-center justify-center shadow-xs transition-colors">
+                                                <ZoomIn className="w-4 h-4" />
+                                            </span>
                                         </div>
 
-                                        {/* Título al pie */}
-                                        <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between bg-white">
-                                            <h3 className="font-mate text-sm sm:text-base font-bold text-neutral-900 tracking-wide line-clamp-2 group-hover:text-ricardo-teal transition-colors">
+                                        {/* Título en la parte inferior */}
+                                        <div className="relative p-5 z-10 space-y-1">
+                                            <h3 className="font-mate text-base sm:text-lg font-bold text-white tracking-wide line-clamp-2 drop-shadow-md group-hover:text-emerald-300 transition-colors">
                                                 {cleanTitle || 'Fotografía Institucional'}
                                             </h3>
                                         </div>
+
+                                        {/* Borde interactivo */}
+                                        <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 rounded-3xl transition-colors duration-300 pointer-events-none" />
                                     </article>
                                 );
                             })}
