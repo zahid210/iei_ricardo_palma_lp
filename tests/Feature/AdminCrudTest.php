@@ -112,15 +112,18 @@ class AdminCrudTest extends TestCase
     public function test_admin_can_upload_foto_to_galeria(): void
     {
         $file = UploadedFile::fake()->create('mi_foto_escolar.jpg', 200, 'image/jpeg');
+        $tag = \App\Models\GaleriaEtiqueta::firstOrCreate(['nombre' => 'Deportes'], ['slug' => 'deportes']);
 
         $response = $this->actingAs($this->admin)->post(route('admin.galeria.store'), [
             'titulo' => 'Escolta Escolar 2026',
+            'etiqueta_id' => $tag->id,
             'imagen_file' => $file,
         ]);
 
         $response->assertRedirect(route('admin.galeria.index'));
         $this->assertDatabaseHas('galerias', [
             'titulo' => 'Escolta Escolar 2026',
+            'etiqueta_id' => $tag->id,
         ]);
 
         $galeria = Galeria::where('titulo', 'Escolta Escolar 2026')->first();
@@ -133,5 +136,41 @@ class AdminCrudTest extends TestCase
         $delResponse = $this->actingAs($this->admin)->delete(route('admin.galeria.destroy', $galeria->id));
         $delResponse->assertRedirect(route('admin.galeria.index'));
         $this->assertFalse(Storage::disk('public')->exists(str_replace('storage/', '', $galeria->imagen_path)));
+    }
+
+    public function test_admin_can_manage_galeria_etiquetas_and_update_foto(): void
+    {
+        // 1. Crear etiqueta
+        $tagResponse = $this->actingAs($this->admin)->post(route('admin.galeria.etiquetas.store'), [
+            'nombre' => 'Ferias Científicas',
+        ]);
+        $tagResponse->assertRedirect();
+        $this->assertDatabaseHas('galeria_etiquetas', ['nombre' => 'Ferias Científicas']);
+        $tag = \App\Models\GaleriaEtiqueta::where('nombre', 'Ferias Científicas')->first();
+
+        // 2. Crear foto
+        $foto = Galeria::create([
+            'titulo' => 'Foto original',
+            'imagen_path' => 'images/galeria_1.jpg',
+        ]);
+
+        // 3. Editar foto para cambiar título y asignar etiqueta
+        $updateResponse = $this->actingAs($this->admin)->put(route('admin.galeria.update', $foto->id), [
+            'titulo' => 'Feria de Ciencias 2026',
+            'etiqueta_id' => $tag->id,
+        ]);
+        $updateResponse->assertRedirect(route('admin.galeria.index'));
+        $this->assertDatabaseHas('galerias', [
+            'id' => $foto->id,
+            'titulo' => 'Feria de Ciencias 2026',
+            'etiqueta_id' => $tag->id,
+        ]);
+
+        // 4. Eliminar etiqueta
+        $delTagResponse = $this->actingAs($this->admin)->delete(route('admin.galeria.etiquetas.destroy', $tag->id));
+        $delTagResponse->assertRedirect();
+        $this->assertDatabaseMissing('galeria_etiquetas', ['id' => $tag->id]);
+        $foto->refresh();
+        $this->assertNull($foto->etiqueta_id);
     }
 }

@@ -15,6 +15,7 @@ class StoreGaleriaRequest extends FormRequest
     {
         return [
             'titulo' => ['required', 'string', 'max:255'],
+            'etiqueta_id' => ['nullable', 'exists:galeria_etiquetas,id'],
             'imagen_file' => ['required', 'file', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
         ];
     }
@@ -24,6 +25,7 @@ class StoreGaleriaRequest extends FormRequest
         return [
             'titulo.required' => 'El título o descripción de la fotografía es obligatorio.',
             'titulo.max' => 'El título no debe exceder los 255 caracteres.',
+            'etiqueta_id.exists' => 'La etiqueta seleccionada no es válida.',
             'imagen_file.required' => 'Debes seleccionar un archivo de imagen para subir.',
             'imagen_file.file' => 'El archivo subido no es válido.',
             'imagen_file.mimes' => 'El archivo debe tener formato JPG, JPEG, PNG o WebP.',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Docente;
 use App\Models\Galeria;
+use App\Models\GaleriaEtiqueta;
 use App\Models\Noticia;
 use App\Services\FacebookFeed;
 use Database\Seeders\DocenteSeeder;
@@ -109,23 +110,37 @@ class PageController extends Controller
 
     public function galeria()
     {
-        // Cacheamos DATOS (arrays), nunca objetos Eloquent.
-        //
-        // Laravel 13 ya NO deserializa clases desde la cache por defecto
-        // (config/cache.php: 'serializable_classes' => false, por seguridad frente
-        // a "gadget chain attacks"). Un Collection cacheado vuelve como
-        // __PHP_Incomplete_Class y rompe la pagina con error 500. Guardando arrays
-        // simples evitamos el problema y mantenemos la caché.
+        $etiquetaFiltro = request()->query('etiqueta');
+
+        // Cacheamos DATOS (arrays simples) con relación a etiqueta
         $datos = Cache::get('galeria:todas');
 
-        // Si no hay dato o quedo un valor viejo/invalido, lo regeneramos ordenado del más reciente al más antiguo.
         if (! is_array($datos)) {
-            $datos = Galeria::orderByDesc('id')->get()->toArray();
+            $datos = Galeria::with('etiqueta')->orderByDesc('id')->get()->toArray();
             Cache::put('galeria:todas', $datos, now()->addHours(12));
         }
 
-        // Reconstruimos los modelos en memoria (sin volver a consultar la BD).
+        // Etiquetas para los filtros
+        $etiquetas = Cache::remember('galeria:etiquetas', now()->addHours(12), function () {
+            return GaleriaEtiqueta::has('fotos')->orderBy('nombre')->get()->toArray();
+        });
+
+        // Reconstruimos los modelos en memoria
         $todas = Galeria::hydrate($datos);
+
+        // Cargar relación 'etiqueta' desde los datos hydrate
+        foreach ($todas as $idx => $modelo) {
+            if (isset($datos[$idx]['etiqueta']) && $datos[$idx]['etiqueta']) {
+                $modelo->setRelation('etiqueta', new GaleriaEtiqueta($datos[$idx]['etiqueta']));
+            }
+        }
+
+        // Filtrado por etiqueta si se solicitó
+        if ($etiquetaFiltro) {
+            $todas = $todas->filter(function ($item) use ($etiquetaFiltro) {
+                return $item->etiqueta && $item->etiqueta->slug === $etiquetaFiltro;
+            })->values();
+        }
 
         // Paginamos en memoria (12 por página, armónico en 1, 2, 3 y 4 columnas).
         $perPage = 12;
@@ -139,6 +154,10 @@ class PageController extends Controller
             ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
         );
 
-        return inertia('Galeria', compact('imagenes'));
+        return inertia('Galeria', [
+            'imagenes' => $imagenes,
+            'etiquetas' => $etiquetas,
+            'etiquetaActual' => $etiquetaFiltro,
+        ]);
     }
 }

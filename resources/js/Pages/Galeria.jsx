@@ -7,10 +7,15 @@ import {
     ChevronRight, 
     ZoomIn, 
     Image as ImageIcon,
-    Camera
+    Camera,
+    Tag
 } from 'lucide-react';
 
-export default function Galeria({ imagenes = { data: [] } }) {
+export default function Galeria({ 
+    imagenes = { data: [] }, 
+    etiquetas = [], 
+    etiquetaActual = null 
+}) {
     const items = imagenes?.data || [];
     const links = imagenes?.links || [];
     const totalFotos = imagenes?.total || items.length;
@@ -62,7 +67,6 @@ export default function Galeria({ imagenes = { data: [] } }) {
         };
     }, [lightboxIndex]);
 
-    // Filtrar títulos que sean nombres de archivo crudos o auto-generados feos
     const getCleanTitle = (titulo) => {
         if (!titulo) return null;
         const trimmed = titulo.trim();
@@ -74,6 +78,7 @@ export default function Galeria({ imagenes = { data: [] } }) {
 
     const activeItem = lightboxIndex !== null ? items[lightboxIndex] : null;
     const activeTitle = activeItem ? getCleanTitle(activeItem.titulo) : null;
+    const activeEtiqueta = activeItem?.etiqueta?.nombre || null;
 
     return (
         <AppLayout>
@@ -119,6 +124,42 @@ export default function Galeria({ imagenes = { data: [] } }) {
                         )}
                     </div>
 
+                    {/* Barra de Filtros por Etiquetas */}
+                    {etiquetas.length > 0 && (
+                        <div className="flex items-center gap-2 flex-wrap pt-4 border-t border-neutral-200/60">
+                            <span className="font-mate text-xs uppercase tracking-wider font-bold text-neutral-400 mr-1">
+                                Filtrar por:
+                            </span>
+
+                            <Link
+                                href="/galeria"
+                                preserveScroll
+                                className={`px-3.5 py-1.5 rounded-full text-xs font-mate uppercase tracking-wider font-bold transition-all ${
+                                    !etiquetaActual
+                                        ? 'bg-ricardo-teal text-white shadow-xs'
+                                        : 'bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900'
+                                }`}
+                            >
+                                Todas
+                            </Link>
+
+                            {etiquetas.map((tag) => (
+                                <Link
+                                    key={tag.id}
+                                    href={`/galeria?etiqueta=${tag.slug}`}
+                                    preserveScroll
+                                    className={`px-3.5 py-1.5 rounded-full text-xs font-mate uppercase tracking-wider font-bold transition-all flex items-center gap-1.5 ${
+                                        etiquetaActual === tag.slug
+                                            ? 'bg-ricardo-teal text-white shadow-xs'
+                                            : 'bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900'
+                                    }`}
+                                >
+                                    <span>{tag.nombre}</span>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
+
                 </div>
             </section>
 
@@ -131,50 +172,65 @@ export default function Galeria({ imagenes = { data: [] } }) {
                                 <ImageIcon className="w-6 h-6" />
                             </div>
                             <h3 className="font-mate text-base font-bold text-neutral-800 uppercase tracking-tight">
-                                Aún no hay fotografías en la galería
+                                No se encontraron fotografías
                             </h3>
                             <p className="font-literata text-xs text-neutral-500 max-w-sm mx-auto">
-                                Las fotografías publicadas por la institución aparecerán ordenadas aquí.
+                                {etiquetaActual
+                                    ? 'No hay imágenes registradas bajo esta etiqueta temática.'
+                                    : 'Las fotografías publicadas por la institución aparecerán ordenadas aquí.'}
                             </p>
+                            {etiquetaActual && (
+                                <Link
+                                    href="/galeria"
+                                    className="inline-block mt-2 text-xs font-mate font-semibold text-ricardo-teal hover:underline uppercase tracking-wider"
+                                >
+                                    Ver todas las fotografías
+                                </Link>
+                            )}
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
                             {items.map((item, index) => {
                                 const cleanTitle = getCleanTitle(item.titulo);
+                                const etiqueta = item.etiqueta?.nombre;
 
                                 return (
                                     <article
                                         key={item.id}
                                         onClick={() => openLightbox(index)}
-                                        className="group relative aspect-[4/3] overflow-hidden rounded-3xl border border-neutral-200/90 bg-neutral-100 shadow-2xs hover:shadow-xl transition-all duration-300 cursor-pointer select-none"
+                                        className="group relative flex flex-col overflow-hidden rounded-3xl border border-neutral-200/90 bg-neutral-50 shadow-2xs hover:shadow-xl transition-all duration-300 cursor-pointer select-none"
                                     >
-                                        <img
-                                            src={item.url}
-                                            alt={cleanTitle || 'Fotografía de la Galería'}
-                                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-                                            loading="lazy"
-                                        />
+                                        {/* Imagen */}
+                                        <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                                            <img
+                                                src={item.url}
+                                                alt={cleanTitle || 'Fotografía de la Galería'}
+                                                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                                                loading="lazy"
+                                            />
 
-                                        {/* Overlay elegante en hover */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-5">
-                                            {/* Botón de ampliar en la esquina superior */}
-                                            <div className="flex justify-end">
-                                                <span className="w-9 h-9 rounded-2xl bg-white/20 hover:bg-white/30 backdrop-blur-md text-white flex items-center justify-center shadow-sm transition-transform group-hover:scale-105">
-                                                    <ZoomIn className="w-4 h-4" />
-                                                </span>
-                                            </div>
-
-                                            {/* Título en la parte inferior si es descriptivo */}
-                                            {cleanTitle && (
-                                                <div className="space-y-1 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                                    <p className="font-mate text-sm font-bold text-white tracking-wide leading-snug line-clamp-2">
-                                                        {cleanTitle}
-                                                    </p>
-                                                    <span className="text-[11px] font-literata text-white/80 block">
-                                                        Clic para ver en tamaño completo
+                                            {/* Etiqueta flotante */}
+                                            {etiqueta && (
+                                                <div className="absolute top-3 left-3 z-10">
+                                                    <span className="font-mate text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-md">
+                                                        {etiqueta}
                                                     </span>
                                                 </div>
                                             )}
+
+                                            {/* Icono de zoom en esquina */}
+                                            <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <span className="w-8 h-8 rounded-xl bg-white/80 hover:bg-white backdrop-blur-md text-neutral-800 flex items-center justify-center shadow-xs">
+                                                    <ZoomIn className="w-4 h-4" />
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Título al pie */}
+                                        <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between bg-white">
+                                            <h3 className="font-mate text-sm sm:text-base font-bold text-neutral-900 tracking-wide line-clamp-2 group-hover:text-ricardo-teal transition-colors">
+                                                {cleanTitle || 'Fotografía Institucional'}
+                                            </h3>
                                         </div>
                                     </article>
                                 );
@@ -214,7 +270,7 @@ export default function Galeria({ imagenes = { data: [] } }) {
                 </div>
             </section>
 
-            {/* Modal Lightbox a Pantalla Completa */}
+            {/* Modal Lightbox a Pantalla Completa con Leyenda y Etiqueta */}
             {lightboxIndex !== null && activeItem && (
                 <div 
                     onClick={closeLightbox}
@@ -230,9 +286,16 @@ export default function Galeria({ imagenes = { data: [] } }) {
                         <X className="w-5 h-5" />
                     </button>
 
-                    {/* Indicador de posición */}
-                    <div className="absolute top-4 left-4 z-50 px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md text-xs font-mate tracking-wider text-white/90">
-                        {lightboxIndex + 1} de {items.length}
+                    {/* Indicador de posición y etiqueta */}
+                    <div className="absolute top-4 left-4 z-50 flex items-center gap-2">
+                        <div className="px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md text-xs font-mate tracking-wider text-white/90">
+                            {lightboxIndex + 1} de {items.length}
+                        </div>
+                        {activeEtiqueta && (
+                            <span className="px-3 py-1 rounded-xl bg-teal-500/80 backdrop-blur-md text-xs font-mate font-bold uppercase tracking-wider text-white">
+                                {activeEtiqueta}
+                            </span>
+                        )}
                     </div>
 
                     {/* Flecha Anterior */}
@@ -247,10 +310,10 @@ export default function Galeria({ imagenes = { data: [] } }) {
                         </button>
                     )}
 
-                    {/* Contenedor de la Imagen */}
+                    {/* Contenedor de la Imagen y Título */}
                     <div 
                         onClick={(e) => e.stopPropagation()}
-                        className="relative max-w-5xl max-h-[85vh] flex flex-col items-center justify-center space-y-3"
+                        className="relative max-w-4xl max-h-[90vh] flex flex-col items-center justify-center space-y-3"
                     >
                         <img
                             src={activeItem.url}
@@ -259,7 +322,7 @@ export default function Galeria({ imagenes = { data: [] } }) {
                         />
 
                         {activeTitle && (
-                            <div className="text-center px-4 py-2 rounded-xl bg-black/40 backdrop-blur-sm max-w-xl">
+                            <div className="text-center px-6 py-2.5 rounded-2xl bg-black/60 backdrop-blur-md max-w-2xl">
                                 <p className="font-mate text-sm sm:text-base font-bold text-white tracking-wide">
                                     {activeTitle}
                                 </p>

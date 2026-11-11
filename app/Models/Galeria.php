@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Galeria extends Model
 {
-    protected $fillable = ['titulo', 'imagen_path'];
+    protected $fillable = ['titulo', 'etiqueta_id', 'imagen_path'];
 
     protected $appends = ['url'];
+
+    public function etiqueta()
+    {
+        return $this->belongsTo(GaleriaEtiqueta::class, 'etiqueta_id');
+    }
 
     /**
      * URL pública de la imagen (ruta raíz relativa o URL externa)

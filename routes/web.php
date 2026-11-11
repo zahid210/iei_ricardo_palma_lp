@@ -102,10 +102,12 @@ Route::prefix('admin')->group(function () {
             ->parameters(['noticias' => 'noticia'])
             ->except(['show']);
 
-        // Galería
+        // Galería y Etiquetas
         Route::resource('galeria', AdminGaleriaController::class)
             ->parameters(['galeria' => 'galeria'])
-            ->only(['index', 'store', 'destroy']);
+            ->only(['index', 'store', 'update', 'destroy']);
+        Route::post('galeria/etiquetas', [\App\Http\Controllers\Admin\GaleriaEtiquetaController::class, 'store'])->name('galeria.etiquetas.store');
+        Route::delete('galeria/etiquetas/{etiqueta}', [\App\Http\Controllers\Admin\GaleriaEtiquetaController::class, 'destroy'])->name('galeria.etiquetas.destroy');
 
         // Docentes
         Route::resource('docentes', AdminDocenteController::class)
