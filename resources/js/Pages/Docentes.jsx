@@ -126,7 +126,7 @@ export default function Docentes({ porNivel = {} }) {
                     <div className="flex items-center gap-2 font-mate text-xs text-neutral-400 uppercase tracking-wider font-semibold">
                         <Link href="/" className="hover:text-ricardo-teal transition-colors">Inicio</Link>
                         <span>/</span>
-                        <span className="text-neutral-700">Comunidad</span>
+                        <span className="text-neutral-700">Comunidad Ricardina</span>
                         <span>/</span>
                         <span className="text-ricardo-teal">Profesores</span>
                     </div>
