@@ -217,9 +217,6 @@ export default function AdminLayout({ title, children }) {
                                 <ChevronRight className="w-3 h-3 text-neutral-300" />
                                 <span className="text-ricardo-teal font-semibold">{title || 'General'}</span>
                             </div>
-                            <h2 className="font-mate text-sm sm:text-base font-bold text-neutral-900 uppercase tracking-tight">
-                                {title || 'Panel de Administración'}
-                            </h2>
                         </div>
                     </div>
 
