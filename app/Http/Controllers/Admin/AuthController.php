@@ -27,32 +27,32 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $adminEmail = (string) config('admin.email', env('ADMIN_EMAIL', 'admin@rpalma.edu.pe'));
-        $adminPassword = (string) config('admin.password', env('ADMIN_PASSWORD', 'palma2026'));
-        $adminName = (string) config('admin.name', env('ADMIN_NAME', 'Administrador'));
-
-        // 1. Autenticación contra configuración administrativa (soporta config:cache)
-        $emailMatches = hash_equals(strtolower($adminEmail), strtolower($credentials['email']));
-        $passwordMatches = hash_equals($adminPassword, $credentials['password']);
-
-        if ($emailMatches && $passwordMatches) {
-            // Obtenemos o creamos la sesión del usuario administrador en BD
-            $user = User::firstOrNew(['email' => $adminEmail]);
-            $user->name = $adminName;
-            $user->password = Hash::make($adminPassword);
-            $user->save();
-
-            Auth::login($user, $request->boolean('remember'));
+        // Autenticación estándar y segura contra la base de datos (tabla users)
+        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $request->boolean('remember'))) {
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.noticias.index'));
         }
 
-        // 2. Autenticación estándar contra base de datos
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $request->boolean('remember'))) {
-            $request->session()->regenerate();
+        // Si la base de datos no tiene usuarios (primer despliegue en servidor limpio),
+        // inicializamos con las credenciales por defecto configuradas.
+        if (User::count() === 0) {
+            $defaultEmail = (string) config('admin.email', env('ADMIN_DEFAULT_EMAIL', 'admin@rpalma.edu.pe'));
+            $defaultPassword = (string) config('admin.password', env('ADMIN_DEFAULT_PASSWORD', '@dmin$RP'));
+            $defaultName = (string) config('admin.name', env('ADMIN_DEFAULT_NAME', 'Administrador'));
 
-            return redirect()->intended(route('admin.noticias.index'));
+            if (hash_equals(strtolower($defaultEmail), strtolower($credentials['email'])) && hash_equals($defaultPassword, $credentials['password'])) {
+                $user = User::create([
+                    'name' => $defaultName,
+                    'email' => $defaultEmail,
+                    'password' => Hash::make($defaultPassword),
+                ]);
+
+                Auth::login($user, $request->boolean('remember'));
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('admin.noticias.index'));
+            }
         }
 
         throw ValidationException::withMessages([

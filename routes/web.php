@@ -125,5 +125,10 @@ Route::prefix('admin')->group(function () {
         // Ajustes institucionales
         Route::get('/ajustes', [\App\Http\Controllers\Admin\AjusteController::class, 'edit'])->name('ajustes.edit');
         Route::put('/ajustes', [\App\Http\Controllers\Admin\AjusteController::class, 'update'])->name('ajustes.update');
+
+        // Mi Perfil y Seguridad de Administrador
+        Route::get('/perfil', [\App\Http\Controllers\Admin\PerfilController::class, 'edit'])->name('perfil.edit');
+        Route::put('/perfil', [\App\Http\Controllers\Admin\PerfilController::class, 'update'])->name('perfil.update');
+        Route::put('/perfil/password', [\App\Http\Controllers\Admin\PerfilController::class, 'updatePassword'])->name('perfil.password');
     });
 });

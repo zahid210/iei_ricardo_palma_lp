@@ -14,7 +14,8 @@ import {
     User,
     Calendar,
     ChevronRight,
-    Settings
+    Settings,
+    Shield
 } from 'lucide-react';
 
 export default function AdminLayout({ title, children }) {
@@ -41,6 +42,12 @@ export default function AdminLayout({ title, children }) {
             href: '/admin/ajustes', 
             icon: Settings, 
             active: currentUrl.startsWith('/admin/ajustes') 
+        },
+        { 
+            name: 'Mi Perfil', 
+            href: '/admin/perfil', 
+            icon: Shield, 
+            active: currentUrl.startsWith('/admin/perfil') 
         },
     ];
 
@@ -190,19 +197,23 @@ export default function AdminLayout({ title, children }) {
                         </div>
 
                         {/* Perfil del Usuario */}
-                        <div className="flex items-center gap-3 pl-2 sm:border-l sm:border-neutral-200/80">
+                        <Link 
+                            href="/admin/perfil"
+                            className="flex items-center gap-3 pl-2 sm:border-l sm:border-neutral-200/80 group cursor-pointer hover:opacity-85 transition-opacity"
+                            title="Ir a mi perfil"
+                        >
                             <div className="hidden sm:flex flex-col text-right">
-                                <span className="text-xs font-semibold text-neutral-900 leading-tight">
+                                <span className="text-xs font-semibold text-neutral-900 group-hover:text-ricardo-teal transition-colors leading-tight">
                                     {auth?.user?.name || 'Administrador'}
                                 </span>
                                 <span className="font-mate text-[11px] text-neutral-400 uppercase font-bold tracking-wider">
                                     Dirección / Admin
                                 </span>
                             </div>
-                            <div className="w-8 h-8 rounded-lg bg-[#0C3831] text-white flex items-center justify-center font-mate font-bold text-xs shadow-xs">
+                            <div className="w-8 h-8 rounded-lg bg-[#0C3831] text-white flex items-center justify-center font-mate font-bold text-xs shadow-xs group-hover:bg-ricardo-teal transition-colors">
                                 {auth?.user?.name ? auth.user.name.charAt(0).toUpperCase() : <User className="w-4 h-4" />}
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 </header>
 
