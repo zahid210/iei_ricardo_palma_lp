@@ -121,5 +121,9 @@ Route::prefix('admin')->group(function () {
         Route::patch('/mensajes/{contacto}/toggle-leido', [AdminContactoController::class, 'toggleLeido'])->name('mensajes.toggle');
         Route::patch('/mensajes/{contacto}/toggle-archivado', [AdminContactoController::class, 'toggleArchivado'])->name('mensajes.toggle-archivado');
         Route::delete('/mensajes/{contacto}', [AdminContactoController::class, 'destroy'])->name('mensajes.destroy');
+
+        // Ajustes institucionales
+        Route::get('/ajustes', [\App\Http\Controllers\Admin\AjusteController::class, 'edit'])->name('ajustes.edit');
+        Route::put('/ajustes', [\App\Http\Controllers\Admin\AjusteController::class, 'update'])->name('ajustes.update');
     });
 });

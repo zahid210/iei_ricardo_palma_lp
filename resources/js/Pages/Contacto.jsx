@@ -11,7 +11,14 @@ import {
 } from 'lucide-react';
 
 export default function Contacto() {
-    const { flash = {} } = usePage().props;
+    const { flash = {}, ajustes } = usePage().props;
+
+    const telefonoInfo = ajustes?.telefono || '+51 921 896 330';
+    const horarioInfo = ajustes?.horario_atencion || 'Lunes a Viernes: 8:00 a.m. a 1:00 p.m.';
+    const whatsappLink = ajustes?.whatsapp ? `https://wa.me/${ajustes.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/51921896330';
+    const direccionInfo = ajustes?.direccion || 'Barrio La Esperanza s/n, Chaupimarca — Cerro de Pasco, Región Pasco, Perú.';
+    const mapsLink = ajustes?.google_maps_url || 'https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9';
+
     const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({
         nombre: '',
         telefono: '',
@@ -226,7 +233,7 @@ export default function Contacto() {
                                         </div>
                                         <div className="space-y-0.5">
                                             <p className="font-mate text-xs uppercase tracking-wider text-neutral-500 font-semibold">Horario de atención</p>
-                                            <p className="font-literata text-sm text-neutral-900">Lunes a Viernes: 8:00 a.m. a 1:00 p.m.</p>
+                                            <p className="font-literata text-sm text-neutral-900">{horarioInfo}</p>
                                         </div>
                                     </div>
 
@@ -236,7 +243,7 @@ export default function Contacto() {
                                         </div>
                                         <div className="space-y-0.5">
                                             <p className="font-mate text-xs uppercase tracking-wider text-neutral-500 font-semibold">Teléfono</p>
-                                            <p className="font-literata text-sm text-neutral-900">+51 921 896 330</p>
+                                            <p className="font-literata text-sm text-neutral-900">{telefonoInfo}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -244,7 +251,7 @@ export default function Contacto() {
                                 {/* Botón Oficial de WhatsApp */}
                                 <div className="pt-2 border-t border-neutral-200/80">
                                     <a
-                                        href="https://wa.me/51921896330"
+                                        href={whatsappLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="w-full inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba56] text-white px-5 py-3 font-mate text-xs uppercase tracking-wider font-bold transition-all shadow-xs hover:shadow-sm cursor-pointer"
@@ -266,7 +273,7 @@ export default function Contacto() {
                                             Nuestra Ubicación
                                         </span>
                                         <a
-                                            href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9"
+                                            href={mapsLink}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="font-mate text-xs uppercase tracking-wider font-bold text-ricardo-teal hover:underline inline-flex items-center gap-1"
@@ -279,7 +286,7 @@ export default function Contacto() {
                                     <div className="flex items-start gap-3">
                                         <MapPin className="w-4 h-4 text-ricardo-teal mt-0.5 shrink-0" />
                                         <p className="font-literata text-sm text-neutral-700 leading-relaxed">
-                                            Barrio La Esperanza s/n, Chaupimarca — Cerro de Pasco, Región Pasco, Perú.
+                                            {direccionInfo}
                                         </p>
                                     </div>
                                 </div>

@@ -5,7 +5,13 @@ import { Menu, X, ArrowUpRight } from 'lucide-react';
 export default function AppLayout({ children }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const { url } = usePage();
+    const { url, ajustes } = usePage().props;
+
+    const facebookLink = ajustes?.facebook_url || 'https://www.facebook.com/ricardinosemprendeores';
+    const whatsappLink = ajustes?.whatsapp ? `https://wa.me/${ajustes.whatsapp.replace(/\D/g, '')}` : 'https://wa.me/51921896330';
+    const youtubeLink = ajustes?.youtube_url || 'https://www.youtube.com/@ricardopalma4155';
+    const direccionTexto = ajustes?.direccion || 'Barrio La Esperanza, Chaupimarca - Pasco, Perú.';
+    const mapsLink = ajustes?.google_maps_url || 'https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9';
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 24);
@@ -151,7 +157,7 @@ export default function AppLayout({ children }) {
                                 
                                 {/* Facebook */}
                                 <a
-                                    href="https://www.facebook.com/ricardinosemprendeores"
+                                    href={facebookLink}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="group inline-flex items-center gap-3 transition-colors hover:text-white"
@@ -167,7 +173,7 @@ export default function AppLayout({ children }) {
 
                                 {/* WhatsApp */}
                                 <a
-                                    href="https://wa.me/51921896330"
+                                    href={whatsappLink}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="group inline-flex items-center gap-3 transition-colors hover:text-white"
@@ -183,7 +189,7 @@ export default function AppLayout({ children }) {
 
                                 {/* YouTube */}
                                 <a
-                                    href="https://www.youtube.com/@ricardopalma4155"
+                                    href={youtubeLink}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="group inline-flex items-center gap-3 transition-colors hover:text-white"
@@ -206,13 +212,13 @@ export default function AppLayout({ children }) {
                                 Ubicación
                             </span>
                             <p className="text-xs text-neutral-300 font-literata">
-                                Barrio La Esperanza, Chaupimarca - Pasco, Perú.
+                                {direccionTexto}
                             </p>
                             
                             {/* Contenedor Limpio y Minimalista de Google Maps */}
                             <div className="mt-3 rounded-xl overflow-hidden border border-white/15 bg-black/40 aspect-[16/9] max-h-36">
                                 <a
-                                    href="https://maps.app.goo.gl/UFgLwdUeNxSo5gAa9"
+                                    href={mapsLink}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="block w-full h-full group"

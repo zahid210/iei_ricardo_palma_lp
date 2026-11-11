@@ -13,7 +13,8 @@ import {
     AlertCircle, 
     User,
     Calendar,
-    ChevronRight
+    ChevronRight,
+    Settings
 } from 'lucide-react';
 
 export default function AdminLayout({ title, children }) {
@@ -34,6 +35,12 @@ export default function AdminLayout({ title, children }) {
             icon: Mail, 
             active: currentUrl.startsWith('/admin/mensajes'),
             badge: pendientesContacto > 0 ? pendientesContacto : null 
+        },
+        { 
+            name: 'Ajustes', 
+            href: '/admin/ajustes', 
+            icon: Settings, 
+            active: currentUrl.startsWith('/admin/ajustes') 
         },
     ];
 

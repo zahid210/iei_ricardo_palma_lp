@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Ajuste;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -50,6 +51,7 @@ class HandleInertiaRequests extends Middleware
                 'error' => fn () => $request->session()->get('error'),
             ],
             'pendientesContacto' => fn () => $request->user() ? Contact::where('leido', false)->count() : 0,
+            'ajustes' => fn () => Ajuste::obtener(),
         ];
     }
 }
