@@ -26,7 +26,7 @@ export default function AdminLayout({ title, children }) {
 
     const currentUrl = (url || '').split('?')[0];
 
-    const navItems = [
+    const mainNavItems = [
         { name: 'Noticias', href: '/admin/noticias', icon: Newspaper, active: currentUrl.startsWith('/admin/noticias') },
         { name: 'Galería', href: '/admin/galeria', icon: ImageIcon, active: currentUrl.startsWith('/admin/galeria') },
         { name: 'Docentes', href: '/admin/docentes', icon: GraduationCap, active: currentUrl.startsWith('/admin/docentes') },
@@ -37,6 +37,9 @@ export default function AdminLayout({ title, children }) {
             active: currentUrl.startsWith('/admin/mensajes'),
             badge: pendientesContacto > 0 ? pendientesContacto : null 
         },
+    ];
+
+    const bottomNavItems = [
         { 
             name: 'Ajustes', 
             href: '/admin/ajustes', 
@@ -102,36 +105,67 @@ export default function AdminLayout({ title, children }) {
                 </div>
 
                 {/* Navegación Principal */}
-                <nav className="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
-                    <div className="px-3 pb-2 text-[10px] font-mate uppercase tracking-widest text-neutral-400 font-bold">
-                        Módulos de Gestión
+                <nav className="flex-1 px-3 py-5 flex flex-col justify-between overflow-y-auto">
+                    {/* Sección Módulos de Gestión */}
+                    <div className="space-y-1">
+                        <div className="px-3 pb-2 text-[10px] font-mate uppercase tracking-widest text-neutral-400 font-bold">
+                            Módulos de Gestión
+                        </div>
+
+                        {mainNavItems.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    onClick={() => setSidebarOpen(false)}
+                                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-mate uppercase tracking-wider font-semibold transition-all ${
+                                        item.active
+                                            ? 'bg-[#0C3831] text-white shadow-xs'
+                                            : 'text-neutral-600 hover:bg-neutral-100/80 hover:text-neutral-900'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <Icon className={`w-4 h-4 shrink-0 ${item.active ? 'text-emerald-300' : 'text-neutral-400'}`} />
+                                        <span>{item.name}</span>
+                                    </div>
+                                    {item.badge && (
+                                        <span className="bg-ricardo-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-2xs animate-pulse">
+                                            {item.badge}
+                                        </span>
+                                    )}
+                                </Link>
+                            );
+                        })}
                     </div>
 
-                    {navItems.map((item) => {
-                        const Icon = item.icon;
-                        return (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                onClick={() => setSidebarOpen(false)}
-                                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-mate uppercase tracking-wider font-semibold transition-all ${
-                                    item.active
-                                        ? 'bg-[#0C3831] text-white shadow-xs'
-                                        : 'text-neutral-600 hover:bg-neutral-100/80 hover:text-neutral-900'
-                                }`}
-                            >
-                                <div className="flex items-center gap-3">
-                                    <Icon className={`w-4 h-4 shrink-0 ${item.active ? 'text-emerald-300' : 'text-neutral-400'}`} />
-                                    <span>{item.name}</span>
-                                </div>
-                                {item.badge && (
-                                    <span className="bg-ricardo-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-2xs animate-pulse">
-                                        {item.badge}
-                                    </span>
-                                )}
-                            </Link>
-                        );
-                    })}
+                    {/* Sección Inferior: Ajustes y Cuenta */}
+                    <div className="pt-4 mt-4 border-t border-neutral-200/70 space-y-1">
+                        <div className="px-3 pb-2 text-[10px] font-mate uppercase tracking-widest text-neutral-400 font-bold">
+                            Configuración
+                        </div>
+
+                        {bottomNavItems.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    onClick={() => setSidebarOpen(false)}
+                                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-mate uppercase tracking-wider font-semibold transition-all ${
+                                        item.active
+                                            ? 'bg-[#0C3831] text-white shadow-xs'
+                                            : 'text-neutral-600 hover:bg-neutral-100/80 hover:text-neutral-900'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <Icon className={`w-4 h-4 shrink-0 ${item.active ? 'text-emerald-300' : 'text-neutral-400'}`} />
+                                        <span>{item.name}</span>
+                                    </div>
+                                </Link>
+                            );
+                        })}
+                    </div>
                 </nav>
 
                 {/* Pie del Sidebar */}
