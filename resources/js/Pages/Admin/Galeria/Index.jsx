@@ -13,7 +13,7 @@ import {
     Tag,
     Edit3,
     Check,
-    Save
+    Star
 } from 'lucide-react';
 
 export default function Index({ fotos = [], etiquetas = [] }) {
@@ -44,6 +44,7 @@ export default function Index({ fotos = [], etiquetas = [] }) {
     } = useForm({
         titulo: '',
         etiqueta_id: '',
+        es_portada: false,
         imagen_file: null,
     });
 
@@ -60,6 +61,7 @@ export default function Index({ fotos = [], etiquetas = [] }) {
         _method: 'PUT',
         titulo: '',
         etiqueta_id: '',
+        es_portada: false,
         imagen_file: null,
     });
 
@@ -145,6 +147,7 @@ export default function Index({ fotos = [], etiquetas = [] }) {
             _method: 'PUT',
             titulo: foto.titulo || '',
             etiqueta_id: foto.etiqueta_id || '',
+            es_portada: Boolean(foto.es_portada),
             imagen_file: null,
         });
         setPreviewImage(foto.url);
@@ -179,7 +182,6 @@ export default function Index({ fotos = [], etiquetas = [] }) {
         e.preventDefault();
         setClientError('');
 
-        // Usar POST con _method: PUT para compatibilidad con subida de archivos multipart en Laravel
         postEdit(`/admin/galeria/${editingFoto.id}`, {
             forceFormData: true,
             preserveScroll: true,
@@ -189,6 +191,12 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                 setPreviewImage(null);
                 setFileDetails(null);
             },
+        });
+    };
+
+    const handleTogglePortada = (fotoId) => {
+        router.patch(`/admin/galeria/${fotoId}/portada`, {}, {
+            preserveScroll: true,
         });
     };
 
@@ -247,7 +255,7 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                             Galería Fotográfica
                         </h1>
                         <p className="text-xs sm:text-sm text-neutral-500 font-literata">
-                            Gestiona las imágenes escolares y organízalas por etiquetas temáticas.
+                            Gestiona las imágenes escolares, define la foto de portada para cada categoría y administra etiquetas.
                         </p>
                     </div>
 
@@ -299,7 +307,9 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                         {fotos.map((foto) => (
                             <div 
                                 key={foto.id}
-                                className="group bg-white rounded-3xl border border-neutral-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+                                className={`group bg-white rounded-3xl border overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col justify-between ${
+                                    foto.es_portada ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-neutral-200/80'
+                                }`}
                             >
                                 <div>
                                     {/* Contenedor de la Imagen */}
@@ -311,14 +321,20 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                                             loading="lazy"
                                         />
                                         
-                                        {/* Badge de Etiqueta */}
-                                        {foto.etiqueta && (
-                                            <div className="absolute top-3 left-3 z-10">
-                                                <span className="font-mate text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-md">
+                                        {/* Badges de Etiqueta y Portada */}
+                                        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+                                            {foto.etiqueta && (
+                                                <span className="font-mate text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-md self-start">
                                                     {foto.etiqueta.nombre}
                                                 </span>
-                                            </div>
-                                        )}
+                                            )}
+                                            {foto.es_portada && (
+                                                <span className="inline-flex items-center gap-1 font-mate text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500 text-white shadow-xs self-start">
+                                                    <Star className="w-3 h-3 fill-white" />
+                                                    Portada de categoría
+                                                </span>
+                                            )}
+                                        </div>
 
                                         {/* Botón Ver tamaño completo en hover */}
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3 z-10">
@@ -335,7 +351,7 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                                         </div>
                                     </div>
 
-                                    {/* Información de la Foto */}
+                                    {/* Título de la Foto */}
                                     <div className="p-4">
                                         <h3 className="font-mate text-sm font-bold text-neutral-900 leading-snug line-clamp-2" title={foto.titulo}>
                                             {foto.titulo}
@@ -343,7 +359,7 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                                     </div>
                                 </div>
 
-                                {/* Pie con Fecha y Botones de Editar y Eliminar en gris con hover verde/rojo */}
+                                {/* Pie con Fecha y Botones */}
                                 <div className="px-4 pb-4 pt-2 border-t border-neutral-100 flex items-center justify-between text-[11px] text-neutral-400 font-literata">
                                     <span className="flex items-center gap-1">
                                         <Calendar className="w-3 h-3 text-neutral-400" />
@@ -351,6 +367,22 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                                     </span>
 
                                     <div className="flex items-center gap-1">
+                                        {/* Botón Asignar / Desmarcar como Portada (solo si tiene etiqueta) */}
+                                        {foto.etiqueta_id && (
+                                            <button
+                                                type="button"
+                                                onClick={() => handleTogglePortada(foto.id)}
+                                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                                                    foto.es_portada
+                                                        ? 'text-amber-600 bg-amber-50 hover:bg-amber-100'
+                                                        : 'text-neutral-400 hover:text-amber-600 hover:bg-amber-50'
+                                                }`}
+                                                title={foto.es_portada ? 'Quitar como portada de categoría' : 'Marcar como portada de la categoría'}
+                                            >
+                                                <Star className={`w-3.5 h-3.5 ${foto.es_portada ? 'fill-amber-500' : ''}`} />
+                                            </button>
+                                        )}
+
                                         {/* Botón Editar: gris por defecto, verde al pasar el cursor */}
                                         <button
                                             type="button"
@@ -514,6 +546,21 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                                 {createErrors.etiqueta_id && <span className="text-xs text-ricardo-red">{createErrors.etiqueta_id}</span>}
                             </div>
 
+                            {/* Portada checkbox */}
+                            {createData.etiqueta_id && (
+                                <label className="flex items-center gap-2 cursor-pointer pt-1">
+                                    <input
+                                        type="checkbox"
+                                        checked={createData.es_portada}
+                                        onChange={(e) => setCreateData('es_portada', e.target.checked)}
+                                        className="rounded border-neutral-300 text-ricardo-teal focus:ring-ricardo-teal"
+                                    />
+                                    <span className="text-xs font-literata text-neutral-700">
+                                        Definir como foto de portada para esta etiqueta
+                                    </span>
+                                </label>
+                            )}
+
                             <div className="pt-3 flex items-center justify-end gap-3 border-t border-neutral-200/80">
                                 <button
                                     type="button"
@@ -633,6 +680,21 @@ export default function Index({ fotos = [], etiquetas = [] }) {
                                 </select>
                                 {editErrors.etiqueta_id && <span className="text-xs text-ricardo-red">{editErrors.etiqueta_id}</span>}
                             </div>
+
+                            {/* Portada checkbox */}
+                            {editData.etiqueta_id && (
+                                <label className="flex items-center gap-2 cursor-pointer pt-1">
+                                    <input
+                                        type="checkbox"
+                                        checked={editData.es_portada}
+                                        onChange={(e) => setEditData('es_portada', e.target.checked)}
+                                        className="rounded border-neutral-300 text-ricardo-teal focus:ring-ricardo-teal"
+                                    />
+                                    <span className="text-xs font-literata text-neutral-700">
+                                        Definir como foto de portada para esta etiqueta
+                                    </span>
+                                </label>
+                            )}
 
                             <div className="pt-3 flex items-center justify-end gap-3 border-t border-neutral-200/80">
                                 <button

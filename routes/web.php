@@ -106,6 +106,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('galeria', AdminGaleriaController::class)
             ->parameters(['galeria' => 'galeria'])
             ->only(['index', 'store', 'update', 'destroy']);
+        Route::patch('galeria/{galeria}/portada', [AdminGaleriaController::class, 'togglePortada'])->name('galeria.portada');
         Route::post('galeria/etiquetas', [\App\Http\Controllers\Admin\GaleriaEtiquetaController::class, 'store'])->name('galeria.etiquetas.store');
         Route::delete('galeria/etiquetas/{etiqueta}', [\App\Http\Controllers\Admin\GaleriaEtiquetaController::class, 'destroy'])->name('galeria.etiquetas.destroy');
 

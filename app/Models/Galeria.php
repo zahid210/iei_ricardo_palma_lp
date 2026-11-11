@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Galeria extends Model
 {
-    protected $fillable = ['titulo', 'etiqueta_id', 'imagen_path'];
+    protected $fillable = ['titulo', 'etiqueta_id', 'es_portada', 'imagen_path'];
+
+    protected $casts = [
+        'es_portada' => 'boolean',
+    ];
 
     protected $appends = ['url'];
 

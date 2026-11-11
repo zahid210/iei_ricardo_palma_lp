@@ -63,9 +63,18 @@ class GaleriaController extends Controller
             }
         }
 
+        $etiquetaId = $validated['etiqueta_id'] ?? null;
+        $esPortada = ! empty($validated['es_portada']);
+
+        // Si se marca como portada y tiene etiqueta, desmarcar portadas anteriores de esa misma etiqueta
+        if ($esPortada && $etiquetaId) {
+            Galeria::where('etiqueta_id', $etiquetaId)->update(['es_portada' => false]);
+        }
+
         Galeria::create([
             'titulo' => $validated['titulo'],
-            'etiqueta_id' => $validated['etiqueta_id'] ?? null,
+            'etiqueta_id' => $etiquetaId,
+            'es_portada' => $esPortada,
             'imagen_path' => $path,
         ]);
 
@@ -80,9 +89,19 @@ class GaleriaController extends Controller
     {
         $validated = $request->validated();
 
+        $etiquetaId = $validated['etiqueta_id'] ?? null;
+        $esPortada = isset($validated['es_portada']) ? (bool) $validated['es_portada'] : $galeria->es_portada;
+
+        if ($esPortada && $etiquetaId) {
+            Galeria::where('etiqueta_id', $etiquetaId)
+                ->where('id', '!=', $galeria->id)
+                ->update(['es_portada' => false]);
+        }
+
         $dataToUpdate = [
             'titulo' => $validated['titulo'],
-            'etiqueta_id' => $validated['etiqueta_id'] ?? null,
+            'etiqueta_id' => $etiquetaId,
+            'es_portada' => $esPortada,
         ];
 
         // Si se subió un nuevo archivo para reemplazar
@@ -125,6 +144,32 @@ class GaleriaController extends Controller
         Cache::put('app:content_version', time());
 
         return redirect()->route('admin.galeria.index')->with('success', 'Fotografía actualizada correctamente.');
+    }
+
+    public function togglePortada(Galeria $galeria)
+    {
+        if (! $galeria->etiqueta_id) {
+            return back()->with('error', 'Para ser portada de categoría, la fotografía debe pertenecer a una etiqueta.');
+        }
+
+        $nuevoEstado = ! $galeria->es_portada;
+
+        if ($nuevoEstado) {
+            // Desmarcar otras portadas de la misma etiqueta
+            Galeria::where('etiqueta_id', $galeria->etiqueta_id)
+                ->where('id', '!=', $galeria->id)
+                ->update(['es_portada' => false]);
+        }
+
+        $galeria->update(['es_portada' => $nuevoEstado]);
+
+        Cache::forget('galeria:todas');
+        Cache::forget('galeria_items');
+        Cache::put('app:content_version', time());
+
+        $msg = $nuevoEstado ? 'Fotografía asignada como portada de su categoría.' : 'Fotografía retirada como portada.';
+
+        return back()->with('success', $msg);
     }
 
     public function destroy(Galeria $galeria)

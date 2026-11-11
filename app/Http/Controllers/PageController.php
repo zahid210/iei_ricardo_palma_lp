@@ -120,35 +120,61 @@ class PageController extends Controller
             Cache::put('galeria:todas', $datos, now()->addHours(12));
         }
 
-        // Etiquetas para los filtros
-        $etiquetas = Cache::remember('galeria:etiquetas', now()->addHours(12), function () {
-            return GaleriaEtiqueta::has('fotos')->orderBy('nombre')->get()->toArray();
-        });
-
         // Reconstruimos los modelos en memoria
         $todas = Galeria::hydrate($datos);
 
-        // Cargar relación 'etiqueta' desde los datos hydrate
+        // Cargar relación 'etiqueta' desde los datos hydrate de forma segura
         foreach ($todas as $idx => $modelo) {
-            if (isset($datos[$idx]['etiqueta']) && $datos[$idx]['etiqueta']) {
-                $modelo->setRelation('etiqueta', new GaleriaEtiqueta($datos[$idx]['etiqueta']));
+            $etiquetaRaw = $datos[$idx]['etiqueta'] ?? null;
+            if ($etiquetaRaw) {
+                $modelo->setRelation(
+                    'etiqueta',
+                    $etiquetaRaw instanceof GaleriaEtiqueta ? $etiquetaRaw : new GaleriaEtiqueta((array) $etiquetaRaw)
+                );
             }
         }
 
+        // Obtener categorías con su foto de portada asignada o la más reciente
+        $categorias = GaleriaEtiqueta::has('fotos')->orderBy('nombre')->get()->map(function ($etiqueta) use ($todas) {
+            $fotosEtiqueta = $todas->where('etiqueta_id', $etiqueta->id);
+            $fotoPortada = $fotosEtiqueta->firstWhere('es_portada', true) ?? $fotosEtiqueta->first();
+
+            return [
+                'id' => $etiqueta->id,
+                'nombre' => $etiqueta->nombre,
+                'slug' => $etiqueta->slug,
+                'total_fotos' => $fotosEtiqueta->count(),
+                'portada_url' => $fotoPortada?->url ?? '/images/logo_color.png',
+            ];
+        })->values();
+
+        // Helper seguro para obtener el slug de la etiqueta
+        $getEtiquetaSlug = function ($item) {
+            if (! $item->etiqueta) {
+                return null;
+            }
+            if (is_array($item->etiqueta)) {
+                return $item->etiqueta['slug'] ?? null;
+            }
+
+            return $item->etiqueta->slug ?? null;
+        };
+
         // Filtrado por etiqueta si se solicitó
+        $fotosMostradas = $todas;
         if ($etiquetaFiltro) {
-            $todas = $todas->filter(function ($item) use ($etiquetaFiltro) {
-                return $item->etiqueta && $item->etiqueta->slug === $etiquetaFiltro;
+            $fotosMostradas = $todas->filter(function ($item) use ($etiquetaFiltro, $getEtiquetaSlug) {
+                return $getEtiquetaSlug($item) === $etiquetaFiltro;
             })->values();
         }
 
-        // Paginamos en memoria (12 por página, armónico en 1, 2, 3 y 4 columnas).
+        // Paginamos en memoria (12 por página)
         $perPage = 12;
         $page = Paginator::resolveCurrentPage();
 
         $imagenes = new LengthAwarePaginator(
-            $todas->forPage($page, $perPage)->values(),
-            $todas->count(),
+            $fotosMostradas->forPage($page, $perPage)->values(),
+            $fotosMostradas->count(),
             $perPage,
             $page,
             ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
@@ -156,7 +182,7 @@ class PageController extends Controller
 
         return inertia('Galeria', [
             'imagenes' => $imagenes,
-            'etiquetas' => $etiquetas,
+            'categorias' => $categorias,
             'etiquetaActual' => $etiquetaFiltro,
         ]);
     }

@@ -16,6 +16,7 @@ class UpdateGaleriaRequest extends FormRequest
         return [
             'titulo' => ['required', 'string', 'max:255'],
             'etiqueta_id' => ['nullable', 'exists:galeria_etiquetas,id'],
+            'es_portada' => ['nullable', 'boolean'],
             'imagen_file' => ['nullable', 'file', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
         ];
     }

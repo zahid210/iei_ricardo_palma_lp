@@ -8,12 +8,14 @@ import {
     ZoomIn, 
     Image as ImageIcon,
     Camera,
-    Tag
+    ArrowLeft,
+    Sparkles,
+    Grid
 } from 'lucide-react';
 
 export default function Galeria({ 
     imagenes = { data: [] }, 
-    etiquetas = [], 
+    categorias = [], 
     etiquetaActual = null 
 }) {
     const items = imagenes?.data || [];
@@ -22,6 +24,11 @@ export default function Galeria({
 
     // Estado del Lightbox modal a pantalla completa
     const [lightboxIndex, setLightboxIndex] = useState(null);
+
+    // Datos de la categoría activa si está filtrado
+    const categoriaActivaObj = etiquetaActual 
+        ? categorias.find(c => c.slug === etiquetaActual)
+        : null;
 
     const openLightbox = (index) => {
         setLightboxIndex(index);
@@ -84,7 +91,7 @@ export default function Galeria({
         <AppLayout>
             <Head title="Galería de Fotos | I.E.I. N° 31756 Ricardo Palma" />
 
-            {/* Cabecera Editorial Limpia */}
+            {/* Cabecera Editorial */}
             <section className="relative bg-[#FBFBFA] border-b border-neutral-200/80 pt-10 sm:pt-14 pb-12 sm:pb-16">
                 <div className="mx-auto max-w-7xl px-5 sm:px-8 space-y-6">
                     
@@ -94,80 +101,170 @@ export default function Galeria({
                         <span>/</span>
                         <span className="text-neutral-700">Comunidad</span>
                         <span>/</span>
-                        <span className="text-ricardo-teal">Galería</span>
+                        {etiquetaActual ? (
+                            <>
+                                <Link href="/galeria" className="hover:text-ricardo-teal transition-colors">Galería</Link>
+                                <span>/</span>
+                                <span className="text-ricardo-teal">{categoriaActivaObj?.nombre || etiquetaActual}</span>
+                            </>
+                        ) : (
+                            <span className="text-ricardo-teal">Galería</span>
+                        )}
                     </div>
 
                     {/* Presentación */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <div className="max-w-2xl space-y-3">
                             <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-bold block">
-                                Registro Visual Institucional
+                                {etiquetaActual ? `Colección Fotográfica • ${categoriaActivaObj?.nombre || ''}` : 'Registro Visual Institucional'}
                             </span>
                             <h1 className="font-mate text-3xl sm:text-4xl lg:text-5xl text-neutral-900 uppercase font-bold tracking-tight leading-[1.15]">
-                                Galería de Fotos
+                                {etiquetaActual ? (categoriaActivaObj?.nombre || 'Galería') : 'Galería de Fotos'}
                             </h1>
                             <div className="flex h-1 w-20">
                                 <span className="w-2/3 bg-ricardo-teal"></span>
                                 <span className="w-1/3 bg-ricardo-red"></span>
                             </div>
                             <p className="font-literata text-sm sm:text-base text-neutral-600 leading-relaxed font-light pt-1">
-                                Vivencias, ceremonias cívicas, logros deportivos y actividades de la comunidad educativa ricardina en Cerro de Pasco.
+                                {etiquetaActual 
+                                    ? `Explorando las fotografías y momentos destacados de la categoría "${categoriaActivaObj?.nombre || etiquetaActual}".`
+                                    : 'Vivencias, ceremonias cívicas, logros deportivos y actividades de la comunidad educativa ricardina en Cerro de Pasco.'}
                             </p>
                         </div>
 
-                        {/* Contador de fotos */}
-                        {totalFotos > 0 && (
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs text-xs font-mate uppercase tracking-wider text-neutral-600 self-start md:self-auto shrink-0">
-                                <Camera className="w-4 h-4 text-ricardo-teal" />
-                                <span>{totalFotos} {totalFotos === 1 ? 'Fotografía' : 'Fotografías'}</span>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Barra de Filtros por Etiquetas */}
-                    {etiquetas.length > 0 && (
-                        <div className="flex items-center gap-2 flex-wrap pt-4 border-t border-neutral-200/60">
-                            <span className="font-mate text-xs uppercase tracking-wider font-bold text-neutral-400 mr-1">
-                                Filtrar por:
-                            </span>
-
-                            <Link
-                                href="/galeria"
-                                preserveScroll
-                                className={`px-3.5 py-1.5 rounded-full text-xs font-mate uppercase tracking-wider font-bold transition-all ${
-                                    !etiquetaActual
-                                        ? 'bg-ricardo-teal text-white shadow-xs'
-                                        : 'bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900'
-                                }`}
-                            >
-                                Todas
-                            </Link>
-
-                            {etiquetas.map((tag) => (
+                        {/* Botón Volver / Contador */}
+                        <div className="flex items-center gap-3 self-start md:self-auto shrink-0">
+                            {etiquetaActual && (
                                 <Link
-                                    key={tag.id}
-                                    href={`/galeria?etiqueta=${tag.slug}`}
-                                    preserveScroll
-                                    className={`px-3.5 py-1.5 rounded-full text-xs font-mate uppercase tracking-wider font-bold transition-all flex items-center gap-1.5 ${
-                                        etiquetaActual === tag.slug
-                                            ? 'bg-ricardo-teal text-white shadow-xs'
-                                            : 'bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900'
-                                    }`}
+                                    href="/galeria"
+                                    className="btn-admin-secondary text-xs flex items-center gap-1.5 shadow-2xs"
                                 >
-                                    <span>{tag.nombre}</span>
+                                    <ArrowLeft className="w-3.5 h-3.5" />
+                                    <span>Ver todas las categorías</span>
                                 </Link>
-                            ))}
+                            )}
+
+                            {totalFotos > 0 && (
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs text-xs font-mate uppercase tracking-wider text-neutral-600">
+                                    <Camera className="w-4 h-4 text-ricardo-teal" />
+                                    <span>{totalFotos} {totalFotos === 1 ? 'Fotografía' : 'Fotografías'}</span>
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
 
                 </div>
             </section>
 
-            {/* Cuadrícula de Fotografías Moderna y Ordenada */}
-            <section className="bg-white py-12 sm:py-16 border-b border-neutral-200/80">
-                <div className="mx-auto max-w-7xl px-5 sm:px-8 space-y-12">
+            {/* SECCIÓN 1: VISTA DE PORTADAS POR CATEGORÍA (MOSAICO PRINCIPAL) */}
+            {!etiquetaActual && categorias.length > 0 && (
+                <section className="bg-white py-12 sm:py-16 border-b border-neutral-200/80">
+                    <div className="mx-auto max-w-7xl px-5 sm:px-8 space-y-8">
+                        
+                        <div className="space-y-1">
+                            <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-bold block">
+                                Explorar por Álbum
+                            </span>
+                            <h2 className="font-mate text-2xl sm:text-3xl text-neutral-900 font-bold uppercase tracking-tight">
+                                Categorías Institucionales
+                            </h2>
+                            <p className="font-literata text-xs sm:text-sm text-neutral-500">
+                                Haz clic en una categoría para abrir el mosaico de fotos de esa sección.
+                            </p>
+                        </div>
+
+                        {/* Mosaico de Portadas de Etiquetas */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {categorias.map((cat) => (
+                                <Link
+                                    key={cat.id}
+                                    href={`/galeria?etiqueta=${cat.slug}`}
+                                    className="group relative aspect-[4/3] rounded-3xl overflow-hidden border border-neutral-200/90 shadow-2xs hover:shadow-2xl transition-all duration-500 select-none block bg-neutral-900"
+                                >
+                                    {/* Imagen de Portada de la Etiqueta */}
+                                    <img
+                                        src={cat.portada_url}
+                                        alt={cat.nombre}
+                                        className="w-full h-full object-cover opacity-85 transition-transform duration-700 ease-out group-hover:scale-110 group-hover:opacity-100"
+                                        loading="lazy"
+                                    />
+
+                                    {/* Capa de Opacidad Negra para contraste */}
+                                    <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30 transition-colors duration-500" />
+
+                                    {/* Título en Blanco al Centro: se hace más grande y notorio en hover */}
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-2 z-10">
+                                        <h3 className="font-mate text-2xl sm:text-3xl font-bold uppercase tracking-wider text-white drop-shadow-md transition-all duration-300 transform group-hover:scale-115 group-hover:tracking-widest">
+                                            {cat.nombre}
+                                        </h3>
+                                        <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-mate font-bold uppercase tracking-wider text-white shadow-xs transition-opacity duration-300">
+                                            {cat.total_fotos} {cat.total_fotos === 1 ? 'Foto' : 'Fotos'}
+                                        </span>
+                                    </div>
+
+                                    {/* Borde sutil animado al hover */}
+                                    <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 rounded-3xl transition-colors duration-300 pointer-events-none" />
+                                </Link>
+                            ))}
+                        </div>
+
+                    </div>
+                </section>
+            )}
+
+            {/* SECCIÓN 2: MOSAICO DE TODAS LAS FOTOS (O DE LA ETIQUETA SELECCIONADA CON ANIMACIÓN) */}
+            <section className="bg-[#FBFBFA] py-12 sm:py-16 border-b border-neutral-200/80">
+                <div className="mx-auto max-w-7xl px-5 sm:px-8 space-y-8 animate-fadeIn">
+                    
+                    {/* Barra de Navegación de Categorías si estamos dentro de una categoría */}
+                    {etiquetaActual && (
+                        <div className="flex items-center justify-between gap-4 flex-wrap bg-white p-4 rounded-2xl border border-neutral-200/80 shadow-2xs">
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-mate text-xs uppercase tracking-wider font-bold text-neutral-400 mr-1">
+                                    Otras categorías:
+                                </span>
+
+                                <Link
+                                    href="/galeria"
+                                    className="px-3.5 py-1.5 rounded-full text-xs font-mate uppercase tracking-wider font-bold transition-all bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900"
+                                >
+                                    Ver Todo
+                                </Link>
+
+                                {categorias.map((cat) => (
+                                    <Link
+                                        key={cat.id}
+                                        href={`/galeria?etiqueta=${cat.slug}`}
+                                        className={`px-3.5 py-1.5 rounded-full text-xs font-mate uppercase tracking-wider font-bold transition-all ${
+                                            etiquetaActual === cat.slug
+                                                ? 'bg-ricardo-teal text-white shadow-xs'
+                                                : 'bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900'
+                                        }`}
+                                    >
+                                        <span>{cat.nombre}</span>
+                                    </Link>
+                                ))}
+                            </div>
+
+                            <span className="text-xs font-literata text-neutral-400">
+                                Mostrando {items.length} fotos
+                            </span>
+                        </div>
+                    )}
+
+                    {!etiquetaActual && (
+                        <div className="space-y-1">
+                            <span className="font-mate text-xs uppercase tracking-widest text-ricardo-teal font-bold block">
+                                Cuadrícula General
+                            </span>
+                            <h2 className="font-mate text-2xl sm:text-3xl text-neutral-900 font-bold uppercase tracking-tight">
+                                Todas las Fotografías
+                            </h2>
+                        </div>
+                    )}
+
                     {items.length === 0 ? (
-                        <div className="rounded-3xl border border-dashed border-neutral-300 bg-[#FBFBFA] p-16 text-center space-y-3">
+                        <div className="rounded-3xl border border-dashed border-neutral-300 bg-white p-16 text-center space-y-3">
                             <div className="w-12 h-12 rounded-2xl bg-neutral-100 text-neutral-400 flex items-center justify-center mx-auto">
                                 <ImageIcon className="w-6 h-6" />
                             </div>
@@ -176,7 +273,7 @@ export default function Galeria({
                             </h3>
                             <p className="font-literata text-xs text-neutral-500 max-w-sm mx-auto">
                                 {etiquetaActual
-                                    ? 'No hay imágenes registradas bajo esta etiqueta temática.'
+                                    ? 'No hay imágenes registradas bajo esta categoría.'
                                     : 'Las fotografías publicadas por la institución aparecerán ordenadas aquí.'}
                             </p>
                             {etiquetaActual && (
@@ -184,12 +281,13 @@ export default function Galeria({
                                     href="/galeria"
                                     className="inline-block mt-2 text-xs font-mate font-semibold text-ricardo-teal hover:underline uppercase tracking-wider"
                                 >
-                                    Ver todas las fotografías
+                                    Volver a ver todas las fotografías
                                 </Link>
                             )}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                        /* Mosaico de Fotos Armónico */
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fadeIn">
                             {items.map((item, index) => {
                                 const cleanTitle = getCleanTitle(item.titulo);
                                 const etiqueta = item.etiqueta?.nombre;
@@ -198,7 +296,7 @@ export default function Galeria({
                                     <article
                                         key={item.id}
                                         onClick={() => openLightbox(index)}
-                                        className="group relative flex flex-col overflow-hidden rounded-3xl border border-neutral-200/90 bg-neutral-50 shadow-2xs hover:shadow-xl transition-all duration-300 cursor-pointer select-none"
+                                        className="group relative flex flex-col overflow-hidden rounded-3xl border border-neutral-200/90 bg-white shadow-2xs hover:shadow-xl transition-all duration-300 cursor-pointer select-none"
                                     >
                                         {/* Imagen */}
                                         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
@@ -270,7 +368,7 @@ export default function Galeria({
                 </div>
             </section>
 
-            {/* Modal Lightbox a Pantalla Completa con Leyenda y Etiqueta */}
+            {/* Modal Lightbox a Pantalla Completa */}
             {lightboxIndex !== null && activeItem && (
                 <div 
                     onClick={closeLightbox}
