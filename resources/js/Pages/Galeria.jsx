@@ -173,23 +173,14 @@ export default function Galeria({
                             </p>
                         </div>
 
-                        {/* Mosaico Asimétrico Dinámico de Portadas de Etiquetas */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-[240px]">
-                            {categorias.map((cat, idx) => {
-                                // Patrón de mosaico asimétrico tipo Pinterest / Editorial
-                                const isFeatured = idx === 0 || (idx % 5 === 0);
-                                const isWide = idx === 1 || (idx % 7 === 0);
-                                const tileClass = isFeatured 
-                                    ? 'sm:col-span-2 sm:row-span-2' 
-                                    : isWide 
-                                        ? 'lg:col-span-2 sm:row-span-1' 
-                                        : 'col-span-1 row-span-1';
-
+                        {/* Mosaico Uniforme y Equilibrado de Categorías */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {categorias.map((cat) => {
                                 return (
                                     <Link
                                         key={cat.id}
                                         href={`/galeria?etiqueta=${cat.slug}`}
-                                        className={`group relative h-full w-full rounded-3xl overflow-hidden border border-neutral-200/90 shadow-2xs hover:shadow-2xl transition-all duration-500 select-none block bg-neutral-900 ${tileClass}`}
+                                        className="group relative aspect-[4/3] rounded-3xl overflow-hidden border border-neutral-200/90 shadow-2xs hover:shadow-2xl transition-all duration-500 select-none block bg-neutral-900"
                                     >
                                         {/* Imagen de Portada de la Etiqueta */}
                                         <img
@@ -204,7 +195,7 @@ export default function Galeria({
 
                                         {/* Título en Blanco al Centro: se hace más grande y notorio en hover */}
                                         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-2 z-10">
-                                            <h3 className="font-mate text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-wider text-white drop-shadow-md transition-all duration-300 transform group-hover:scale-115 group-hover:tracking-widest">
+                                            <h3 className="font-mate text-2xl sm:text-3xl font-bold uppercase tracking-wider text-white drop-shadow-md transition-all duration-300 transform group-hover:scale-115 group-hover:tracking-widest">
                                                 {cat.nombre}
                                             </h3>
                                             <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-mate font-bold uppercase tracking-wider text-white shadow-xs transition-opacity duration-300">
@@ -297,26 +288,21 @@ export default function Galeria({
                             )}
                         </div>
                     ) : (
-                        /* Mosaico Asimétrico Editorial de Fotografías */
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-[280px] animate-fadeIn">
+                        /* Mosaico Masonry Fluido sin Espacios en Blanco */
+                        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6 animate-fadeIn">
                             {items.map((item, index) => {
                                 const cleanTitle = getCleanTitle(item.titulo);
                                 const etiqueta = item.etiqueta?.nombre;
 
-                                // Variación de altura y ancho para el efecto mosaico
-                                const isTall = index % 5 === 1;
-                                const isWide = index % 5 === 3;
-                                const spanClass = isTall 
-                                    ? 'sm:row-span-2' 
-                                    : isWide 
-                                        ? 'lg:col-span-2 sm:row-span-1' 
-                                        : 'col-span-1 row-span-1';
+                                // Variación de altura para lograr un mosaico visual orgánico y continuo
+                                const heights = ['aspect-[4/3]', 'aspect-[1/1]', 'aspect-[3/4]', 'aspect-[16/10]'];
+                                const aspectClass = heights[index % heights.length];
 
                                 return (
                                     <article
                                         key={item.id}
                                         onClick={() => openLightbox(index)}
-                                        className={`group relative flex flex-col justify-end overflow-hidden rounded-3xl border border-neutral-200/90 bg-neutral-900 shadow-2xs hover:shadow-2xl transition-all duration-500 cursor-pointer select-none ${spanClass}`}
+                                        className={`group relative break-inside-avoid w-full overflow-hidden rounded-3xl border border-neutral-200/90 bg-neutral-900 shadow-2xs hover:shadow-2xl transition-all duration-500 cursor-pointer select-none ${aspectClass}`}
                                     >
                                         {/* Imagen de fondo */}
                                         <img
@@ -327,7 +313,7 @@ export default function Galeria({
                                         />
 
                                         {/* Degradado para legibilidad del texto */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10 group-hover:from-black/90 group-hover:via-black/40 transition-colors duration-300" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10 group-hover:from-black/90 group-hover:via-black/35 transition-colors duration-300" />
 
                                         {/* Etiqueta flotante */}
                                         {etiqueta && (
@@ -346,8 +332,8 @@ export default function Galeria({
                                         </div>
 
                                         {/* Título en la parte inferior */}
-                                        <div className="relative p-5 z-10 space-y-1">
-                                            <h3 className="font-mate text-base sm:text-lg font-bold text-white tracking-wide line-clamp-2 drop-shadow-md group-hover:text-emerald-300 transition-colors">
+                                        <div className="absolute bottom-0 inset-x-0 p-5 z-10 space-y-1">
+                                            <h3 className="font-mate text-base font-bold text-white tracking-wide line-clamp-2 drop-shadow-md group-hover:text-emerald-300 transition-colors">
                                                 {cleanTitle || 'Fotografía Institucional'}
                                             </h3>
                                         </div>
